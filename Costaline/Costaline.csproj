@@ -84,11 +84,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Custome\Exams.cs" />
-    <Compile Include="Custome\Frame.cs" />
-    <Compile Include="Custome\FrameContainer.cs" />
-    <Compile Include="Custome\Students.cs" />
-    <Compile Include="Custome\Teacher.cs" />
+    <Compile Include="Custom\Exams.cs" />
+    <Compile Include="Custom\Frame.cs" />
+    <Compile Include="Custom\FrameContainer.cs" />
+    <Compile Include="Custom\Students.cs" />
+    <Compile Include="Custom\Teacher.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
