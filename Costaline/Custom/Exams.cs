@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Costaline.Custome
+namespace Costaline.Custom
 {
     public class Exam5
     {
