@@ -14,6 +14,7 @@ namespace Costaline.Custom
         }
         private OrdinaryStudent _student { get; set; }
         private OrdinaryTeacher _teacher { get; set; }
+        protected string _isA { get; set; } = "nil";
 
         protected enum roomTypesValues
         {
