@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Costaline.Custom
+namespace Costaline
 {
     public class OrdinaryTeacher
     {
         public OrdinaryTeacher()
         {
-
+            
         }
         protected string _type = "Обычный";
         protected string _isA { get; set; } = "nil";

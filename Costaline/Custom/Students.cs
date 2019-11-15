@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Costaline.Custom
+namespace Costaline
 {
-    public class OrdinaryStudent
+    public class OrdinaryStudent:Frame
     {
         public OrdinaryStudent()
         {
+            _name = "Обычный студент";
 
         }
         protected string _type { get; set; } = "Обычный";
