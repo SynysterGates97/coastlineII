@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Costaline
 {
-    public class OrdinaryStudent:Frame
+    public class OrdinaryStudent
     {
         public OrdinaryStudent()
         {
