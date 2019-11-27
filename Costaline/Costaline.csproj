@@ -85,12 +85,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Custom\Domain.cs" />
-    <Compile Include="Custom\Exams.cs" />
+    <Compile Include="Custom\Finder.cs" />
     <Compile Include="Custom\Frame.cs" />
     <Compile Include="Custom\FrameContainer.cs" />
+    <Compile Include="Custom\MLV.cs" />
     <Compile Include="Custom\Slot.cs" />
-    <Compile Include="Custom\Students.cs" />
-    <Compile Include="Custom\Teacher.cs" />
     <Compile Include="Custom\ViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

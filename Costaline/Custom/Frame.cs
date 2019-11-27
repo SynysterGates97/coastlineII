@@ -21,10 +21,10 @@ namespace Costaline
 
         public void FrameAddSlot(string name, string value)
         {
+
             Slot slot = new Slot();
             slot.Name = name;
             slot.Value = value;
-            slot.IsA = "Nuul";
             slot.IsFrame = false;
             slots.Add(slot);
         }
@@ -35,16 +35,19 @@ namespace Costaline
 
             slot.Name = frame.Name;
             slot.Value = "Frame";
-            slot.IsA = "Nuul";
             slot.IsFrame = true;
 
             foreach (var newSubFrames in frame.subFrames)// хз наверно тут сломается ибо костыль слегка + нужна проверка на дубликат ключа (эта функция генерирует исключение на дубликат ключа)
                 subFrames.Add(newSubFrames.Key, newSubFrames.Value);// идея была что бы перенести все субфреймы на уравень выше 
         }
 
-        public Frame Copy()// копироварание всех полей Frame
+        public Frame Copy(string name)// копироварание всех полей Frame
         {
-            return (Frame) this.MemberwiseClone();
+            Frame frame = (Frame)this.MemberwiseClone();
+            frame.IsA = frame.Name;
+            frame.Name = name;
+            return frame;
         }
+
     }
 }

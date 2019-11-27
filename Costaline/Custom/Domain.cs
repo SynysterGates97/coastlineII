@@ -15,6 +15,6 @@ namespace Costaline
         {
             Values = new List<string>();
         }
-
+        // Возможно стоит добавить добавление доменов
     }
 }

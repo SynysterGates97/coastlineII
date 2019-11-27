@@ -9,8 +9,7 @@ namespace Costaline
     public class Slot
     {
         public string Name;
-        public string IsA;
-        public bool IsFrame;
+        public bool IsFrame;// Чуприна ругалась на это. я не помню что ей именно не нравилась
         public string Value;       
     }
 }
