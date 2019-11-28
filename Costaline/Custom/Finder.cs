@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 
 namespace Costaline
 {
-    class Finder :FrameContainer
+    class Finder
     {
-        public bool IsFrameInContainer(Frame frame)
+        public bool IsNotInFrameInContainer(ref List<Frame> frames, Frame frame)
         {
             foreach (var elem in frames)
             {
-                if (elem.Name == frame.Name)
+                if (elem.name == frame.name)
                 {
                     return false;
                 }
 
-                // во фрейме экзамен есть слот оценка. нужно будет без него сравнивать
+                //экзамен итоговый фреим в него не добавляем
 
                 if (frame.slots.SequenceEqual(elem.slots))// не уверен, что будет делать то, что нужно 
                 {
                         return false;
-                }
-                
+                }                
             }
             return true;
         }

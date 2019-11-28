@@ -8,8 +8,8 @@ namespace Costaline
 {
     public class Frame//TODO: реализовать поиск
     {
-        public string Name { get; set; }
-        public string IsA { get; set; }
+        public string name { get; set; }
+        public string isA { get; set; }
         public List<Slot> slots{ get; set; }
         public Dictionary<string, List<Slot>> subFrames { get; set; }
 
@@ -19,13 +19,13 @@ namespace Costaline
             subFrames = new Dictionary<string, List<Slot>>();
         }
 
-        public void FrameAddSlot(string name, string value)
+        public void FrameAddSlot(string name, string value, Domain domain)
         {
-
             Slot slot = new Slot();
-            slot.Name = name;
-            slot.Value = value;
-            slot.IsFrame = false;
+
+
+            slot.name = name;
+            slot.value = value;
             slots.Add(slot);
         }
   
@@ -33,9 +33,8 @@ namespace Costaline
         {
             Slot slot = new Slot();
 
-            slot.Name = frame.Name;
-            slot.Value = "Frame";
-            slot.IsFrame = true;
+            slot.name = frame.name;
+            slot.value = "Frame";
 
             foreach (var newSubFrames in frame.subFrames)// хз наверно тут сломается ибо костыль слегка + нужна проверка на дубликат ключа (эта функция генерирует исключение на дубликат ключа)
                 subFrames.Add(newSubFrames.Key, newSubFrames.Value);// идея была что бы перенести все субфреймы на уравень выше 
@@ -44,8 +43,8 @@ namespace Costaline
         public Frame Copy(string name)// копироварание всех полей Frame
         {
             Frame frame = (Frame)this.MemberwiseClone();
-            frame.IsA = frame.Name;
-            frame.Name = name;
+            frame.isA = frame.name;
+            frame.name = name;
             return frame;
         }
 
