@@ -8,8 +8,13 @@ namespace Costaline
 {   
     public class Slot
     {
-        public string Name;
-        public bool IsFrame;// Чуприна ругалась на это. я не помню что ей именно не нравилась
-        public string Value;       
+        public string name;
+        Domain _domain;
+        public string value;
+
+        public void AddDomains(Domain domain)
+        {
+            _domain = domain;       
+        }
     }
 }

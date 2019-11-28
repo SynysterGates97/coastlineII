@@ -8,8 +8,10 @@ namespace Costaline
 {
     public class FrameContainer
     {
-        protected List<Frame> frames;
-        Finder Finder = new Finder();
+        List<Frame> _frames;
+        Finder _finder = new Finder();
+        List<Domain> _domains;
+
         public FrameContainer()
         {
             List<Frame> frames = new List<Frame>();
@@ -17,15 +19,15 @@ namespace Costaline
 
         public void AddFrame(Frame frame)
         {
-            if (Finder.IsFrameInContainer(frame))
+            if (_finder.IsNotInFrameInContainer(ref _frames, frame))// проверить как работает
             {
-                frames.Add(frame);
+                _frames.Add(frame);
             }
         }
 
         public void DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
         {
-            frames.Remove(frame);
+            _frames.Remove(frame);
         }
 
         public void ReadJson()// сделаю как определимся с json 
