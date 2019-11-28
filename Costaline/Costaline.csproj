@@ -44,6 +44,9 @@
     <Reference Include="GraphX.WPF.Controls, Version=2.3.6.0, Culture=neutral, PublicKeyToken=bab23663f80c9e76, processorArchitecture=MSIL">
       <HintPath>..\packages\GraphX.2.3.6.0\lib\net40-client\GraphX.WPF.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <HintPath>..\packages\QuickGraphPCL.3.6.61114.2\lib\net40-client\QuickGraph.dll</HintPath>
     </Reference>
@@ -88,6 +91,7 @@
     <Compile Include="Custom\Finder.cs" />
     <Compile Include="Custom\Frame.cs" />
     <Compile Include="Custom\FrameContainer.cs" />
+    <Compile Include="Custom\Loader.cs" />
     <Compile Include="Custom\MLV.cs" />
     <Compile Include="Custom\Slot.cs" />
     <Compile Include="Custom\ViewModel.cs" />
