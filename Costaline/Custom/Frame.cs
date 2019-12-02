@@ -23,7 +23,6 @@ namespace Costaline
         {
             Slot slot = new Slot();
 
-
             slot.name = name;
             slot.value = value;
             slots.Add(slot);
