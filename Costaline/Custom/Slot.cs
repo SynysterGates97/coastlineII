@@ -11,5 +11,6 @@ namespace Costaline
         public string name;
         public string isA;
         public string value;
+        Domain domain;
     }
 }
