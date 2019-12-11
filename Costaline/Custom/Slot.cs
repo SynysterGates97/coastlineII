@@ -10,12 +10,10 @@ namespace Costaline
     {
         public string name;
         public string isA;
+<<<<<<< HEAD
         Domain _domain;
+=======
+>>>>>>> 174a1043773d9540a20f8308973cc0948ee8c899
         public string value;
-
-        public void AddDomains(Domain domain)
-        {
-            _domain = domain;       
-        }
     }
 }
