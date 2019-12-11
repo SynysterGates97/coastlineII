@@ -10,7 +10,7 @@ namespace Costaline
     {
         List<Frame> _sistemFrames;
         Finder _finder = new Finder();
-        List<Domain> _sistemDomains;
+        List<Domain> _systemDomains;
 
         public void LoadSistemFrames(List<Frame> frames)
         {
@@ -19,7 +19,7 @@ namespace Costaline
 
         public void LoadSistemDomains(List<Domain> domains)
         {
-            _sistemDomains = domains;
+            _systemDomains = domains;
         }
 
         public Slot GetAnswer(Frame frame)// полный хард код
@@ -27,20 +27,20 @@ namespace Costaline
             List<string> studentsDomen = new List<string>();
             List<string> teachersDomen = new List<string>();
 
-            bool flag1 = false;
-            bool flag2 = false;
+            bool isStudentInDomains = false;
+            bool isTeachersInDomains = false;
 
 
-            foreach (var domen in _sistemDomains)
+            foreach (var domain in _systemDomains)
             {
-                if (domen.name == "student")
+                if (domain.name == "student")
                 {
-                    studentsDomen = domen.values;
+                    studentsDomen = domain.values;
                 }
 
-                if (domen.name == "teacher")
+                if (domain.name == "teacher")
                 {
-                    teachersDomen = domen.values;
+                    teachersDomen = domain.values;
                 }
             }
                        
@@ -48,11 +48,11 @@ namespace Costaline
             {
                 if (slot.name == "student")
                 {
-                    foreach (var sDomen in studentsDomen)
+                    foreach (var studDomen in studentsDomen)
                     {
-                        if (slot.value == sDomen)
+                        if (slot.value == studDomen)
                         {
-                            flag1 = true;
+                            isStudentInDomains = true;
                         }
                     }
                 }
@@ -63,7 +63,7 @@ namespace Costaline
                     {
                         if (slot.value == tDomen)
                         {
-                            flag2 = true;
+                            isTeachersInDomains = true;
                         }
                     }
                 }
@@ -71,15 +71,18 @@ namespace Costaline
             }
 
 
-            if (flag1 && flag2)
+            if (isStudentInDomains && isTeachersInDomains)
             {
                 foreach (var frames in _sistemFrames) {
-                    if (frame.slots.SequenceEqual(frames.slots.GetRange(0, frames.slots.Count - 2)))
+                    if (frame.slots.SequenceEqual(frames.slots.GetRange(0, frames.slots.Count - 2)))// проверить как работает SequenceEqual на сложных классах
                         return frames.slots[frames.slots.Count - 1];
                 } 
             }
 
-            return null;
+            return null;// вернуть что то осмысленое
         }
+    
+        
     }
+
 }

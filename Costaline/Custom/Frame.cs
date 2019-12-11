@@ -19,7 +19,7 @@ namespace Costaline
             subFrames = new Dictionary<string, List<Slot>>();
         }
 
-        public void FrameAddSlot(string name, string value, Domain domain)
+        public void FrameAddSlot(string name, string value)
         {
             Slot slot = new Slot();
 
@@ -46,6 +46,7 @@ namespace Costaline
             frame.name = name;
             return frame;
         }
+
 
     }
 }

@@ -23,7 +23,7 @@ namespace Costaline
         public MainWindow()
         {
             InitializeComponent();
-            OrdinaryStudent ordinaryStudent = new OrdinaryStudent();
+            
 
         }
 

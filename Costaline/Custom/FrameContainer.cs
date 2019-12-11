@@ -17,17 +17,20 @@ namespace Costaline
             List<Frame> frames = new List<Frame>();
         }
 
-        public void AddFrame(Frame frame)
+        public bool AddFrame(Frame frame)
         {
             if (_finder.IsNotInFrameInContainer(ref _frames, frame))// проверить как работает
             {
                 _frames.Add(frame);
+                return true;
             }
+
+            return false;
         }
 
-        public void DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
+        public bool DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
         {
-            _frames.Remove(frame);
+            return _frames.Remove(frame);             
         }
 
         public void ReadJson()// сделаю как определимся с json 

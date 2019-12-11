@@ -9,6 +9,7 @@ namespace Costaline
     public class Slot
     {
         public string name;
+        public string isA;
         Domain _domain;
         public string value;
 

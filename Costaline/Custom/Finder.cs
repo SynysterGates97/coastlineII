@@ -19,7 +19,7 @@ namespace Costaline
 
                 //экзамен итоговый фреим в него не добавляем
 
-                if (frame.slots.SequenceEqual(elem.slots))// не уверен, что будет делать то, что нужно 
+                if (frame.slots.SequenceEqual(elem.slots))
                 {
                         return false;
                 }                
