@@ -22,7 +22,7 @@ namespace Costaline
             _systemDomains = domains;
         }
 
-        public Slot GetAnswer(Frame frame)// полный хард код
+        public string GetAnswer(Frame frame)// полный хард код
         {
             List<string> studentsDomen = new List<string>();
             List<string> teachersDomen = new List<string>();
@@ -74,8 +74,8 @@ namespace Costaline
             if (isStudentInDomains && isTeachersInDomains)
             {
                 foreach (var frames in _sistemFrames) {
-                    if (frame.slots.SequenceEqual(frames.slots.GetRange(0, frames.slots.Count - 2)))// проверить как работает SequenceEqual на сложных классах
-                        return frames.slots[frames.slots.Count - 1];
+                    if (frame.slots.SequenceEqual(frames.slots))
+                        return frames.name;
                 } 
             }
 

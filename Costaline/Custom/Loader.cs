@@ -28,10 +28,11 @@ namespace Costaline
             try {
                 var sr = new StreamReader(_path);
 
-                var task = Task.Run(() => // будет асинхроное чтение из файла / файлов
-                {
-                    _content = sr.ReadToEnd();
-                });
+                // var task = Task.Run(() => // будет асинхроное чтение из файла / файлов
+                //  {
+                //    _content = sr.ReadToEnd();
+                //});
+                _content = sr.ReadToEnd();
             }
             catch {
                 
@@ -51,35 +52,66 @@ namespace Costaline
 
         public void ParseContent()
         {
+            LoadContent();
             var json = (JObject)JsonConvert.DeserializeObject(_content);
             var frame = json["Frames"].Value<JArray>();
 
+<<<<<<< HEAD
             foreach(var f in frame)
                 foreach(var str in f)
                 {
                     var parsedFrame = new Frame();
+=======
+            foreach (var f in frame)
+            {
+                var parseFrame = new Frame();
+                foreach (var str in f)
+                { 
+>>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
                     var words = Split(str.ToString());
 
                     if (words[0] == "name")
                     {
+<<<<<<< HEAD
                         parsedFrame.name = words[1];
                         _frames.Add(parsedFrame);
+=======
+                        parseFrame.name = words[1];
+>>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
                     }
                     else
                     {
                         if (words[0] == "is_a")
                         {
+<<<<<<< HEAD
                             parsedFrame.isA = words[1];
                         }
                         else
                         {
                             parsedFrame.FrameAddSlot(words[0], words[1]);
+=======
+                            parseFrame.isA = words[1];
+                        }
+                        else
+                        {
+
+
+                            parseFrame.FrameAddSlot(words[0], words[1]);
+>>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
                         }
                         _frames.Add(parsedFrame);
                     }
                     
                 }
+<<<<<<< HEAD
             MessageBox.Show(_frames[0].name);
+=======
+
+                _frames.Append(parseFrame);
+            }
+
+
+>>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
         }
 
         string[] Split(string str)

@@ -32,10 +32,5 @@ namespace Costaline
         {
             return _frames.Remove(frame);             
         }
-
-        public void ReadJson()// сделаю как определимся с json 
-        {
-
-        }
     }
 }
