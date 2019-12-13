@@ -26,10 +26,11 @@ namespace Costaline
             try {
                 var sr = new StreamReader(_path);
 
-                var task = Task.Run(() => // будет асинхроное чтение из файла / файлов
-                {
-                    _content = sr.ReadToEnd();
-                });
+                // var task = Task.Run(() => // будет асинхроное чтение из файла / файлов
+                //  {
+                //    _content = sr.ReadToEnd();
+                //});
+                _content = sr.ReadToEnd();
             }
             catch {
                 
@@ -47,33 +48,42 @@ namespace Costaline
             return _frames;
         }
 
-        void ParseContent()
+        public void ParseContent()
         {
+            LoadContent();
             var json = (JObject)JsonConvert.DeserializeObject(_content);
             var frame = json["Frames"].Value<JArray>();
 
-            foreach(var f in frame)
-                foreach(var str in f)
-                {
-                    var parsFrame = new Frame();
+            foreach (var f in frame)
+            {
+                var parseFrame = new Frame();
+                foreach (var str in f)
+                { 
                     var words = Split(str.ToString());
 
                     if (words[0] == "name")
                     {
-                        parsFrame.name = words[1];
+                        parseFrame.name = words[1];
                     }
                     else
                     {
                         if (words[0] == "is_a")
                         {
-                            parsFrame.isA = words[1];
+                            parseFrame.isA = words[1];
                         }
                         else
                         {
-                            parsFrame.FrameAddSlot(words[0], words[1]);
+
+
+                            parseFrame.FrameAddSlot(words[0], words[1]);
                         }
                     }
                 }
+
+                _frames.Append(parseFrame);
+            }
+
+
         }
 
         string[] Split(string str)
