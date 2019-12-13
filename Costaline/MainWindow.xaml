@@ -3,11 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://schemas.panthernet.ru/graphx/"
+        xmlns:models="clr-namespace:Costaline.GraphXModels"
         xmlns:local="clr-namespace:Costaline"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="105,239,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
 
-    </Grid>
+    <Border >
+        <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="110*"/>
+                <ColumnDefinition Width="377*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label x:Name="Label1" Content="Инспектор объектов" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="0,0,0,385" HorizontalAlignment="Center"/>
+            <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1">
+                <models:GraphAreaExample x:Name="Area"/> 
+            </controls:ZoomControl>
+            <TreeView x:Name="existingSituations" Height="320" Margin="10,49,10,0" VerticalAlignment="Top"/>
+            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,374,0,0" Width="75" Click="button_click" Height="20" VerticalAlignment="Top"/>
+            <Button x:Name="button1" Content="Button1" HorizontalAlignment="Left" Margin="94,374,0,0" VerticalAlignment="Top" Width="75" Click="button1_click"/>
+        </Grid>
+    </Border>
 </Window>

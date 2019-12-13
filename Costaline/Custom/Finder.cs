@@ -8,7 +8,7 @@ namespace Costaline
 {
     class Finder
     {
-        public bool IsNotInFrameInContainer(ref List<Frame> frames, Frame frame)
+        public bool IsNotInFrameInContainer(ref List<Frame> frames, Frame frame)//toDO: НЕПОНЯТНОЕ НАЗВАНИЕ
         {
             foreach (var elem in frames)
             {

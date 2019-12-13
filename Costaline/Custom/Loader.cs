@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows;//Удалить
 
 namespace Costaline
 {
@@ -14,14 +15,15 @@ namespace Costaline
         string _path;
         string _content;
         List<Domain> _domains;
-        List<Frame> _frames;
+        private List<Frame> _frames;
 
         public void SetPath(string path)
         {
+            _frames = new List<Frame>();
             _path = path;
         }
 
-        void LoadContent()
+        public void LoadContent()
         {
             try {
                 var sr = new StreamReader(_path);
@@ -47,7 +49,7 @@ namespace Costaline
             return _frames;
         }
 
-        void ParseContent()
+        public void ParseContent()
         {
             var json = (JObject)JsonConvert.DeserializeObject(_content);
             var frame = json["Frames"].Value<JArray>();
@@ -55,25 +57,29 @@ namespace Costaline
             foreach(var f in frame)
                 foreach(var str in f)
                 {
-                    var parsFrame = new Frame();
+                    var parsedFrame = new Frame();
                     var words = Split(str.ToString());
 
                     if (words[0] == "name")
                     {
-                        parsFrame.name = words[1];
+                        parsedFrame.name = words[1];
+                        _frames.Add(parsedFrame);
                     }
                     else
                     {
                         if (words[0] == "is_a")
                         {
-                            parsFrame.isA = words[1];
+                            parsedFrame.isA = words[1];
                         }
                         else
                         {
-                            parsFrame.FrameAddSlot(words[0], words[1]);
+                            parsedFrame.FrameAddSlot(words[0], words[1]);
                         }
+                        _frames.Add(parsedFrame);
                     }
+                    
                 }
+            MessageBox.Show(_frames[0].name);
         }
 
         string[] Split(string str)
