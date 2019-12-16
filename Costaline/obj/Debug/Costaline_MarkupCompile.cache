@@ -4,33 +4,16 @@
 winexe
 C#
 .cs
-<<<<<<< HEAD
-C:\Users\OneX\Documents\coastlineII\Costaline\obj\Debug\
-=======
-A:\Documents\repo\Costaline\obj\Debug\
->>>>>>> ad0bd911e59cbf1460280c7d2426af8ef15fb189
+C:\Users\Maxim\Documents\coastlineII\Costaline\obj\Debug\
 Costaline
 none
 false
 DEBUG;TRACE
-<<<<<<< HEAD
-C:\Users\OneX\Documents\coastlineII\Costaline\App.xaml
-11151548125
-
-<<<<<<< HEAD
-13289071464
-21-441708907
-=======
-122008973438
-202141671433
->>>>>>> fe842bb7ce49b20e2fba239e5ee1b2d5da945805
-=======
-A:\Documents\repo\Costaline\App.xaml
+C:\Users\Maxim\Documents\coastlineII\Costaline\App.xaml
 11151548125
 
 181147424313
-21665019236
->>>>>>> ad0bd911e59cbf1460280c7d2426af8ef15fb189
+21-441708907
 MainWindow.xaml;
 
 False

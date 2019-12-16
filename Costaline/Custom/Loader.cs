@@ -35,9 +35,9 @@ namespace Costaline
                 _content = sr.ReadToEnd();
             }
             catch {
-                
+
             }
-            
+
         }
 
         public List<Domain> GetDomains()
@@ -56,68 +56,68 @@ namespace Costaline
             var json = (JObject)JsonConvert.DeserializeObject(_content);
             var frame = json["Frames"].Value<JArray>();
 
-<<<<<<< HEAD
-            foreach(var f in frame)
-                foreach(var str in f)
-                {
-                    var parsedFrame = new Frame();
-=======
             foreach (var f in frame)
             {
                 var parseFrame = new Frame();
                 foreach (var str in f)
-                { 
->>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
+                {
                     var words = Split(str.ToString());
 
                     if (words[0] == "name")
                     {
-<<<<<<< HEAD
-                        parsedFrame.name = words[1];
-                        _frames.Add(parsedFrame);
-=======
                         parseFrame.name = words[1];
->>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
                     }
                     else
                     {
                         if (words[0] == "is_a")
                         {
-<<<<<<< HEAD
-                            parsedFrame.isA = words[1];
-                        }
-                        else
-                        {
-                            parsedFrame.FrameAddSlot(words[0], words[1]);
-=======
                             parseFrame.isA = words[1];
                         }
                         else
                         {
+                            // слегка поговнокодил с доменами. Проверь если сможешь
 
+                            var isNameNotInDonains = false;
 
                             parseFrame.FrameAddSlot(words[0], words[1]);
->>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
+
+                            foreach (var domain in _domains)
+                            {
+                                if (domain.name == words[0])
+                                {
+                                    isNameNotInDonains = true;
+
+                                    foreach (var val in domain.values)
+                                    {
+                                        if (!val.Contains(words[1]))
+                                        {
+                                            domain.values.Add(words[1]);
+                                        }
+                                    }
+                                }                              
+                            }
+
+                            if (!isNameNotInDonains)
+                            {
+                                var newDom = new Domain();
+
+                                newDom.name = words[0];
+                                newDom.values.Add(words[1]);
+
+                                _domains.Add(newDom);
+                            }                          
                         }
-                        _frames.Add(parsedFrame);
                     }
-                    
                 }
-<<<<<<< HEAD
-            MessageBox.Show(_frames[0].name);
-=======
 
-                _frames.Append(parseFrame);
+                MessageBox.Show(_frames[0].name);
+                _frames.Add(parseFrame);
             }
-
-
->>>>>>> c488cd128a6fd830cdd5c8c4d848c45049587932
         }
 
         string[] Split(string str)
         {
             string[] words = str.Split(new char[] { ':' });
-
             return words;
         }
 

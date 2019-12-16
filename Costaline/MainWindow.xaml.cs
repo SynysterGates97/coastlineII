@@ -29,13 +29,7 @@ namespace Costaline
         public MainWindow()
         {
             InitializeComponent();
-<<<<<<< HEAD
-<<<<<<< HEAD
-            
-=======
-            //OrdinaryStudent ordinaryStudent = new OrdinaryStudent();
->>>>>>> fe842bb7ce49b20e2fba239e5ee1b2d5da945805
-=======
+
 
             ZoomControl.SetViewFinderVisibility(zoomctrl, Visibility.Visible);
             //Set Fill zooming strategy so whole graph will be always visible
@@ -75,7 +69,6 @@ namespace Costaline
             Area.ShowAllEdgesLabels(true);
 
             zoomctrl.ZoomToFill();
->>>>>>> ad0bd911e59cbf1460280c7d2426af8ef15fb189
 
         }
 
