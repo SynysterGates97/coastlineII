@@ -151,7 +151,7 @@ namespace Costaline
                 //This ID is needed for several features such as serialization and edge routing algorithms.
                 //If you don't need any custom IDs and you are using automatic Area.GenerateGraph() method then you can skip ID assignment
                 //because specified method automaticaly assigns missing data ids (this behavior is controlled by method param).
-                var dataVertex = new DataVertex("Мы не сдадим " + i);
+                var dataVertex = new DataVertex("Мы сдадим " + i);
                 //Add vertex to data graph
                 dataGraph.AddVertex(dataVertex);
             }
