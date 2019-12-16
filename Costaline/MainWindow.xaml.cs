@@ -87,7 +87,7 @@ namespace Costaline
         private void button1_click(object sender, RoutedEventArgs e)
         {
             Loader kBLoader = new Loader();
-            kBLoader.SetPath("A:/Documents/repo/Costaline/framExams_1.json");
+            kBLoader.SetPath("framExams_1.json");
             kBLoader.LoadContent();
             kBLoader.ParseContent();
 
