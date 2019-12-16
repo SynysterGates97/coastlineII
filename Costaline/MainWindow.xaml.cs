@@ -17,6 +17,8 @@ using GraphX.PCL.Logic.Algorithms.LayoutAlgorithms;
 using GraphX.Controls;
 using Costaline.GraphXModels;
 using GraphX.Controls.Models;
+using Microsoft.Win32;
+
 
 namespace Costaline
 {
@@ -29,23 +31,20 @@ namespace Costaline
         public MainWindow()
         {
             InitializeComponent();
-
-
+            
             ZoomControl.SetViewFinderVisibility(zoomctrl, Visibility.Visible);
             //Set Fill zooming strategy so whole graph will be always visible
             zoomctrl.ZoomToFill();
 
             GraphAreaExample_Setup();
 
-            existingSituations.MouseDoubleClick += ExistingSituations_mouseDoubleClick;
-            existingSituations.SelectedItemChanged += ExistingSituations_selectedItemChanged;
+            //existingSituations.MouseDoubleClick += ExistingSituations_mouseDoubleClick;
+            //existingSituations.SelectedItemChanged += ExistingSituations_selectedItemChanged;
 
             Area.SetVerticesDrag(true, true);
 
             Area.GenerateGraph(true, true);
-
-
-
+                       
             Area.VertexDoubleClick += Area_vertexDoubleClick;
 
             /* 
@@ -70,45 +69,48 @@ namespace Costaline
 
             zoomctrl.ZoomToFill();
 
+            kBLoader = new Loader();
         }
 
-        public interface IDialogService
-        {
-            void ShowMessage(string message);   // показ сообщения
-            string FilePath { get; set; }   // путь к выбранному файлу
-            bool OpenFileDialog();  // открытие файла
-            bool SaveFileDialog();  // сохранение файла
-        }
-        private void button_click(object sender, RoutedEventArgs e)
+       private void button_click(object sender, RoutedEventArgs e)
         {
             existingSituations.Items.Add("HEADER!");
         }
 
-        private void button1_click(object sender, RoutedEventArgs e)
+        private void buttonOpenKB_click(object sender, RoutedEventArgs e)
         {
-            Loader kBLoader = new Loader();
-            kBLoader.SetPath("framExams_1.json");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Knowledge base (*.json)|*.json|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            
+            openFileDialog.ShowDialog();
+
+            string kBasePath = openFileDialog.FileName;
+
+            kBLoader.SetPath(kBasePath);
             kBLoader.LoadContent();
             kBLoader.ParseContent();
 
             foreach (var frame in kBLoader.GetFrames())
             {
-                TreeViewItem treeViewItem = new TreeViewItem();
-                treeViewItem.Header = frame.name;
+                TreeViewItem situationTree = new TreeViewItem();
+                situationTree.Header = frame.name;
                 foreach (var slot in frame.slots)
                 {
-                    treeViewItem.Items.Add(slot.name + ":" + slot.value);
+                    TreeViewItem slotsTree = new TreeViewItem();
+                    slotsTree.Header = slot.name;
+                    slotsTree.Items.Add(slot.value);
+                    situationTree.Items.Add(slotsTree);
                 }
-                existingSituations.Items.Add(treeViewItem);
+                existingSituations.Items.Add(situationTree);
             }
 
-            //treeView.Nodes
         }
-        private void ExistingSituations_selectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
+        //private void ExistingSituations_selectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
 
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
 
         private void ExistingSituations_mouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

@@ -7,24 +7,25 @@
         xmlns:models="clr-namespace:Costaline.GraphXModels"
         xmlns:local="clr-namespace:Costaline"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Coastline" Height="450" Width="800">
 
     <Border >
-        <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}">
+        <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110*"/>
+
                 <ColumnDefinition Width="377*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Label x:Name="Label1" Content="Инспектор объектов" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="0,0,0,385" HorizontalAlignment="Center"/>
+            <Label x:Name="Label1" Content="Инспектор объектов" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
             <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1">
-                <models:GraphAreaExample x:Name="Area"/> 
+                <models:GraphAreaExample x:Name="Area"/>
             </controls:ZoomControl>
-            <TreeView x:Name="existingSituations" Height="320" Margin="10,49,10,0" VerticalAlignment="Top"/>
-            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="10,374,0,0" Width="75" Click="button_click" Height="20" VerticalAlignment="Top"/>
-            <Button x:Name="button1" Content="Button1" HorizontalAlignment="Left" Margin="94,374,0,0" VerticalAlignment="Top" Width="75" Click="button1_click"/>
+            <TreeView x:Name="existingSituations" Margin="10,49,10,50"/>
+            <Button x:Name="button" Content="Button" Margin="10,0,0,19" Click="button_click" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="76"/>
+            <Button x:Name="buttonOpenKB" Content="Добавить БЗ" Margin="0,0,10,19" VerticalAlignment="Bottom" Click="buttonOpenKB_click" HorizontalAlignment="Right" Width="78" Height="26"/>
         </Grid>
     </Border>
 </Window>

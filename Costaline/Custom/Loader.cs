@@ -17,9 +17,13 @@ namespace Costaline
         List<Domain> _domains;
         private List<Frame> _frames;
 
+        public Loader()
+        {
+            _domains = new List<Domain>();
+            _frames = new List<Frame>();
+        }
         public void SetPath(string path)
         {
-            _frames = new List<Frame>();
             _path = path;
         }
 
@@ -58,60 +62,64 @@ namespace Costaline
 
             foreach (var f in frame)
             {
-                var parseFrame = new Frame();
+                var parsingFrame = new Frame();
                 foreach (var str in f)
                 {
                     var words = Split(str.ToString());
 
                     if (words[0] == "name")
                     {
-                        parseFrame.name = words[1];
+                        parsingFrame.name = words[1];
                     }
                     else
                     {
                         if (words[0] == "is_a")
                         {
-                            parseFrame.isA = words[1];
+                            parsingFrame.isA = words[1];
                         }
                         else
                         {
                             // слегка поговнокодил с доменами. Проверь если сможешь
 
-                            var isNameNotInDonains = false;
+                            bool isNameInDomains = true;
 
-                            parseFrame.FrameAddSlot(words[0], words[1]);
+                            parsingFrame.FrameAddSlot(words[0], words[1]);
 
-                            foreach (var domain in _domains)
+                            //if (_domains != null)
+                            //{
+                            //    foreach(var domain in _domains)
+                            //    {
+                            //        if (domain.name == words[0])
+                            //        {
+                            //            isNameInDomains = false;
+
+                            //            foreach (var val in domain.values)
+                            //            {
+                            //                if (!val.Contains(words[1]))
+                            //                {
+                            //                    domain.values.Add(words[1]);
+                            //                }
+                            //            }
+
+                            //        }
+                            //    }
+                            //}
+
+                            if (isNameInDomains)
                             {
-                                if (domain.name == words[0])
-                                {
-                                    isNameNotInDonains = true;
+                                var newDomain = new Domain();
 
-                                    foreach (var val in domain.values)
-                                    {
-                                        if (!val.Contains(words[1]))
-                                        {
-                                            domain.values.Add(words[1]);
-                                        }
-                                    }
-                                }                              
-                            }
+                                newDomain.name = words[0];
+                                newDomain.values.Add(words[1]);
 
-                            if (!isNameNotInDonains)
-                            {
-                                var newDom = new Domain();
-
-                                newDom.name = words[0];
-                                newDom.values.Add(words[1]);
-
-                                _domains.Add(newDom);
+                                _domains.Add(newDomain);
                             }                          
                         }
                     }
+                    _frames.Add(parsingFrame);
                 }
 
-                MessageBox.Show(_frames[0].name);
-                _frames.Add(parseFrame);
+                //MessageBox.Show("Смотри, ПТИЦА!");
             }
         }
 
