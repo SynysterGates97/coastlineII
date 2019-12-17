@@ -8,18 +8,17 @@ namespace Costaline
 {
     class MLV
     {
-        List<Frame> _sistemFrames;
-        Finder _finder = new Finder();
-        List<Domain> _systemDomains;
+        List<Frame> _loadedFrames;
+        List<Domain> _loadedDomains;
 
-        public void LoadSistemFrames(List<Frame> frames)
+        public void LoadMLVFrames(List<Frame> frames)
         {
-            _sistemFrames = frames;
+            _loadedFrames = frames;
         }
 
-        public void LoadSistemDomains(List<Domain> domains)
+        public void LoadMLVDomains(List<Domain> domains)
         {
-            _systemDomains = domains;
+            _loadedDomains = domains;
         }
 
         public string GetAnswer(Frame frame)// полный хард код
@@ -31,7 +30,7 @@ namespace Costaline
             bool isTeachersInDomains = false;
 
 
-            foreach (var domain in _systemDomains)
+            foreach (var domain in _loadedDomains)
             {
                 if (domain.name == "student")
                 {
@@ -73,7 +72,7 @@ namespace Costaline
 
             if (isStudentInDomains && isTeachersInDomains)
             {
-                foreach (var frames in _sistemFrames) {
+                foreach (var frames in _loadedFrames) {
                     if (frame.slots.SequenceEqual(frames.slots))
                         return frames.name;
                 } 
