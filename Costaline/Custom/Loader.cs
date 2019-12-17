@@ -44,13 +44,26 @@ namespace Costaline
 
         }
 
+        void DropDuplicates()
+        {
+            if (_domains != null)
+            {
+                foreach (var domain in _domains)
+                {
+                    domain.values = domain.values.Distinct().ToList();
+                }
+            }
+        }
+
         public List<Domain> GetDomains()
         {
+            DropDuplicates();
             return _domains;
         }
 
         public List<Frame> GetFrames()
         {
+            //DropDuplicates();// функция удаления всех дубликатов
             return _frames;
         }
 
@@ -85,25 +98,17 @@ namespace Costaline
 
                             parsingFrame.FrameAddSlot(words[0], words[1]);
 
-                            //if (_domains != null)
-                            //{
-                            //    foreach(var domain in _domains)
-                            //    {
-                            //        if (domain.name == words[0])
-                            //        {
-                            //            isNameInDomains = false;
-
-                            //            foreach (var val in domain.values)
-                            //            {
-                            //                if (!val.Contains(words[1]))
-                            //                {
-                            //                    domain.values.Add(words[1]);
-                            //                }
-                            //            }
-
-                            //        }
-                            //    }
-                            //}
+                            if (_domains != null)
+                            {
+                                foreach(var domain in _domains)
+                                {
+                                    if (domain.name == words[0])
+                                    {
+                                        isNameInDomains = false;                                       
+                                        domain.values.Add(words[1]);
+                                    }
+                                }
+                            }
 
                             if (isNameInDomains)
                             {
