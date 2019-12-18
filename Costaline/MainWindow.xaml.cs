@@ -38,21 +38,15 @@ namespace Costaline
 
             GraphAreaExample_Setup();
 
-            //existingSituations.MouseDoubleClick += ExistingSituations_mouseDoubleClick;
-            //existingSituations.SelectedItemChanged += ExistingSituations_selectedItemChanged;
-
             Area.SetVerticesDrag(true, true);
 
             Area.GenerateGraph(true, true);
-                       
-            Area.VertexDoubleClick += Area_vertexDoubleClick;
 
-            /* 
-             * After graph generation is finished you can apply some additional settings for newly created visual vertex and edge controls
-             * (VertexControl and EdgeControl classes).
-             * 
-             */
-            Area.SetVerticesMathShape(VertexShape.Triangle);
+            Area.SetVerticesMathShape(VertexShape.Rectangle);
+
+            Area.VertexClicked += Area_VertexClicked;
+
+           
 
             //This method sets the dash style for edges. It is applied to all edges in Area.EdgesList. You can also set dash property for
             //each edge individually using EdgeControl.DashStyle property.
@@ -72,9 +66,34 @@ namespace Costaline
             kBLoader = new Loader();
         }
 
-       private void button_click(object sender, RoutedEventArgs e)
+        private void Area_VertexClicked(object sender, VertexClickedEventArgs args)
         {
-            existingSituations.Items.Add("HEADER!");
+            DataVertex selectedVertex = new DataVertex();
+            string mouseButton = args.MouseArgs.ChangedButton.ToString();
+
+            if (mouseButton == "Left")
+            {
+                selectedVertex = args.Control.GetDataVertex<DataVertex>();
+                selectedVertex.Text = "NewLabel".ToString();
+                this.Area.GenerateGraph();
+            }
+            else if (mouseButton == "Right")
+            {
+                VertexMenu f2 = new VertexMenu();
+                f2.Show();
+
+            }
+            //throw new NotImplementedException();
+            MessageBox.Show(mouseButton);
+        }
+
+        private void button_click(object sender, RoutedEventArgs e)
+        {
+            
+            ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Name = "scrollViewer";
+            
+            existingSituations.Items.Add(scrollViewer);
         }
 
         private void buttonOpenKB_click(object sender, RoutedEventArgs e)
@@ -106,38 +125,7 @@ namespace Costaline
             }
 
         }
-        //private void ExistingSituations_selectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        //{
 
-        //    throw new NotImplementedException();
-        //}
-
-        private void ExistingSituations_mouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            TreeViewItem treeViewItem = new TreeViewItem();
-            //treeViewItem.
-            treeViewItem.Header = existingSituations.SelectedItem;
-            treeViewItem.Items.Add("TEST");
-            treeViewItem.Items.Add("TEST");
-            existingSituations.Items.Add(treeViewItem);
-            //throw new NotImplementedException();
-        }
-
-        private void Area_vertexDoubleClick(object sender, VertexSelectedEventArgs args)
-        {
-            // Area.SetVerticesDrag(true);
-            DataVertex selectedVertex = new DataVertex();
-
-            selectedVertex = args.VertexControl.GetDataVertex<DataVertex>();
-            MessageBox.Show("Area_VertexDoubleClick");
-
-            //MessageBox.Show(selectedVertex.Text);
-            selectedVertex.Text = "NewLabel".ToString();
-            args.VertexControl.UpdateLayout();
-            Area.GenerateGraph();
-
-
-        }
         private EasyGraph GraphExample_Setup()
         {
             //Lets make new data graph instance
@@ -159,7 +147,7 @@ namespace Costaline
             //Now lets make some edges that will connect our vertices
             //get the indexed list of graph vertices we have already added
             var vlist = dataGraph.Vertices.ToList();
-            //Then create two edges optionaly defining Text property to show who are connected
+                //Then create two edges optionaly defining Text property to show who are connected
             var dataEdge = new DataEdge(vlist[0], vlist[1]) { Text = "IS_A" };
             dataGraph.AddEdge(dataEdge);
             dataEdge = new DataEdge(vlist[2], vlist[3]) { Text = "IS_A" };
@@ -171,35 +159,18 @@ namespace Costaline
         }
         private void GraphAreaExample_Setup()
         {
-            //Lets create logic core and filled data graph with edges and vertices
             var logicCore = new GXLogicCoreExample() { Graph = GraphExample_Setup() };
-            //This property sets layout algorithm that will be used to calculate vertices positions
-            //Different algorithms uses different values and some of them uses edge Weight property.
+
             logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
-            //Now we can set parameters for selected algorithm using AlgorithmFactory property. This property provides methods for
-            //creating all available algorithms and algo parameters.
+
             logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
-            //Unfortunately to change algo parameters you need to specify params type which is different for every algorithm.
-            ((KKLayoutParameters)logicCore.DefaultLayoutAlgorithmParams).MaxIterations = 100;
 
-            //This property sets vertex overlap removal algorithm.
-            //Such algorithms help to arrange vertices in the layout so no one overlaps each other.
             logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
-            //Default parameters are created automaticaly when new default algorithm is set and previous params were NULL
-            logicCore.DefaultOverlapRemovalAlgorithmParams.HorizontalGap = 50;
-            logicCore.DefaultOverlapRemovalAlgorithmParams.VerticalGap = 50;
 
-            //This property sets edge routing algorithm that is used to build route paths according to algorithm logic.
-            //For ex., SimpleER algorithm will try to set edge paths around vertices so no edge will intersect any vertex.
-            //Bundling algorithm will try to tie different edges that follows same direction to a single channel making complex graphs more appealing.
-            logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.Bundling;
+            logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
 
-            //This property sets async algorithms computation so methods like: Area.RelayoutGraph() and Area.GenerateGraph()
-            //will run async with the UI thread. Completion of the specified methods can be catched by corresponding events:
-            //Area.RelayoutFinished and Area.GenerateGraphFinished.
             logicCore.AsyncAlgorithmCompute = false;
 
-            //Finally assign logic core to GraphArea object
             Area.LogicCore = logicCore;
         }
         
