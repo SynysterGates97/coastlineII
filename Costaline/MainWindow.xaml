@@ -21,7 +21,7 @@
             <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10">
                 <models:GraphAreaExample x:Name="Area"/>
             </controls:ZoomControl>
-            <TreeView x:Name="existingSituations" Margin="10,49,10,46"/>
+            <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,46"/>
             <Button x:Name="button" Content="Получить &#xD;&#xA;консультацию" Margin="10,0,0,5" Click="Button_click" Height="36" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="133"/>
             <Button x:Name="buttonOpenKB" Content="Добавить БЗ" Margin="148,0,10,5" VerticalAlignment="Bottom" Click="ButtonOpenKB_click" Height="36"/>
         </Grid>

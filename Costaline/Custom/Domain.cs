@@ -8,7 +8,7 @@ namespace Costaline
 {
     public class Domain
     {
-        public string name { get; set; }// ToDo сделать более осмысленое имя. Пока оно определяет для какого слота используется. Напиться.
+        public string name { get; set; }
         public List<string> values { get; set; }
 
         public Domain()

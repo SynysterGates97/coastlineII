@@ -28,6 +28,7 @@ namespace Costaline
     public partial class MainWindow : Window
     {
         Loader kBLoader;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,19 +48,14 @@ namespace Costaline
             Area.EdgeClicked += Area_EdgeClicked;
 
             Area.VertexClicked += Area_VertexClicked;
-                       
 
-            //This method sets the dash style for edges. It is applied to all edges in Area.EdgesList. You can also set dash property for
-            //each edge individually using EdgeControl.DashStyle property.
-            //For ex.: Area.EdgesList[0].DashStyle = GraphX.EdgeDashStyle.Dash;
+            zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
+
             Area.SetEdgesDashStyle(EdgeDashStyle.Dash);
-
-            //This method sets edges arrows visibility. It is also applied to all edges in Area.EdgesList. You can also set property for
-            //each edge individually using property, for ex: Area.EdgesList[0].ShowArrows = true;
+            
             Area.ShowAllEdgesArrows(false);
 
-            //This method sets edges labels visibility. It is also applied to all edges in Area.EdgesList. You can also set property for
-            //each edge individually using property, for ex: Area.EdgesList[0].ShowLabel = true;
+
             Area.ShowAllEdgesLabels(true);
 
             zoomctrl.ZoomToFill();
@@ -67,11 +63,57 @@ namespace Costaline
             kBLoader = new Loader();
         }
 
+        private void Zoomctrl_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu contextMenuDrawGraph = new ContextMenu();
+            MenuItem menuItemDoDrawGraph = new MenuItem();
+            menuItemDoDrawGraph.Header = "Нарисовать иерархию ситуации";
+            menuItemDoDrawGraph.Click += MenuItemDoDrawGraph_Click;
+
+            contextMenuDrawGraph.Items.Add(menuItemDoDrawGraph);
+            contextMenuDrawGraph.IsOpen = true;
+        }
+
+        private void MenuItemDoDrawGraph_Click(object sender, RoutedEventArgs e)
+        {
+            Frame frameToDraw = kBLoader.GetFrames()[0];
+
+            var dataGraph = new EasyGraph();
+
+            var mainDataVertex = new DataVertex(frameToDraw.name);
+            dataGraph.AddVertex(mainDataVertex);
+
+            foreach (var slot in frameToDraw.slots)
+            {
+                var dataVertex = new DataVertex(slot.name);
+                dataGraph.AddVertex(dataVertex);
+                var dataEdge = new DataEdge(mainDataVertex, dataVertex) { };
+                dataGraph.AddEdge(dataEdge);
+            }
+
+
+            var vlist = dataGraph.Vertices.ToList();
+
+            var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
+
+            logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+
+            logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+
+            logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+
+            logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+
+            logicCore.AsyncAlgorithmCompute = false;
+
+            Area.LogicCore = logicCore;
+
+            Area.GenerateGraph(true, true);
+        }
+
         private void Area_EdgeClicked(object sender, EdgeClickedEventArgs args)
         {
-            //selectedEdge = args.Control.GetDataEdge<DataEdge>();
-            MessageBox.Show("Привет");
-
+            MessageBox.Show("Area_EdgeClicked");
         }
 
         private void Area_VertexClicked(object sender, VertexClickedEventArgs args)
@@ -119,7 +161,7 @@ namespace Costaline
             ScrollViewer scrollViewer = new ScrollViewer();
             scrollViewer.Name = "scrollViewer";
             
-            existingSituations.Items.Add(scrollViewer);
+            existingSituationsTreeView.Items.Add(scrollViewer);
         }
 
         private void ButtonOpenKB_click(object sender, RoutedEventArgs e)
@@ -147,45 +189,13 @@ namespace Costaline
                     slotsTree.Items.Add(slot.value);
                     situationTree.Items.Add(slotsTree);
                 }
-                existingSituations.Items.Add(situationTree);
+                existingSituationsTreeView.Items.Add(situationTree);
             }
+         }
 
-        }
-
-        private EasyGraph GraphExample_Setup()
-        {
-            //Lets make new data graph instance
-            var dataGraph = new EasyGraph();
-            //Now we need to create edges and vertices to fill data graph
-            //This edges and vertices will represent graph structure and connections
-            //Lets make some vertices
-            for (int i = 1; i < 8; i++)
-            {
-                //Create new vertex with specified Text. Also we will assign custom unique ID.
-                //This ID is needed for several features such as serialization and edge routing algorithms.
-                //If you don't need any custom IDs and you are using automatic Area.GenerateGraph() method then you can skip ID assignment
-                //because specified method automaticaly assigns missing data ids (this behavior is controlled by method param).
-                var dataVertex = new DataVertex("Мы сдадим " + i);
-                //Add vertex to data graph
-                dataGraph.AddVertex(dataVertex);
-            }
-
-            //Now lets make some edges that will connect our vertices
-            //get the indexed list of graph vertices we have already added
-            var vlist = dataGraph.Vertices.ToList();
-                //Then create two edges optionaly defining Text property to show who are connected
-            var dataEdge = new DataEdge(vlist[0], vlist[1]) { Text = "IS_A" };
-            dataGraph.AddEdge(dataEdge);
-            dataEdge = new DataEdge(vlist[2], vlist[3]) { Text = "IS_A" };
-            dataGraph.AddEdge(dataEdge);
-            dataEdge = new DataEdge(vlist[4], vlist[5]) { Text = "IS_A" };
-            dataGraph.AddEdge(dataEdge);
-
-            return dataGraph;
-        }
         private void GraphAreaExample_Setup()
         {
-            var logicCore = new GXLogicCoreExample() { Graph = GraphExample_Setup() };
+            var logicCore = new GXLogicCoreExample() {};
 
             logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
 
