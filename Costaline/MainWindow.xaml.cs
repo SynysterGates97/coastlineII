@@ -44,6 +44,8 @@ namespace Costaline
 
             Area.SetVerticesMathShape(VertexShape.Rectangle);
 
+            Area.EdgeClicked += Area_EdgeClicked;
+
             Area.VertexClicked += Area_VertexClicked;
                        
 
@@ -63,6 +65,13 @@ namespace Costaline
             zoomctrl.ZoomToFill();
 
             kBLoader = new Loader();
+        }
+
+        private void Area_EdgeClicked(object sender, EdgeClickedEventArgs args)
+        {
+            //selectedEdge = args.Control.GetDataEdge<DataEdge>();
+            MessageBox.Show("Привет");
+
         }
 
         private void Area_VertexClicked(object sender, VertexClickedEventArgs args)
@@ -102,16 +111,18 @@ namespace Costaline
             //throw new NotImplementedException();
         }
 
-        private void button_click(object sender, RoutedEventArgs e)
+        private void Button_click(object sender, RoutedEventArgs e)
         {
-            
+            ConsultationWindow consultationWindow = new ConsultationWindow();
+            consultationWindow.ShowDialog();
+
             ScrollViewer scrollViewer = new ScrollViewer();
             scrollViewer.Name = "scrollViewer";
             
             existingSituations.Items.Add(scrollViewer);
         }
 
-        private void buttonOpenKB_click(object sender, RoutedEventArgs e)
+        private void ButtonOpenKB_click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Knowledge base (*.json)|*.json|All files (*.*)|*.*";
