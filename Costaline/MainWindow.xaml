@@ -15,9 +15,7 @@
                 <ColumnDefinition Width="110*"/>
                 <ColumnDefinition Width="377*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-            </Grid.RowDefinitions>
+
             <Label x:Name="Label1" Content="Инспектор объектов" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
             <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Margin="0,10,10,10">
                 <models:GraphAreaExample x:Name="Area"/>

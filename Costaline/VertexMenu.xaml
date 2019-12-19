@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Costaline"
         mc:Ignorable="d"
-        Title="VertexMenu" Height="450" Width="800">
+        WindowStartupLocation="CenterOwner"
+        Title="Изменение параметров вершины" Height="300" Width="350" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    
     <Grid>
-        
+        <GroupBox x:Name="vertexMenuMainGroupBox" Header="Имя фрейма" Margin="10"/>
     </Grid>
 </Window>

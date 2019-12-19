@@ -45,8 +45,7 @@ namespace Costaline
             Area.SetVerticesMathShape(VertexShape.Rectangle);
 
             Area.VertexClicked += Area_VertexClicked;
-
-           
+                       
 
             //This method sets the dash style for edges. It is applied to all edges in Area.EdgesList. You can also set dash property for
             //each edge individually using EdgeControl.DashStyle property.
@@ -70,21 +69,37 @@ namespace Costaline
         {
             DataVertex selectedVertex = new DataVertex();
             string mouseButton = args.MouseArgs.ChangedButton.ToString();
-
+            selectedVertex = args.Control.GetDataVertex<DataVertex>();
             if (mouseButton == "Left")
             {
-                selectedVertex = args.Control.GetDataVertex<DataVertex>();
+                
                 selectedVertex.Text = "NewLabel".ToString();
                 this.Area.GenerateGraph();
             }
             else if (mouseButton == "Right")
             {
-                VertexMenu f2 = new VertexMenu();
-                f2.Show();
+                VertexMenu vertexMenu = new VertexMenu();
+                vertexMenu.Owner = this;
+                
+                ContextMenu contextMenu = new ContextMenu();
+                contextMenu.Items.Add("Удалить фрейм");
+                contextMenu.Items.Add("Изменить параметры");
 
+                args.Control.ContextMenu = contextMenu;
+                args.Control.ContextMenu.IsOpen = true;
+                               
+                vertexMenu.vertexMenuMainGroupBox.Header = selectedVertex.Text.ToString();
+                System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
+                objBlur.Radius = 5;
+                this.Effect = objBlur;
+
+                if (vertexMenu.ShowDialog() == true)
+                {
+
+                }
+                this.Effect = null;
             }
             //throw new NotImplementedException();
-            MessageBox.Show(mouseButton);
         }
 
         private void button_click(object sender, RoutedEventArgs e)
