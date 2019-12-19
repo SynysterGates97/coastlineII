@@ -121,9 +121,9 @@ namespace Costaline
                             }                          
                         }
                     }
-                    _frames.Add(parsingFrame);
-                }
 
+                }
+                _frames.Add(parsingFrame);
                 //MessageBox.Show("Смотри, ПТИЦА!");
             }
         }

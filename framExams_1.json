@@ -55,7 +55,7 @@
 	  "is_a:null",
       "student:Ordinary",
       "teacher:Ordinary",
-      "classroom:SIMPLE",
+      "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
       "subject:SIMPLE"
@@ -184,7 +184,7 @@
       "name:Exam3",
 	  "is_a:null",
       "student:Mediocre",
-      "teacher:Idle",
+      "teacher:Indifferent",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -251,43 +251,57 @@
       "subject:HARD"
     ],
     [
-      "name:Student",
-      "is_a:",
-      "cheating:",
-      "preparation:",
-      "attendance:",
-      "practice:"
+      "name:Ordinary_student",
+      "is_a:null",
+      "cheating:sometimes",
+      "preparation:normally",
+      "attendance:61-80",
+      "practice:61-80"
     ],
     [
-      "name:Students",
-      "is_a:",
-      "cheating:",
-      "preparation:",
-      "attendance:",
-      "practice:"
+      "name:Excellent_student",
+      "is_a:null",
+      "cheating:never",
+      "preparation:completely",
+      "attendance:>80",
+      "practice:>80"
     ],
     [
-      "name:Students",
-      "is_a:",
-      "cheating:",
-      "preparation:",
-      "attendance:",
-      "practice:"
+      "name:Idle_student",
+      "is_a:Mediocre_student",
+      "cheating:always",
+      "preparation:none",
+      "attendance:<40",
+      "practice:<40"
     ],
     [
-      "name:Students",
-      "is_a:",
-      "cheating:",
-      "preparation:",
-      "attendance:",
-      "practice:"
+      "name:Mediocre_student",
+      "is_a:null",
+      "cheating:always",
+      "preparation:little",
+      "attendance:41-60",
+      "practice:41-60"
     ],
     [
-      "name:Teachers",
-      "is_a:",
-      "pass_attitude:",
-      "practice_attitude:",
-      "chiting_attitude:"
+      "name:Ordinary_teachers",
+      "is_a:null",
+      "pass_attitude:indifferent",
+      "practice_attitude:negative",
+      "chiting_attitude:negative"
     ],
+	[
+      "name:Indifferent_eachers",
+      "is_a:null",
+      "pass_attitude:indifferent",
+      "practice_attitude:indifferent",
+      "chiting_attitude:indifferent"
+    ],
+	[
+      "name:Fair_teachers",
+      "is_a:Ordinary_teachers",
+      "pass_attitude:negative",
+      "practice_attitude:negative",
+      "chiting_attitude:extremely_negative"
+    ]
   ]	
 }
