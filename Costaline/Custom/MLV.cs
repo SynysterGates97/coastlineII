@@ -21,6 +21,41 @@ namespace Costaline
             _loadedDomains = domains;
         }
 
+        public bool AddFrameInMLV(ref Frame frame)// сюда фреим с возможностью выбрать билет. тоесть идет добавление в БЗ. true - добавил / false - не добавил
+        {
+            foreach (var f in _loadedFrames)// суть метода в том что бы добавить в список, кроме одинаковых имен
+            {
+                if (f.name == frame.name)// проверка на имя
+                {
+                    return false;
+                }
+
+                if (f.slots.SequenceEqual(frame.slots))
+                {
+                    frame.isA = f.name;// сдесь нужно ref. что бы изменить isA во время выполнения этой функции. будет вызываться как AddFrameInMLV(ref frame)
+                    _loadedFrames.Add(frame);
+                    return true;
+                }
+            }
+            foreach (var slot in frame.slots)
+            {
+                foreach (var d in _loadedDomains)
+                {
+                    if (d.name == slot.name)
+                    {
+                        if (!d.values.Contains(slot.value))
+                        {
+                            d.values.Add(slot.value);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            _loadedFrames.Add(frame);
+            return true;
+        }
+
         public string GetAnswer(Frame frame)// полный хард код
         {
             List<string> studentsDomen = new List<string>();
@@ -69,7 +104,6 @@ namespace Costaline
 
             }
 
-
             if (isStudentInDomains && isTeachersInDomains)
             {
                 foreach (var frames in _loadedFrames) {
@@ -78,10 +112,13 @@ namespace Costaline
                 } 
             }
 
-            return null;// вернуть что то осмысленое
+            return "Экспертная система не смогла найти ответ. Обратитесь к другой экспертной системе.";
         }
     
-        
+        public bool IsExists(Frame frame)//проверка есть ли выбраный фреим в списке
+        {
+            return _loadedFrames.Contains(frame);
+        }
     }
 
 }
