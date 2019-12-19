@@ -21,6 +21,31 @@ namespace Costaline
             _loadedDomains = domains;
         }
 
+        public List<Domain> GetMLVDomains()// функция получения всех
+        {
+            return _loadedDomains;
+        }
+
+        public void AddMLVDomains(Domain domain)// функция добавления 1 домена
+        {
+            foreach(var ld in _loadedDomains)
+            {
+                if (domain.name == ld.name)
+                {
+                    foreach(var val in domain.values) 
+                    { 
+                        if (!ld.values.Contains(val))
+                        {
+                            ld.values.Add(val);
+                        }
+                    }
+                    return;
+                }
+            }
+
+            _loadedDomains.Add(domain);
+        }
+
         public bool AddFrameInMLV(ref Frame frame)// сюда фреим с возможностью выбрать билет. тоесть идет добавление в БЗ. true - добавил / false - не добавил
         {
             foreach (var f in _loadedFrames)// суть метода в том что бы добавить в список, кроме одинаковых имен
@@ -37,6 +62,7 @@ namespace Costaline
                     return true;
                 }
             }
+
             foreach (var slot in frame.slots)
             {
                 foreach (var d in _loadedDomains)
