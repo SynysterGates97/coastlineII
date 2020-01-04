@@ -18,6 +18,7 @@ using GraphX.Controls;
 using Costaline.GraphXModels;
 using GraphX.Controls.Models;
 using Microsoft.Win32;
+using MahApps.Metro.Controls;
 
 
 namespace Costaline
@@ -25,7 +26,7 @@ namespace Costaline
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         Loader kBLoader;
 
