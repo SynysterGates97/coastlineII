@@ -230,3 +230,7 @@ _Pvt_Extensions
 .fake/
 *.binlog
 /.dotnet
+
+# Castom ignore
+*.lref
+*.cache
