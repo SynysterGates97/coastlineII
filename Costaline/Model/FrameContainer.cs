@@ -83,5 +83,18 @@ namespace Costaline
                 }
             }
         }
+
+        public Frame FrameFinder(string frameName, List<Frame> frames)
+        {
+            foreach (var frame in frames)
+            {
+                if (frame.name == frameName)
+                {
+                    return frame;
+                }
+            }
+
+            return null;
+        }
     }
 }
