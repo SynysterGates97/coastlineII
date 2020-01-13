@@ -232,5 +232,7 @@ _Pvt_Extensions
 /.dotnet
 
 # Castom ignore
-*.lref
-*.cache
+Debug/
+debug/
+obj/
+Obj/
