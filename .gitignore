@@ -125,8 +125,6 @@ coverage*[.json, .xml, .info]
 *.coverage
 *.coveragexml
 
-=======
->>>>>>> Maxim
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml
