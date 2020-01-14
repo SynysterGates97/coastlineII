@@ -86,45 +86,46 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Forms\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="consultationWindow.xaml.cs">
+    <Compile Include="Forms\consultationWindow.xaml.cs">
       <DependentUpon>consultationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VertexMenu.xaml.cs">
+    <Compile Include="Forms\VertexMenu.xaml.cs">
       <DependentUpon>VertexMenu.xaml</DependentUpon>
     </Compile>
-    <Page Include="consultationWindow.xaml">
+    <Compile Include="ViewModels\ViewModelsEvents.cs" />
+    <Page Include="Forms\consultationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Forms\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Forms\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Custom\Domain.cs" />
-    <Compile Include="Custom\Frame.cs" />
-    <Compile Include="Custom\FrameContainer.cs" />
-    <Compile Include="Custom\Loader.cs" />
-    <Compile Include="Custom\MLV.cs" />
-    <Compile Include="Custom\Slot.cs" />
-    <Compile Include="Custom\ViewModel.cs" />
+    <Compile Include="Model\Domain.cs" />
+    <Compile Include="Model\Frame.cs" />
+    <Compile Include="Model\FrameContainer.cs" />
+    <Compile Include="Model\Loader.cs" />
+    <Compile Include="Model\MLV.cs" />
+    <Compile Include="Model\Slot.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="GraphXModels\DataEdge.cs" />
     <Compile Include="GraphXModels\DataVertex.cs" />
     <Compile Include="GraphXModels\EasyGraph.cs" />
     <Compile Include="GraphXModels\GraphAreaExample.cs" />
     <Compile Include="GraphXModels\GXLogicCoreExample.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Forms\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="VertexMenu.xaml">
+    <Page Include="Forms\VertexMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
