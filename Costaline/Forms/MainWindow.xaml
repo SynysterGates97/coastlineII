@@ -18,13 +18,13 @@
             </Grid.ColumnDefinitions>
 
 
-            <Label x:Name="Label1" Content="Инспектор объектов" Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
-            <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10">
-                <models:GraphAreaExample x:Name="Area"/>
+            <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
+            <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" >
+                <models:GraphAreaExample x:Name="graphArea"/>
             </controls:ZoomControl>
             <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56"/>
-            <Button x:Name="button" Content="Получить &#xD;&#xA;консультацию" Margin="10,0,0,5" Click="Button_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="112"/>
-            <Button x:Name="buttonOpenKB" Content="Добавить БЗ" Margin="127,0,10,5" VerticalAlignment="Bottom" Click="ButtonOpenKB_click" Height="46"/>
+            <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="112"/>
+            <Button x:Name="buttonADReadyKB" Content="Добавить&#xD;&#xA;готовую БЗ" Margin="127,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46"/>
         </Grid>
     </Border>
 </Controls:MetroWindow>
