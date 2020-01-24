@@ -1,15 +1,50 @@
-﻿<Window x:Class="Costaline.ConsultationWindow"
+﻿<Window x:Class="Costaline.ConsultationWindow"       
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Costaline"
+        xmlns:VM ="clr-namespace:Costaline.ViewModels"
         mc:Ignorable="d"
         Title="consultationWindow" Height="450" Width="800">
+    
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Добавить фреим"/>
+        </ContextMenu>
+    </Window.ContextMenu>
+    
+    <Window.DataContext>
+        <VM:ConsultationViewModel/>
+    </Window.DataContext>
+    
     <Grid>
         <GroupBox Header="Получить консультацию на примере ситуации" Margin="10">
-            <TreeView x:Name="consultationWindowSituationTreeView"/>
+            <TreeView x:Name="consultationMainTreeView" ItemsSource="{Binding Frames}">
+                
+                <TreeView.ContextMenu>
+                    <ContextMenu x:Name="SubTreeView">
+                        <MenuItem Header="Добавить слот"/>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Slots}" DataType="{x:Type VM:ViewFrame}">
+                        <Label Content="{Binding FrameName}"/>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Value}" DataType="{x:Type VM:ViewSlot}">
+                                <Label Content="{Binding SlotName}"/>
+                                <HierarchicalDataTemplate.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type VM:ViewSlotValue}">
+                                        <Label Content="{Binding SlotValue}"/>
+                                    </DataTemplate>
+                                </HierarchicalDataTemplate.ItemTemplate>
+                            </HierarchicalDataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                
+            </TreeView>
         </GroupBox>
-        
     </Grid>
 </Window>
