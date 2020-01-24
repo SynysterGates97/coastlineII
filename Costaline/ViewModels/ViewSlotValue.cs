@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Costaline.ViewModels
 {
-    class ViewSlotValue : ViewModelBase
+    class ViewSlotValue : ViewModel
     {
         private string _slotValue = string.Empty;
 

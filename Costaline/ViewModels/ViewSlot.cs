@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Costaline.ViewModels
 {
-    class ViewSlot: ViewModelBase
+    class ViewSlot: ViewModel
     {
         private List<ViewSlotValue> slotValue;
 

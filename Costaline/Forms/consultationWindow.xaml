@@ -15,7 +15,7 @@
     </Window.ContextMenu>
     
     <Window.DataContext>
-        <VM:ConsultationViewModel/>
+        <VM:ViewModelConsultation/>
     </Window.DataContext>
     
     <Grid>

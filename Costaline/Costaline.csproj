@@ -97,7 +97,7 @@
       <DependentUpon>VertexMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ConsultationCommand.cs" />
-    <Compile Include="ViewModels\ConsultationViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelConsultation.cs" />
     <Compile Include="ViewModels\ViewFrame.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelsEvents.cs" />

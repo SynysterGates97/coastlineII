@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Costaline.ViewModels
 {
-    class ViewFrame : ViewModelBase
+    class ViewFrame : ViewModel
     {
-        private List<ViewSlot> slots;
+        public List<ViewSlot> slots;
 
         public ViewFrame(string frameName)
         {

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Costaline.ViewModels
 {
-    class ConsultationCommand : ICommand
+    class ViewModelConsultationCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 

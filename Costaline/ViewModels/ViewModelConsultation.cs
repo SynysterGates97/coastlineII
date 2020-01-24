@@ -8,11 +8,11 @@ using System.ComponentModel;
 
 namespace Costaline.ViewModels
 {
-    class ConsultationViewModel : ViewModelBase
+    class ViewModelConsultation : ViewModelBase
     {
         private List<ViewFrame> frames;
 
-        public ConsultationViewModel()
+        public ViewModelConsultation()
         {
             Frames = new List<ViewFrame>()
             {

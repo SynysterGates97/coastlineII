@@ -3,13 +3,30 @@ using System.Windows;
 using Costaline.GraphXModels;
 using GraphX.Controls;
 using GraphX.PCL.Common.Enums;
+using System.Collections.Generic;
 
 
 
 namespace Costaline
 {
-    class ViewModel
+    class ViewModel: ViewModelBase
     {
+
+        private List<Frame> listOfFrames;
+
+        public List<Frame> ListOfFrames
+        {
+            get
+            {
+                return listOfFrames;
+            }
+            set
+            {
+                OnPropertyChanged("ListOfFrames");
+                listOfFrames = value;
+            }
+        }
+
         public ViewModelsEvents Events = new ViewModelsEvents();
         public ViewModel()
         {
