@@ -3,29 +3,71 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="http://schemas.panthernet.ru/graphx/"
+        xmlns:graphControls="http://schemas.panthernet.ru/graphx/"
         xmlns:models="clr-namespace:Costaline.GraphXModels"
-        xmlns:VM ="clr-namespace:Costaline.ViewModels"
+        xmlns:vm ="clr-namespace:Costaline.ViewModels"
         xmlns:local="clr-namespace:Costaline"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Coastline" Height="472" Width="800">
 
-    <Border >
-        <Grid Background="#FF2067E4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="160*"/>
-                <ColumnDefinition Width="377*"/>
-            </Grid.ColumnDefinitions>
+    <Controls:MetroWindow.DataContext>
+        <vm:ViewModelTest/>
+    </Controls:MetroWindow.DataContext>
 
-            
-            <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
-            <controls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" >
-                <models:GraphAreaExample x:Name="graphArea"/>
-            </controls:ZoomControl>
-            <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56"/>
-            <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="112"/>
-            <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="127,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46"/>
-        </Grid>
-    </Border>
+    <Grid Background="#FF2067E4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="377*"/>
+        </Grid.ColumnDefinitions>
+
+        <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        
+        <!--<TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding ListOfFrames}" DataType="{x:Type vm:ViewModelMain}">
+                    <TextBlock Text="{Binding ListOfFrames}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>-->
+
+        <!--<TreeView x:Name="treeView1">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
+                    <TextBlock Text="{Binding Name}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>-->
+
+        <!--<TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Slots}" DataType="{x:Type VM:ViewModelFrame}">
+                <Label Content="{Binding FrameName}"/>
+                <HierarchicalDataTemplate.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Value}" DataType="{x:Type VM:ViewModelSlot}">
+                        <Label Content="{Binding SlotName}"/>
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate DataType="{x:Type VM:ViewModelSlotValue}">
+                                <Label Content="{Binding SlotValue}"/>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </HierarchicalDataTemplate.ItemTemplate>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+
+        </TreeView>-->
+
+        <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
+        <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" >
+            <models:GraphAreaExample x:Name="graphArea"/>
+        </graphControls:ZoomControl>
+        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="111"/>
+        <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="100"/>
+    </Grid>
 </Controls:MetroWindow>

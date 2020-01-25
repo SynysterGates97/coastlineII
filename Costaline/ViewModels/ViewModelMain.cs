@@ -1,5 +1,4 @@
-﻿using Costaline.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using Costaline.GraphXModels;
 using GraphX.Controls;
 using GraphX.PCL.Common.Enums;
@@ -7,11 +6,10 @@ using System.Collections.Generic;
 
 
 
-namespace Costaline
+namespace Costaline.ViewModels
 {
     class ViewModelMain: ViewModelBase
     {
-
         private List<Frame> listOfFrames;
 
         public List<Frame> ListOfFrames
@@ -30,6 +28,11 @@ namespace Costaline
         public ViewModelEvents Events = new ViewModelEvents();
         public ViewModelMain()
         {
+            ListOfFrames = new List<Frame>()
+            {
+
+            };
+
 
         }
         public void InitGraphArea(ref GraphAreaExample graphArea, ref ZoomControl zoomControl, Visibility visibility)

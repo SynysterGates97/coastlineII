@@ -5,12 +5,15 @@ using System.Windows.Controls;
 using GraphX.Controls.Models;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 
 namespace Costaline.ViewModels
 {
     class ViewModelEvents
     {
+        ObservableCollection<ViewModelTest> nodes = new ObservableCollection<ViewModelTest>();
         public ViewModelEvents()
         {
 
@@ -120,18 +123,48 @@ namespace Costaline.ViewModels
                 kBLoader.LoadContent();
                 kBLoader.ParseContent();
 
+                nodes = new ObservableCollection<ViewModelTest>
+                {
+                    new ViewModelTest
+                    {
+                        Name ="Фреймы",
+                        Nodes = new ObservableCollection<ViewModelTest>
+                        {
+                            new ViewModelTest {Name="Германия" },
+                            new ViewModelTest {Name="Франция" },
+                            new ViewModelTest
+                            {
+                                Name ="Великобритания",
+                                Nodes = new ObservableCollection<ViewModelTest>
+                                {
+                                    new ViewModelTest {Name="Англия" },
+                                    new ViewModelTest {Name="Шотландия" },
+                                    new ViewModelTest {Name="Уэльс" },
+                                    new ViewModelTest {Name="Сев. Ирландия" },
+                                }
+                            }
+                        }
+                    }
+                };
+
+                existingSituationsTreeView.ItemsSource = nodes;
                 foreach (var frame in kBLoader.GetFrames())
                 {
                     TreeViewItem situationTree = new TreeViewItem();
                     situationTree.Header = frame.name;
+                                       
                     foreach (var slot in frame.slots)
                     {
                         TreeViewItem slotsTree = new TreeViewItem();
                         slotsTree.Header = slot.name;
                         slotsTree.Items.Add(slot.value);
                         situationTree.Items.Add(slotsTree);
+
+                        //ViewModelTest _header = new ViewModelTest();
+                        //_header.Name = "Frames";
+                        //_header.
+                        //vmt.Name 
                     }
-                    existingSituationsTreeView.Items.Add(situationTree);
                 }
             }
         }

@@ -13,7 +13,7 @@
             <MenuItem Header="Добавить фреим"/>
         </ContextMenu>
     </Window.ContextMenu>
-    
+
     <Window.DataContext>
         <VM:ViewModelConsultation/>
     </Window.DataContext>

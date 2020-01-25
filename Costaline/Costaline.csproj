@@ -101,8 +101,10 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelConsultationCommand.cs" />
     <Compile Include="ViewModels\ViewModelEvents.cs" />
+    <Compile Include="ViewModels\ViewModelFrameAsNode.cs" />
     <Compile Include="ViewModels\ViewModelSlot.cs" />
     <Compile Include="ViewModels\ViewModelSlotValue.cs" />
+    <Compile Include="ViewModels\ViewModelTest.cs" />
     <Page Include="Forms\consultationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

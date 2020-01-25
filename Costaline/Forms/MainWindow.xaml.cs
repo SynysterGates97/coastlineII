@@ -7,6 +7,9 @@ using Costaline.GraphXModels;
 using GraphX.Controls.Models;
 using Microsoft.Win32;
 using MahApps.Metro.Controls;
+using Costaline.ViewModels;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 
 namespace Costaline
@@ -18,7 +21,9 @@ namespace Costaline
     {
         Loader kBLoader = new Loader();
         ViewModelMain viewModel = new ViewModelMain();
+        List<Frame> _frames = new List<Frame>();
 
+        ObservableCollection<ViewModelTest> nodes;
         public MainWindow()
         {
             InitializeComponent();
