@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Costaline.ViewModels
 {
-    class ViewSlotValue : ViewModel
+    class ViewModelSlotValue : ViewModelMain
     {
         private string _slotValue = string.Empty;
 
@@ -23,7 +23,7 @@ namespace Costaline.ViewModels
             }
         }
 
-        public ViewSlotValue(string slotValue)
+        public ViewModelSlotValue(string slotValue)
         {
             SlotValue = slotValue;
         }

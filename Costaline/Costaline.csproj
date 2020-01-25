@@ -96,13 +96,13 @@
     <Compile Include="Forms\VertexMenu.xaml.cs">
       <DependentUpon>VertexMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ConsultationCommand.cs" />
     <Compile Include="ViewModels\ViewModelConsultation.cs" />
-    <Compile Include="ViewModels\ViewFrame.cs" />
+    <Compile Include="ViewModels\ViewModelFrame.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\ViewModelsEvents.cs" />
-    <Compile Include="ViewModels\ViewSlot.cs" />
-    <Compile Include="ViewModels\ViewSlotValue.cs" />
+    <Compile Include="ViewModels\ViewModelConsultationCommand.cs" />
+    <Compile Include="ViewModels\ViewModelEvents.cs" />
+    <Compile Include="ViewModels\ViewModelSlot.cs" />
+    <Compile Include="ViewModels\ViewModelSlotValue.cs" />
     <Page Include="Forms\consultationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,7 +121,7 @@
     <Compile Include="Model\Loader.cs" />
     <Compile Include="Model\MLV.cs" />
     <Compile Include="Model\Slot.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelMain.cs" />
     <Compile Include="GraphXModels\DataEdge.cs" />
     <Compile Include="GraphXModels\DataVertex.cs" />
     <Compile Include="GraphXModels\EasyGraph.cs" />

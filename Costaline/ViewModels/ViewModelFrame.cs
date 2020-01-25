@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Costaline.ViewModels
 {
-    class ViewFrame : ViewModel
+    class ViewModelFrame : ViewModelMain
     {
-        public List<ViewSlot> slots;
+        public List<ViewModelSlot> slots;
 
-        public ViewFrame(string frameName)
+        public ViewModelFrame(string frameName)
         {
             FrameName = frameName;
-            slots = new List<ViewSlot>()
+            slots = new List<ViewModelSlot>()
             {
-                new ViewSlot("SlotTest1"),
-                new ViewSlot("SlotTest2"),
-                new ViewSlot("SloTtest3")
+                new ViewModelSlot("SlotTest1"),
+                new ViewModelSlot("SlotTest2"),
+                new ViewModelSlot("SloTtest3")
             };
 
         }
 
-        public List<ViewSlot> Slots 
+        public List<ViewModelSlot> Slots 
         {
             get
             {

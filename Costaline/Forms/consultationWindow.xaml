@@ -29,13 +29,13 @@
                 </TreeView.ContextMenu>
 
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Slots}" DataType="{x:Type VM:ViewFrame}">
+                    <HierarchicalDataTemplate ItemsSource="{Binding Slots}" DataType="{x:Type VM:ViewModelFrame}">
                         <Label Content="{Binding FrameName}"/>
                         <HierarchicalDataTemplate.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Value}" DataType="{x:Type VM:ViewSlot}">
+                            <HierarchicalDataTemplate ItemsSource="{Binding Value}" DataType="{x:Type VM:ViewModelSlot}">
                                 <Label Content="{Binding SlotName}"/>
                                 <HierarchicalDataTemplate.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type VM:ViewSlotValue}">
+                                    <DataTemplate DataType="{x:Type VM:ViewModelSlotValue}">
                                         <Label Content="{Binding SlotValue}"/>
                                     </DataTemplate>
                                 </HierarchicalDataTemplate.ItemTemplate>

@@ -9,9 +9,9 @@ using System;
 
 namespace Costaline.ViewModels
 {
-    class ViewModelsEvents
+    class ViewModelEvents
     {
-        public ViewModelsEvents()
+        public ViewModelEvents()
         {
 
         }

@@ -13,7 +13,8 @@ namespace Costaline
 
         public FrameContainer()
         {
-            List<Frame> frames = new List<Frame>();
+            _frames = new List<Frame>();
+            _domains = new List<Domain>();
         }
 
         public bool AddFrame(Frame frame)

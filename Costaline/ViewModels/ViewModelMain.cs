@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Costaline
 {
-    class ViewModel: ViewModelBase
+    class ViewModelMain: ViewModelBase
     {
 
         private List<Frame> listOfFrames;
@@ -27,8 +27,8 @@ namespace Costaline
             }
         }
 
-        public ViewModelsEvents Events = new ViewModelsEvents();
-        public ViewModel()
+        public ViewModelEvents Events = new ViewModelEvents();
+        public ViewModelMain()
         {
 
         }

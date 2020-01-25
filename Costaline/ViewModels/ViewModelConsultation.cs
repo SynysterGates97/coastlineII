@@ -10,18 +10,18 @@ namespace Costaline.ViewModels
 {
     class ViewModelConsultation : ViewModelBase
     {
-        private List<ViewFrame> frames;
+        private List<ViewModelFrame> frames;
 
         public ViewModelConsultation()
         {
-            Frames = new List<ViewFrame>()
+            Frames = new List<ViewModelFrame>()
             {
-                new ViewFrame("Frame1"),
-                new ViewFrame("Frame2")
+                new ViewModelFrame("Frame1"),
+                new ViewModelFrame("Frame2")
             };
         }
 
-        public List<ViewFrame> Frames
+        public List<ViewModelFrame> Frames
         {
             get
             {

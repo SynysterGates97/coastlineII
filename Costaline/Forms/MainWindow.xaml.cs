@@ -17,7 +17,7 @@ namespace Costaline
     public partial class MainWindow : MetroWindow
     {
         Loader kBLoader = new Loader();
-        ViewModel viewModel = new ViewModel();
+        ViewModelMain viewModel = new ViewModelMain();
 
         public MainWindow()
         {
