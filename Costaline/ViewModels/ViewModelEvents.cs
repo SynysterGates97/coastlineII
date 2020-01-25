@@ -123,50 +123,25 @@ namespace Costaline.ViewModels
                 kBLoader.LoadContent();
                 kBLoader.ParseContent();
 
-                nodes = new ObservableCollection<ViewModelTest>
-                {
-                    new ViewModelTest
-                    {
-                        Name ="Фреймы",
-                        Nodes = new ObservableCollection<ViewModelTest>
-                        {
-                            new ViewModelTest {Name="Германия" },
-                            new ViewModelTest {Name="Франция" },
-                            new ViewModelTest
-                            {
-                                Name ="Великобритания",
-                                Nodes = new ObservableCollection<ViewModelTest>
-                                {
-                                    new ViewModelTest {Name="Англия" },
-                                    new ViewModelTest {Name="Шотландия" },
-                                    new ViewModelTest {Name="Уэльс" },
-                                    new ViewModelTest {Name="Сев. Ирландия" },
-                                }
-                            }
-                        }
-                    }
-                };
+                nodes = new ObservableCollection<ViewModelTest>();
+                ViewModelTest vmtToMainNodes = new ViewModelTest();
+                vmtToMainNodes.Name = "Фреймы";
 
-                existingSituationsTreeView.ItemsSource = nodes;
                 foreach (var frame in kBLoader.GetFrames())
                 {
-                    TreeViewItem situationTree = new TreeViewItem();
-                    situationTree.Header = frame.name;
-                                       
+                    ViewModelTest vmtFrames = new ViewModelTest() { Name = frame.name };
                     foreach (var slot in frame.slots)
                     {
-                        TreeViewItem slotsTree = new TreeViewItem();
-                        slotsTree.Header = slot.name;
-                        slotsTree.Items.Add(slot.value);
-                        situationTree.Items.Add(slotsTree);
-
-                        //ViewModelTest _header = new ViewModelTest();
-                        //_header.Name = "Frames";
-                        //_header.
-                        //vmt.Name 
+                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name };
+                        vmtFrames.Nodes.Add(vmtSlots);
                     }
+                    vmtToMainNodes.Nodes.Add(vmtFrames);
                 }
+                nodes.Add(vmtToMainNodes);
+                               
+                existingSituationsTreeView.ItemsSource = nodes;
             }
+
         }
         public void OpenAddingNewKbForm(ref TreeView existingSituationsTreeView)
         {

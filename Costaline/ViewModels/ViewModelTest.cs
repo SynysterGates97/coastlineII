@@ -13,7 +13,9 @@ namespace Costaline.ViewModels
         public ObservableCollection<ViewModelTest> Nodes { get; set; }
         public ViewModelTest()
         {
-            
+            Name = "Тест";
+            Nodes = new ObservableCollection<ViewModelTest>();
+
         }
     }
 }
