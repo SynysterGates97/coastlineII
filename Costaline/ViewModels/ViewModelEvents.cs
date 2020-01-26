@@ -7,12 +7,14 @@ using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 
 namespace Costaline.ViewModels
 {
     class ViewModelEvents
     {
+        ViewModelTest vmt = new ViewModelTest();
         ObservableCollection<ViewModelTest> nodes = new ObservableCollection<ViewModelTest>();
         public ViewModelEvents()
         {
@@ -127,19 +129,9 @@ namespace Costaline.ViewModels
                 ViewModelTest vmtToMainNodes = new ViewModelTest();
                 vmtToMainNodes.Name = "Фреймы";
 
-                foreach (var frame in kBLoader.GetFrames())
-                {
-                    ViewModelTest vmtFrames = new ViewModelTest() { Name = frame.name };
-                    foreach (var slot in frame.slots)
-                    {
-                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name };
-                        vmtFrames.Nodes.Add(vmtSlots);
-                    }
-                    vmtToMainNodes.Nodes.Add(vmtFrames);
-                }
-                nodes.Add(vmtToMainNodes);
-                               
-                existingSituationsTreeView.ItemsSource = nodes;
+                vmt.Frames1 = kBLoader.GetFrames();
+            
+                existingSituationsTreeView.ItemsSource = vmt.Nodes;
             }
 
         }

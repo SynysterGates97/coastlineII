@@ -24,6 +24,8 @@ namespace Costaline
         }
         public void SetPath(string path)
         {
+            _frames.Clear();
+            _domains.Clear();
             _path = path;
         }
 
