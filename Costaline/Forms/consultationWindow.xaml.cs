@@ -22,6 +22,6 @@ namespace Costaline
         public ConsultationWindow()
         {
             InitializeComponent();
-        }        
+        }
     }
 }

@@ -17,14 +17,14 @@
     <Window.DataContext>
         <VM:ViewModelConsultation/>
     </Window.DataContext>
-    
+
     <Grid>
         <GroupBox Header="Получить консультацию на примере ситуации" Margin="10">
             <TreeView x:Name="consultationMainTreeView" ItemsSource="{Binding Frames}">
                 
                 <TreeView.ContextMenu>
                     <ContextMenu x:Name="SubTreeView">
-                        <MenuItem Header="Добавить слот"/>
+                        <MenuItem Header="Добавить слот" Command="{Binding AddCommand}" GotFocus="{Binding }"/>
                     </ContextMenu>
                 </TreeView.ContextMenu>
 

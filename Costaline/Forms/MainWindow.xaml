@@ -6,7 +6,7 @@
         xmlns:graphControls="http://schemas.panthernet.ru/graphx/"
         xmlns:models="clr-namespace:Costaline.GraphXModels"
         xmlns:vm ="clr-namespace:Costaline.ViewModels"
-        xmlns:local="clr-namespace:Costaline"
+        xmlns:local="clr-namespace:Costaline.ViewModels"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
         Title="Coastline" Height="472" Width="800">
