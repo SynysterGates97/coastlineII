@@ -10,8 +10,9 @@ namespace Costaline.ViewModels
     class ViewModelTest: ViewModelBase
     {
         private static List<Frame> frames = new List<Frame>();
-        public string Name { get; set; }
-        public ObservableCollection<ViewModelTest> Nodes { get; set; }
+        public string Name{ get; set; }
+        public ObservableCollection<ViewModelTest> Nodes 
+        { get; set; }
         public ViewModelTest()
         {
             Name = "Тест";

@@ -31,6 +31,7 @@ namespace Costaline
             viewModel.InitGraphArea(ref graphArea, ref zoomctrl, Visibility.Visible);
                      
             LinkEvents();
+
         }
 
         void LinkEvents()
@@ -40,7 +41,45 @@ namespace Costaline
             graphArea.VertexClicked += Area_VertexClicked;
 
             zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
+
+            //existingSituationsTreeView.SelectedItemChanged += ExistingSituationsTreeView_SelectedItemChanged;
+            existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick; ;
         }
+
+        private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TreeView treeView = (TreeView)sender;
+            ViewModelTest selectedViewModelTest = (ViewModelTest)treeView.SelectedItem;
+            //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
+
+            //selectedTreeView.Items.CurrentItem.ToString();
+            MessageBox.Show(selectedViewModelTest.Name);
+            selectedViewModelTest.Name = "Новое имя!";
+
+            //selectedNodeTest.ItemsSource = selectedViewModelTest;
+            //treeView.ItemsSource = selectedViewModelTest.Nodes;
+            viewModel.Events.UpdateViewTreeView(ref existingSituationsTreeView);
+            MessageBox.Show(selectedViewModelTest.Name);
+            //treeView.Items.Clear();
+        }
+
+        private void ExistingSituationsTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            TreeView treeView = (TreeView)sender;
+            ViewModelTest selectedViewModelTest = (ViewModelTest)treeView.SelectedItem;
+            //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
+
+            //selectedTreeView.Items.CurrentItem.ToString();
+            MessageBox.Show(selectedViewModelTest.Name);
+            selectedViewModelTest.Name = "МАКСИМ!";
+
+            //selectedNodeTest.ItemsSource = selectedViewModelTest;
+            treeView.ItemsSource = selectedViewModelTest.Nodes;
+            //viewModel.Events.UpdateViewTreeView(ref existingSituationsTreeView);
+            //MessageBox.Show(selectedViewModelTest.Name);
+            //treeView.Items.Clear();
+        }
+
         private void Zoomctrl_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             viewModel.Events.OnEmptyGraphAreaClick(MenuItemDrawGraph_Click);
