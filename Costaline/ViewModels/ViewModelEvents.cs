@@ -14,7 +14,7 @@ namespace Costaline.ViewModels
 {
     class ViewModelEvents
     {
-        ViewModelTest vmt = new ViewModelTest();
+        public ViewModelTest vmt = new ViewModelTest();
         ObservableCollection<ViewModelTest> nodes = new ObservableCollection<ViewModelTest>();
         public ViewModelEvents()
         {

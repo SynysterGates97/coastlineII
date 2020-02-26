@@ -24,6 +24,7 @@ namespace Costaline
         List<Frame> _frames = new List<Frame>();
 
         ObservableCollection<ViewModelTest> nodes;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -48,18 +49,25 @@ namespace Costaline
 
         private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
             TreeView treeView = (TreeView)sender;
             ViewModelTest selectedViewModelTest = (ViewModelTest)treeView.SelectedItem;
             //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
 
-            //selectedTreeView.Items.CurrentItem.ToString();
-            MessageBox.Show(selectedViewModelTest.Name);
+            //selectedTreeView.Items.CurrentItem.ToString();==
+            
+            MessageBox.Show(selectedViewModelTest._Frame.name);
+            Frame testFrame = new Frame();
+            testFrame.name = "10";
+            selectedViewModelTest.Frames1.Add(testFrame);
             selectedViewModelTest.Name = "Новое имя!";
+            selectedViewModelTest._Frame.name = "Новое имя!";
+            //selectedViewModelTest.OnPropertyChanged("Frames");
 
             //selectedNodeTest.ItemsSource = selectedViewModelTest;
             //treeView.ItemsSource = selectedViewModelTest.Nodes;
             viewModel.Events.UpdateViewTreeView(ref existingSituationsTreeView);
-            MessageBox.Show(selectedViewModelTest.Name);
+            //MessageBox.Show(selectedViewModelTest.Nodes.ToString());
             //treeView.Items.Clear();
         }
 
@@ -109,7 +117,12 @@ namespace Costaline
         {
             viewModel.Events.OpenReadyKBFromDialogWindow(ref kBLoader, ref existingSituationsTreeView);
         }
-       
+
+        private void interTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame firstFrame = viewModel.Events.vmt.GetFirstFrame();
+            MessageBox.Show(firstFrame.name);
+        }
     }
 }
 

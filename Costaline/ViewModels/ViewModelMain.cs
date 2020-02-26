@@ -11,7 +11,7 @@ namespace Costaline.ViewModels
     class ViewModelMain: ViewModelBase
     {
         private List<Frame> listOfFrames;
-
+       
         public List<Frame> ListOfFrames
         {
             get
