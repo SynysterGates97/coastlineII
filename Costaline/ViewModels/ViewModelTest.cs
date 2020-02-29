@@ -18,7 +18,7 @@ namespace Costaline.ViewModels
 
         //private static ObservableCollection<ViewModelTest> _parentalNode = new ObservableCollection<ViewModelTest>();//общий список всех узлов
 
-        public ObservableCollection<ViewModelTest> ParentalNode
+        public ViewModelTest ParentalNode
         {
             get;
             set;
@@ -78,12 +78,15 @@ namespace Costaline.ViewModels
                 }
                 else
                 {
-                    //MessageBox.Show("PAREa " + ParentalNode);
-                    MessageBox.Show("PAREB "+ ParentalNode.IndexOf(this));
-                    int indexOfChosenSlot = ParentalNode.IndexOf(this);
-                    MessageBox.Show(firstNode[0].Nodes.IndexOf());
-                    frame.slots[indexOfChosenSlot].name = value;
+                    MessageBox.Show("PAREa " + ParentalNode.Name);
+                    MessageBox.Show("PAREB "+ ParentalNode.Nodes.IndexOf(this));
+                    
+                    int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
+
+                    ParentalNode.frame.slots[indexOfChosenSlot].name = value;
+                    
                 }
+                Name = value;
             }
         }
 
@@ -127,14 +130,14 @@ namespace Costaline.ViewModels
                 ViewModelTest vmtToMainNodes = new ViewModelTest() { Name = "Фреймы", isFrame = false, SlotIndex = -1 };
                 foreach (var frame in frames)
                 {
-                    ViewModelTest vmtFrame = new ViewModelTest() { Name = frame.name, _Frame =  frame, isFrame = true, SlotIndex = -1, ParentalNode = Nodes };
+                    ViewModelTest vmtFrame = new ViewModelTest() { Name = frame.name, _Frame =  frame, isFrame = true, SlotIndex = -1, ParentalNode = vmtToMainNodes };
                     int slotIndex = 0;
                     List<Slot> newSlots = new List<Slot>();
                     foreach (var slot in frame.slots)
                     {
                         newSlots.Add(slot);
                         ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name, isFrame = false, SlotIndex = slotIndex++, 
-                            ParentalNode = vmtFrame.Nodes };
+                            ParentalNode = vmtFrame };
                         vmtFrame.Nodes.Add(vmtSlots);
                     }
                     vmtFrame.frame.slots = newSlots;
