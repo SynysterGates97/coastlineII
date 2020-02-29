@@ -12,10 +12,23 @@ namespace Costaline.ViewModels
     class ViewModelTest : ViewModelBase
     {
         private static List<Frame> frames = new List<Frame>();//общий список всех фреймов
+        private static ObservableCollection<ViewModelTest> firstNode = new ObservableCollection<ViewModelTest>();//общий список всех узлов
         private Frame frame = new Frame();
         private bool isFrame;
 
+        //private static ObservableCollection<ViewModelTest> _parentalNode = new ObservableCollection<ViewModelTest>();//общий список всех узлов
+
+        public ObservableCollection<ViewModelTest> ParentalNode
+        {
+            get;
+            set;
+        }
+
         public int SlotIndex
+        {
+            get; set;
+        }
+        public int FrameIndex
         {
             get; set;
         }
@@ -56,12 +69,20 @@ namespace Costaline.ViewModels
             {
                 if(isFrame)
                 {
+                    //selectedViewModelTest.Nodes.IndexOf(selectedViewModelTest.Nodes[5]).ToString();
+                    //MessageBox.Show("BAT"+ firstNode[0].Name);
+                    
+                    MessageBox.Show(firstNode[0].Name);
+                    MessageBox.Show("BAT2 " + firstNode[0].Nodes.IndexOf(this).ToString());
                     frame.name = value;
                 }
                 else
                 {
-                    MessageBox.Show(frame.slots[0].name);
-                    frame.slots[SlotIndex].name = value;
+                    //MessageBox.Show("PAREa " + ParentalNode);
+                    MessageBox.Show("PAREB "+ ParentalNode.IndexOf(this));
+                    int indexOfChosenSlot = ParentalNode.IndexOf(this);
+                    MessageBox.Show(firstNode[0].Nodes.IndexOf());
+                    frame.slots[indexOfChosenSlot].name = value;
                 }
             }
         }
@@ -81,7 +102,7 @@ namespace Costaline.ViewModels
                 return isFrame;
             } 
             set
-            {
+            { 
                 isFrame = value;
             }
         }
@@ -102,18 +123,23 @@ namespace Costaline.ViewModels
                 }
 
                 Nodes = new ObservableCollection<ViewModelTest>();
+                firstNode = Nodes;
                 ViewModelTest vmtToMainNodes = new ViewModelTest() { Name = "Фреймы", isFrame = false, SlotIndex = -1 };
-
                 foreach (var frame in frames)
                 {
-                    ViewModelTest vmtFrames = new ViewModelTest() { Name = frame.name, _Frame =  frame, isFrame = true, SlotIndex = -1 };
+                    ViewModelTest vmtFrame = new ViewModelTest() { Name = frame.name, _Frame =  frame, isFrame = true, SlotIndex = -1, ParentalNode = Nodes };
                     int slotIndex = 0;
+                    List<Slot> newSlots = new List<Slot>();
                     foreach (var slot in frame.slots)
                     {
-                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name, isFrame = false, SlotIndex = slotIndex++ };
-                        vmtFrames.Nodes.Add(vmtSlots);
+                        newSlots.Add(slot);
+                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name, isFrame = false, SlotIndex = slotIndex++, 
+                            ParentalNode = vmtFrame.Nodes };
+                        vmtFrame.Nodes.Add(vmtSlots);
                     }
-                    vmtToMainNodes.Nodes.Add(vmtFrames);
+                    vmtFrame.frame.slots = newSlots;
+
+                    vmtToMainNodes.Nodes.Add(vmtFrame);
                 }
                 Nodes.Add(vmtToMainNodes);
                 OnPropertyChanged("Frames1");

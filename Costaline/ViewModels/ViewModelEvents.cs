@@ -108,11 +108,11 @@ namespace Costaline.ViewModels
                 mainWindow.Effect = null;
             }
         }
-        public void UpdateViewTreeView(ref TreeView existingSituationsTreeView)
+        public void TestFunction(ViewModelTest viewModelTest)
         {
             //existingSituationsTreeView.ItemsSource = null;
-            
-            existingSituationsTreeView.Items.Refresh();
+           // vmt.Nodes 
+            //existingSituationsTreeView.Items.Refresh();
             //existingSituationsTreeView.ItemsSource = vmt.Nodes;
         }
         public void OpenReadyKBFromDialogWindow(ref Loader kBLoader, ref TreeView existingSituationsTreeView)

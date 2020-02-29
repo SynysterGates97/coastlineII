@@ -58,14 +58,24 @@ namespace Costaline
             //selectedTreeView.Items.CurrentItem.ToString();==
             
             MessageBox.Show(selectedViewModelTest._Frame.name);
-                        
-            viewModel.Events.UpdateViewTreeView(ref existingSituationsTreeView);
+
+            //VVВОТ ЭТО РАБОТАЕТ
+            
+            //string index = selectedViewModelTest.Nodes.IndexOf(selectedViewModelTest.Nodes[5]).ToString();
+
 
             selectedViewModelTest.FrameOrSlotName = "wefwe";
 
+            existingSituationsTreeView.Items.Refresh();
+
+            viewModel.Events.TestFunction(selectedViewModelTest);
+
+            
+            
+
             //TreeViewItem treeViewItem = existingSituationsTreeView.SelectedItem;
 
-           MessageBox.Show(selectedViewModelTest.Name + selectedViewModelTest.IsFrame);
+           //MessageBox.Show(selectedViewModelTest.Name + selectedViewModelTest.IsFrame);
             //treeView.Items.Clear();
         }
 
