@@ -13,12 +13,26 @@ namespace Costaline.ViewModels
     {
         private static List<Frame> frames = new List<Frame>();//общий список всех фреймов
         private Frame frame = new Frame();
-        private string name = "FUCKING SLAVES";
-        //List<NameNodeCollection> nameNodeCollections;
+        private bool isFrame;
+
+        public int SlotIndex
+        {
+            get; set;
+        }
         public string Name
-        { get; set; }
+        {
+            get
+            {
+                return frame.name;
+            }
+            set
+            {
+                frame.name = value;
+            }
+        }
         public ObservableCollection<ViewModelTest> Nodes
         { get; set; }
+
         public Frame _Frame
         {
             get
@@ -28,13 +42,50 @@ namespace Costaline.ViewModels
             set
             {
                 frame = value;
+                OnPropertyChanged("_Frame");
             }
         }
+
+        public string FrameOrSlotName
+        {
+            get
+            {
+                return frame.name;
+            }
+            set
+            {
+                if(isFrame)
+                {
+                    frame.name = value;
+                }
+                else
+                {
+                    MessageBox.Show(frame.slots[0].name);
+                    frame.slots[SlotIndex].name = value;
+                }
+            }
+        }
+
+
         public ViewModelTest()
         {
+            isFrame = false;
             Name = "Тест";
             Nodes = new ObservableCollection<ViewModelTest>();
+            SlotIndex = -1;
         }
+        public bool IsFrame
+        {
+            get
+            {
+                return isFrame;
+            } 
+            set
+            {
+                isFrame = value;
+            }
+        }
+        
         public Frame GetFirstFrame()
         {
             return frames[0];
@@ -51,21 +102,21 @@ namespace Costaline.ViewModels
                 }
 
                 Nodes = new ObservableCollection<ViewModelTest>();
-                ViewModelTest vmtToMainNodes = new ViewModelTest();
-                vmtToMainNodes.Name = "Фреймы";
+                ViewModelTest vmtToMainNodes = new ViewModelTest() { Name = "Фреймы", isFrame = false, SlotIndex = -1 };
 
                 foreach (var frame in frames)
                 {
-                    ViewModelTest vmtFrames = new ViewModelTest() { Name = frame.name, _Frame =  frame };
+                    ViewModelTest vmtFrames = new ViewModelTest() { Name = frame.name, _Frame =  frame, isFrame = true, SlotIndex = -1 };
+                    int slotIndex = 0;
                     foreach (var slot in frame.slots)
                     {
-                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name };
+                        ViewModelTest vmtSlots = new ViewModelTest() { Name = slot.name, isFrame = false, SlotIndex = slotIndex++ };
                         vmtFrames.Nodes.Add(vmtSlots);
                     }
                     vmtToMainNodes.Nodes.Add(vmtFrames);
                 }
                 Nodes.Add(vmtToMainNodes);
-                OnPropertyChanged("Frames");
+                OnPropertyChanged("Frames1");
             }
             get
             {
@@ -73,21 +124,6 @@ namespace Costaline.ViewModels
             }
         }
 
-
-    }
-    class NameNodeCollection
-    {
-        private string _name = "FUCKING SLAVES";
-        private ObservableCollection<ViewModelTest> _node;
-
-        public string Name
-        {
-            get; set;
-        }
-        public ObservableCollection<ViewModelTest> Node
-        {
-            get; set;
-        }
 
     }
 }

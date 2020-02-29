@@ -110,8 +110,10 @@ namespace Costaline.ViewModels
         }
         public void UpdateViewTreeView(ref TreeView existingSituationsTreeView)
         {
-            existingSituationsTreeView.ItemsSource = null;
-            existingSituationsTreeView.ItemsSource = vmt.Nodes;
+            //existingSituationsTreeView.ItemsSource = null;
+            
+            existingSituationsTreeView.Items.Refresh();
+            //existingSituationsTreeView.ItemsSource = vmt.Nodes;
         }
         public void OpenReadyKBFromDialogWindow(ref Loader kBLoader, ref TreeView existingSituationsTreeView)
         {
