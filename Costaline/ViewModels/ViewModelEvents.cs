@@ -31,6 +31,20 @@ namespace Costaline.ViewModels
             contextMenuDrawGraph.Items.Add(menuItemDoDrawGraph);
             contextMenuDrawGraph.IsOpen = true;
         }
+
+        public void NewDrawGraph(ref GraphAreaExample graphArea)
+        {
+            try
+            {
+                FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
+                currentFrameContainer.GetAllFrames()[0].
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("При отрисовке что-то пошло не так :( \n" + e.ToString());
+            }
+            
+        }
         public void DrawGraph(ref Loader kBLoader, ref GraphAreaExample graphArea)
         {
             try
@@ -108,13 +122,7 @@ namespace Costaline.ViewModels
                 mainWindow.Effect = null;
             }
         }
-        public void TestFunction(ViewModelFramesHierarchy viewModelTest)
-        {
-            //existingSituationsTreeView.ItemsSource = null;
-           // vmt.Nodes 
-            //existingSituationsTreeView.Items.Refresh();
-            //existingSituationsTreeView.ItemsSource = vmt.Nodes;
-        }
+
         public void OpenReadyKBFromDialogWindow(ref Loader kBLoader, ref TreeView existingSituationsTreeView)
         {
 
@@ -141,6 +149,7 @@ namespace Costaline.ViewModels
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
             }
+
 
         }
         public void OpenAddingNewKbForm(ref TreeView existingSituationsTreeView)

@@ -38,14 +38,5 @@
         </graphControls:ZoomControl>
         <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="70"/>
         <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="58"/>
-        <Button x:Name="interTestButton" Content="Test" HorizontalAlignment="Left" Margin="85,390,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="interTestButton_Click">
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    --><!--<i:InvokeCommandAction 
-                            Command="{Binding DoubleCommand}" 
-                            CommandParameter="{Binding SelectedPhone}" />--><!--
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-        </Button>
     </Grid>
 </Controls:MetroWindow>
