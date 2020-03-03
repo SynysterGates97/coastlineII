@@ -3,8 +3,8 @@
     [
       "name:Exam4",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Ordinary",
+      "student:Ordinary_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:YES",
@@ -13,8 +13,8 @@
     [
       "name:Exam4",
 	  "is_a:null",
-      "student:Excellent",
-      "teacher:Indifferent",
+      "student:Excellent_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -23,8 +23,8 @@
     [
       "name:Exam4",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Indifferent",
+      "student:Idle_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:YES",
@@ -33,8 +33,8 @@
     [
       "name:Exam4",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Ordinary",
+      "student:Mediocre_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -43,8 +43,8 @@
     [
       "name:Exam4",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Fair",
+      "student:Ordinary_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -53,8 +53,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Ordinary",
+      "student:Ordinary_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -63,8 +63,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Excellent",
-      "teacher:Ordinary",
+      "student:Excellent_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -73,8 +73,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Indifferent",
+      "student:Idle_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -83,8 +83,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Indifferent",
+      "student:Mediocre_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -93,8 +93,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Indifferent",
+      "student:Mediocre_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -103,8 +103,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Excellent",
-      "teacher:Fair",
+      "student:Excellent_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:NO",
@@ -113,8 +113,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Indifferent",
+      "student:Ordinary_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -123,8 +123,8 @@
     [
       "name:Exam5",
 	  "is_a:null",
-      "student:Excellent",
-      "teacher:Indifferent",
+      "student:Excellent_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -133,8 +133,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Indifferent",
+      "student:Ordinary_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:NO",
@@ -143,8 +143,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Ordinary",
-      "teacher:Indifferent",
+      "student:Ordinary_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -153,8 +153,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Fair",
+      "student:Mediocre_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -163,8 +163,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Fair",
+      "student:Mediocre_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:NO",
@@ -173,8 +173,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Indifferent",
+      "student:Mediocre_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -183,8 +183,8 @@
     [
       "name:Exam3",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Indifferent",
+      "student:Mediocre_Student",
+      "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -193,8 +193,8 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Fair",
+      "student:Idle_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:YES",
@@ -203,8 +203,8 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Ordinary",
+      "student:Idle_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:YES",
@@ -213,8 +213,8 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Fair",
+      "student:Mediocre_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:0",
       "was_cheating:NO",
@@ -223,8 +223,8 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Ordinary",
+      "student:Idle_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -233,8 +233,8 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Idle",
-      "teacher:Fair",
+      "student:Idle_Student",
+      "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:YES",
@@ -243,15 +243,15 @@
     [
       "name:Exam2",
 	  "is_a:null",
-      "student:Mediocre",
-      "teacher:Ordinary",
+      "student:Mediocre_Student",
+      "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
       "ticket:1",
       "was_cheating:NO",
       "subject:HARD"
     ],
     [
-      "name:Ordinary_student",
+      "name:Ordinary_Student",
       "is_a:null",
       "cheating:sometimes",
       "preparation:normally",
@@ -259,7 +259,7 @@
       "practice:61-80"
     ],
     [
-      "name:Excellent_student",
+      "name:Excellent_Student",
       "is_a:null",
       "cheating:never",
       "preparation:completely",
@@ -267,15 +267,15 @@
       "practice:>80"
     ],
     [
-      "name:Idle_student",
-      "is_a:Mediocre_student",
+      "name:Idle_Student",
+      "is_a:Mediocre_Student",
       "cheating:always",
       "preparation:none",
       "attendance:<40",
       "practice:<40"
     ],
     [
-      "name:Mediocre_student",
+      "name:Mediocre_Student",
       "is_a:null",
       "cheating:always",
       "preparation:little",
@@ -283,22 +283,22 @@
       "practice:41-60"
     ],
     [
-      "name:Ordinary_teachers",
+      "name:Ordinary_Teacher",
       "is_a:null",
       "pass_attitude:indifferent",
       "practice_attitude:negative",
       "chiting_attitude:negative"
     ],
 	[
-      "name:Indifferent_teachers",
+      "name:Indifferent_Teacher",
       "is_a:null",
       "pass_attitude:indifferent",
       "practice_attitude:indifferent",
       "chiting_attitude:indifferent"
     ],
 	[
-      "name:Fair_teachers",
-      "is_a:Ordinary_teachers",
+      "name:Fair_Teacher",
+      "is_a:Ordinary_Teacher",
       "pass_attitude:negative",
       "practice_attitude:negative",
       "chiting_attitude:extremely_negative"
