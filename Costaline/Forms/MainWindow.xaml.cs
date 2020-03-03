@@ -52,49 +52,31 @@ namespace Costaline
 
             TreeView treeView = (TreeView)sender;
             ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
-            //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
-
-            //selectedTreeView.Items.CurrentItem.ToString();==
             
             MessageBox.Show(selectedViewModelTest.Frame.name);
+                    
+            InputMessageBox inputMessageBox = new InputMessageBox();
 
-            //VVВОТ ЭТО РАБОТАЕТ
-            
-            //string index = selectedViewModelTest.Nodes.IndexOf(selectedViewModelTest.Nodes[5]).ToString();
+            inputMessageBox.Owner = this;
 
+            inputMessageBox.Title = "Поменять имя";
+            System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
+            objBlur.Radius = 5;
+            this.Effect = objBlur;
 
-            selectedViewModelTest.FrameOrSlotName = "wefwe";
+            if (inputMessageBox.ShowDialog() == true)
+            {
+
+            }
+            this.Effect = null;
+
+            MessageBox.Show("Новое имя "+ inputMessageBox.textBox.Text);
+
+            selectedViewModelTest.FrameOrSlotName = inputMessageBox.textBox.Text;
 
             existingSituationsTreeView.Items.Refresh();
-
-            viewModel.Events.TestFunction(selectedViewModelTest);
-
-            
-            
-
-            //TreeViewItem treeViewItem = existingSituationsTreeView.SelectedItem;
-
-           //MessageBox.Show(selectedViewModelTest.Name + selectedViewModelTest.IsFrame);
-            //treeView.Items.Clear();
         }
 
-        //private void ExistingSituationsTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        //{
-        //    TreeView treeView = (TreeView)sender;
-        //    ViewModelTest selectedViewModelTest = (ViewModelTest)treeView.SelectedItem;
-        //    //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
-
-        //    //selectedTreeView.Items.CurrentItem.ToString();
-        //    MessageBox.Show(selectedViewModelTest.Name);
-        //    selectedViewModelTest.Name = "МАКСИМ!";
-
-        //    //selectedNodeTest.ItemsSource = selectedViewModelTest;
-        //    treeView.ItemsSource = selectedViewModelTest.Nodes;
-        //    viewModel.Events.UpdateViewTreeView(ref existingSituationsTreeView);
-        //    //treeView.IsEnabled = true;
-        //    //MessageBox.Show(selectedViewModelTest.Name);
-        //    //treeView.Items.Clear();
-        //}
 
         private void Zoomctrl_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {

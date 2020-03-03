@@ -99,6 +99,9 @@
     <Compile Include="Forms\consultationWindow.xaml.cs">
       <DependentUpon>consultationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\InputMessageBox.xaml.cs">
+      <DependentUpon>InputMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\VertexMenu.xaml.cs">
       <DependentUpon>VertexMenu.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
     <Compile Include="ViewModels\ViewModelSlotValue.cs" />
     <Compile Include="ViewModels\ViewModelFramesHierarchy.cs" />
     <Page Include="Forms\consultationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\InputMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
