@@ -137,14 +137,14 @@ namespace Costaline.ViewModels
             Nodes.Add(vmtToMainNodes);
             OnPropertyChanged("Frames1");
         }
-        public List<Frame> Frames
-        {
-            set {}
-            get
-            {
-                return MainFrameContainer.GetAllFrames();
-            }
-        }
+        //public List<Frame> Frames
+        //{
+        //    set {}
+        //    get
+        //    {
+        //        return MainFrameContainer.GetAllFrames();
+        //    }
+        //}
 
 
     }
