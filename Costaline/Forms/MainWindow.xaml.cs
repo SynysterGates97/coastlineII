@@ -23,7 +23,6 @@ namespace Costaline
         ViewModelMain viewModel = new ViewModelMain();
         List<Frame> _frames = new List<Frame>();
 
-        ObservableCollection<ViewModelTest> nodes;
 
         public MainWindow()
         {
@@ -52,12 +51,12 @@ namespace Costaline
         {
 
             TreeView treeView = (TreeView)sender;
-            ViewModelTest selectedViewModelTest = (ViewModelTest)treeView.SelectedItem;
+            ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
             //TreeView selectedNodeTest = (TreeView)treeView.SelectedItem;
 
             //selectedTreeView.Items.CurrentItem.ToString();==
             
-            MessageBox.Show(selectedViewModelTest._Frame.name);
+            MessageBox.Show(selectedViewModelTest.Frame.name);
 
             //VVВОТ ЭТО РАБОТАЕТ
             
@@ -129,8 +128,11 @@ namespace Costaline
 
         private void interTestButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame firstFrame = viewModel.Events.vmt.GetFirstFrame();
-            MessageBox.Show(firstFrame.name);
+            FrameContainer frameContainer = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
+            List<Frame> frames = frameContainer.GetAllFrames();
+
+            for (int i = 0; i < 10; i++)
+                MessageBox.Show(frames[i].name);
         }
     }
 }

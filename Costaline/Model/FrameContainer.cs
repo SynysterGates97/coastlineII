@@ -11,6 +11,12 @@ namespace Costaline
         List<Frame> _frames;
         List<Domain> _domains;
 
+        public void ClearContainer()
+        {
+            _domains.Clear();
+            _frames.Clear();
+        }
+
         public FrameContainer()
         {
             _frames = new List<Frame>();
@@ -38,6 +44,10 @@ namespace Costaline
             return true;
         }
 
+        public List<Frame> GetAllFrames()
+        {
+            return _frames;
+        }
         public bool DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
         {
             return _frames.Remove(frame);             

@@ -13,7 +13,7 @@
         Title="Coastline" Height="472" Width="800">
 
     <Controls:MetroWindow.DataContext>
-        <vm:ViewModelTest/>
+        <vm:ViewModelFramesHierarchy/>
     </Controls:MetroWindow.DataContext>
 
     <Grid Background="#FF2067E4">

@@ -110,7 +110,7 @@
     <Compile Include="ViewModels\ViewModelFrameAsNode.cs" />
     <Compile Include="ViewModels\ViewModelSlot.cs" />
     <Compile Include="ViewModels\ViewModelSlotValue.cs" />
-    <Compile Include="ViewModels\ViewModelTest.cs" />
+    <Compile Include="ViewModels\ViewModelFramesHierarchy.cs" />
     <Page Include="Forms\consultationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

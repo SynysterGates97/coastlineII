@@ -14,8 +14,8 @@ namespace Costaline.ViewModels
 {
     class ViewModelEvents
     {
-        public ViewModelTest vmt = new ViewModelTest();
-        ObservableCollection<ViewModelTest> nodes = new ObservableCollection<ViewModelTest>();
+        public ViewModelFramesHierarchy viewModelFramesHierarchy = new ViewModelFramesHierarchy();
+        ObservableCollection<ViewModelFramesHierarchy> nodes = new ObservableCollection<ViewModelFramesHierarchy>();
         public ViewModelEvents()
         {
 
@@ -108,7 +108,7 @@ namespace Costaline.ViewModels
                 mainWindow.Effect = null;
             }
         }
-        public void TestFunction(ViewModelTest viewModelTest)
+        public void TestFunction(ViewModelFramesHierarchy viewModelTest)
         {
             //existingSituationsTreeView.ItemsSource = null;
            // vmt.Nodes 
@@ -132,13 +132,14 @@ namespace Costaline.ViewModels
                 kBLoader.LoadContent();
                 kBLoader.ParseContent();
 
-                nodes = new ObservableCollection<ViewModelTest>();
-                ViewModelTest vmtToMainNodes = new ViewModelTest();
+                nodes = new ObservableCollection<ViewModelFramesHierarchy>();
+                ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy();
                 vmtToMainNodes.Name = "Фреймы";
 
-                vmt.Frames1 = kBLoader.GetFrames();
+                List<Frame> frameListFromFile = kBLoader.GetFrames();
+                viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
             
-                existingSituationsTreeView.ItemsSource = vmt.Nodes;
+                existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
             }
 
         }
