@@ -10,7 +10,7 @@ namespace Costaline.ViewModels
 {
     class ViewModelMain: ViewModelBase
     {
-        private List<Frame> listOfFrames;
+        private static List<Frame> listOfFrames;
        
         public List<Frame> ListOfFrames
         {

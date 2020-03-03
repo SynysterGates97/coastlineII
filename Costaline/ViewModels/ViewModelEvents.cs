@@ -37,7 +37,7 @@ namespace Costaline.ViewModels
             try
             {
                 FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
-                currentFrameContainer.GetAllFrames()[0].
+                
             }
             catch(Exception e)
             {
@@ -82,7 +82,7 @@ namespace Costaline.ViewModels
             }
             catch
             {
-                MessageBox.Show("Ситуация не выбрана, соррян!");
+                MessageBox.Show("Ситуация не выбрана!");
             }
         }
 

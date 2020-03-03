@@ -120,10 +120,11 @@ namespace Costaline.ViewModels
                 List<Slot> newSlots = new List<Slot>();
                 foreach (var slot in frame.slots)
                 {
+
                     newSlots.Add(slot);
                     ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
                     {
-                        Name = slot.name,
+                        Name = slot.name + ": " + slot.value,
                         IsFrame = false,
                         SlotIndex = slotIndex++,
                         ParentalNode = vmtFrame

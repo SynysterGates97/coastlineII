@@ -19,8 +19,10 @@ namespace Costaline
     /// </summary>
     public partial class InputMessageBox : Window
     {
+
         public InputMessageBox()
         {
+
             InitializeComponent();
         }
     }
