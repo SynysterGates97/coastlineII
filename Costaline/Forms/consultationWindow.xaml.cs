@@ -23,5 +23,16 @@ namespace Costaline
         {
             InitializeComponent();
         }
+
+        public MLV MLV {get; set;}
+
+        private void BC_TakeConsultation(object sender, RoutedEventArgs e)
+        {
+            if (MLV != null)
+            {
+
+            }
+           
+        }
     }
 }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Costaline
 {
-    class MLV
+    public class MLV
     {
         List<Frame> _loadedFrames;
-        List<Domain> _loadedDomains;
+        List<Domain> _loadedDomains;        
 
         public void LoadMLVFrames(List<Frame> frames)
         {

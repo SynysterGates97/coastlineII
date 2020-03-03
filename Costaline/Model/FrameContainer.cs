@@ -39,6 +39,32 @@ namespace Costaline
                     return isNotInFrames;
                 }
             }
+
+            foreach (var slot in frame.slots)
+            {
+                var isFind = false;
+                {
+                    foreach (var d in _domains)
+                    {
+                        if (slot.name == d.name)
+                        {
+                            isFind = true;
+                            if (!d.values.Contains(slot.value))
+                            {
+                                d.values.Add(slot.value);
+                            }
+                        }
+                    }
+                }
+                if (isFind == false)
+                {
+                    Domain domain = new Domain();
+                    domain.name = slot.name;
+                    domain.values.Add(slot.value);
+
+                    _domains.Add(domain);
+                }
+            }
             
             _frames.Add(frame);
             return true;
