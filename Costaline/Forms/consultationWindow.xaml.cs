@@ -24,11 +24,11 @@ namespace Costaline
             InitializeComponent();
         }
 
-        public MLV MLV {get; set;}
+        public FrameContainer FrameContainer {get; set;}
 
         private void BC_TakeConsultation(object sender, RoutedEventArgs e)
         {
-            if (MLV != null)
+            if (FrameContainer != null)
             {
 
             }

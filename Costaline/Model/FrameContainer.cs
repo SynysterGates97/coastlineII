@@ -28,11 +28,7 @@ namespace Costaline
             bool isNotInFrames = false;
 
             foreach (var f in _frames)
-            {
-                if (f.name == frame.name)
-                {
-                    return isNotInFrames;
-                }
+            {                
 
                 if (f.slots.SequenceEqual(frame.slots))
                 {
@@ -132,6 +128,39 @@ namespace Costaline
             }
 
             return null;
+        }
+
+        public List<Frame> GetAnswer(Frame frame)
+        {
+            var answer = new List<Frame>();
+
+            foreach (var f in _frames)
+            {
+                if (f.slots.SequenceEqual(frame.slots)) 
+                {
+                    answer.Add(f);
+                }
+            }
+
+            if (answer.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (var slot in answer[0].slots)
+                {
+                    foreach (var f in _frames)
+                    {
+                        if(slot.value == f.name)
+                        {
+                            answer.Add(f);
+                        }
+                    }
+                }
+
+                return answer;
+            }
         }
     }
 }
