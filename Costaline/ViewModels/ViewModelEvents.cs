@@ -155,6 +155,7 @@ namespace Costaline.ViewModels
         public void OpenAddingNewKbForm(ref TreeView existingSituationsTreeView)
         {
             ConsultationWindow consultationWindow = new ConsultationWindow();
+            consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();//
             consultationWindow.ShowDialog();
 
             ScrollViewer scrollViewer = new ScrollViewer();

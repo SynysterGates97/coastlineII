@@ -23,5 +23,16 @@ namespace Costaline
         {
             InitializeComponent();
         }
+
+        public FrameContainer FrameContainer {get; set;}
+
+        private void BC_TakeConsultation(object sender, RoutedEventArgs e)
+        {
+            if (FrameContainer != null)
+            {
+
+            }
+           
+        }
     }
 }

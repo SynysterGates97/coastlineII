@@ -28,15 +28,37 @@ namespace Costaline
             bool isNotInFrames = false;
 
             foreach (var f in _frames)
-            {
-                if (f.name == frame.name)
-                {
-                    return isNotInFrames;
-                }
+            {                
 
                 if (f.slots.SequenceEqual(frame.slots))
                 {
                     return isNotInFrames;
+                }
+            }
+
+            foreach (var slot in frame.slots)
+            {
+                var isFind = false;
+                {
+                    foreach (var d in _domains)
+                    {
+                        if (slot.name == d.name)
+                        {
+                            isFind = true;
+                            if (!d.values.Contains(slot.value))
+                            {
+                                d.values.Add(slot.value);
+                            }
+                        }
+                    }
+                }
+                if (isFind == false)
+                {
+                    Domain domain = new Domain();
+                    domain.name = slot.name;
+                    domain.values.Add(slot.value);
+
+                    _domains.Add(domain);
                 }
             }
             
@@ -106,6 +128,39 @@ namespace Costaline
             }
 
             return null;
+        }
+
+        public List<Frame> GetAnswer(Frame frame)
+        {
+            var answer = new List<Frame>();
+
+            foreach (var f in _frames)
+            {
+                if (f.slots.SequenceEqual(frame.slots)) 
+                {
+                    answer.Add(f);
+                }
+            }
+
+            if (answer.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (var slot in answer[0].slots)
+                {
+                    foreach (var f in _frames)
+                    {
+                        if(slot.value == f.name)
+                        {
+                            answer.Add(f);
+                        }
+                    }
+                }
+
+                return answer;
+            }
         }
     }
 }
