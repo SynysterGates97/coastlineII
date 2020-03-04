@@ -152,6 +152,22 @@ namespace Costaline.ViewModels
 
         public void GetAnswerByFrame(Frame frame)
         {
+            FrameContainer kBFrameContainer = this.GetFrameContainer();
+            List<Frame> frameAnswer = kBFrameContainer.GetAnswer(frame);
+
+            string answer = "";
+            if(frameAnswer != null)
+            {
+                foreach(Frame elem in frameAnswer)
+                {
+                    answer += " " + elem.name;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ну типа такой ответ: "+answer);
+            }
+
             MessageBox.Show("GetAnswerByFrame is N/A");
         }
 

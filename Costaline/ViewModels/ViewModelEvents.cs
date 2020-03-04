@@ -37,6 +37,7 @@ namespace Costaline.ViewModels
             try
             {
                 FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
+                List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
                 
             }
             catch(Exception e)
@@ -123,7 +124,7 @@ namespace Costaline.ViewModels
             }
         }
 
-        public void OpenReadyKBFromDialogWindow(ref Loader kBLoader, ref TreeView existingSituationsTreeView)
+        public bool OpenReadyKBFromDialogWindow(ref Loader kBLoader, ref TreeView existingSituationsTreeView)
         {
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -148,7 +149,10 @@ namespace Costaline.ViewModels
                 viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
+
+                return true;
             }
+            return false;
 
 
         }
@@ -163,7 +167,7 @@ namespace Costaline.ViewModels
             maxFrameSlots.Add(item);
             Frame FromMaxConsToHierFrame = new Frame { name = "Тот самый фрейм", isA = null, slots = maxFrameSlots };
 
-            viewModelFramesHierarchy.AppendFrame(FromMaxConsToHierFrame);//TODO: Это для добавления
+            //viewModelFramesHierarchy.AppendFrame(FromMaxConsToHierFrame);//TODO: Это для добавления
             viewModelFramesHierarchy.GetAnswerByFrame(FromMaxConsToHierFrame);////TODO: Это для получения ответа.
 
             existingSituationsTreeView.Items.Refresh();
