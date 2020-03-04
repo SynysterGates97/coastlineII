@@ -12,21 +12,11 @@ namespace Costaline.ViewModels
     class ViewModelFramesHierarchy : ViewModelBase
     {
         private static FrameContainer MainFrameContainer = new FrameContainer();
-        private static ObservableCollection<ViewModelFramesHierarchy> firstNode = new ObservableCollection<ViewModelFramesHierarchy>();//общий список всех узлов
+        private static ObservableCollection<ViewModelFramesHierarchy> firstNode = new ObservableCollection<ViewModelFramesHierarchy>();//Первый узел
         private Frame frame = new Frame();
-
-        //private static ObservableCollection<ViewModelTest> _parentalNode = new ObservableCollection<ViewModelTest>();//общий список всех узлов
-
-        public ViewModelFramesHierarchy ParentalNode
-        {
-            get;
-            set;
-        }
-
-        public int SlotIndex
-        {
-            get; set;
-        }
+        public ViewModelFramesHierarchy ParentalNode { get; set; }
+        public ViewModelFramesHierarchy LastNode { get; set; }
+        public int SlotIndex { get; set; }
         public string Name
         {
             get
@@ -38,8 +28,7 @@ namespace Costaline.ViewModels
                 frame.name = value;
             }
         }
-        public ObservableCollection<ViewModelFramesHierarchy> Nodes
-        { get; set; }
+        public ObservableCollection<ViewModelFramesHierarchy> Nodes { get; set; }
 
         public Frame Frame
         {
@@ -65,6 +54,7 @@ namespace Costaline.ViewModels
                 if(IsFrame)
                 {                  
                     frame.name = value;
+                    Name = value;
                 }
                 else
                 {
@@ -73,8 +63,9 @@ namespace Costaline.ViewModels
 
                     ParentalNode.frame.slots[indexOfChosenSlot].value = value;
                     MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
+                    Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
                 }
-                Name = value;
+                
             }
         }
 
