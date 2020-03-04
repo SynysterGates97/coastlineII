@@ -158,10 +158,12 @@ namespace Costaline.ViewModels
             consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();//
             consultationWindow.ShowDialog();
 
-            ScrollViewer scrollViewer = new ScrollViewer();
-            scrollViewer.Name = "scrollViewer";
-
-            existingSituationsTreeView.Items.Add(scrollViewer);
+            List<Slot> maxFrameSlots = new List<Slot>();
+            Slot item = new Slot { name = "Тот самый слот", value = "Значение того самого" };
+            maxFrameSlots.Add(item);
+            Frame FromMaxConsToHierFrame = new Frame { name = "Тот самый фрейм", isA = null, slots = maxFrameSlots };
+            viewModelFramesHierarchy.AppendFrame(FromMaxConsToHierFrame);
+            existingSituationsTreeView.Items.Refresh();
         }
 
     }

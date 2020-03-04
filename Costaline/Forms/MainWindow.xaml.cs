@@ -72,7 +72,7 @@ namespace Costaline
 
             MessageBox.Show("Новое имя "+ inputMessageBox.textBox.Text);
 
-            selectedViewModelTest.FrameOrSlotName = inputMessageBox.textBox.Text;
+            selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
 
             existingSituationsTreeView.Items.Refresh();
         }
