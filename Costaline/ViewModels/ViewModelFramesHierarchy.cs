@@ -159,6 +159,11 @@ namespace Costaline.ViewModels
             firstNode[0].Nodes.Add(newFrameVMFH);
         }
 
+        public void GetAnswerByFrame(Frame frame)
+        {
+            MessageBox.Show("GetAnswerByFrame is N/A");
+        }
+
 
     }
 }
