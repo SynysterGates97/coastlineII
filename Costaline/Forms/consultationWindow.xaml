@@ -8,9 +8,16 @@
         Title="consultationWindow" Height="450" Width="800">
     
     <Grid>
-        <GroupBox Header="Получить консультацию на примере ситуации" Margin="30">
-            
-        </GroupBox>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Получить консультацию" Click="BC_TakeConsultation" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox x:Name="frameList" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+            <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected" Grid.Column="2" Grid.Row="3"/>
+            <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
+            <Button Content="Сохранить" MaxWidth="70" Margin="10 0 0 0" Click="BC_AddSlot" />
+        </StackPanel>
     </Grid>
 </Window>
