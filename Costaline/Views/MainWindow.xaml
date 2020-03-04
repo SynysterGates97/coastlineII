@@ -36,7 +36,7 @@
         <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" >
             <models:GraphAreaExample x:Name="graphArea"/>
         </graphControls:ZoomControl>
-        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="70"/>
-        <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="58"/>
+        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="107"/>
+        <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="104"/>
     </Grid>
 </Controls:MetroWindow>

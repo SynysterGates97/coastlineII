@@ -38,7 +38,9 @@ namespace Costaline.ViewModels
             {
                 FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
                 List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
-                
+                //currentFrames[0].
+
+
             }
             catch(Exception e)
             {

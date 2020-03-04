@@ -165,10 +165,9 @@ namespace Costaline.ViewModels
             }
             else
             {
-                MessageBox.Show("Ну типа такой ответ: "+answer);
+                MessageBox.Show("Ну типа такой ответ: " + answer);
             }
 
-            MessageBox.Show("GetAnswerByFrame is N/A");
         }
 
 
