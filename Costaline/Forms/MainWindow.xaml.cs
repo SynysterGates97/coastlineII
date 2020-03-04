@@ -70,7 +70,8 @@ namespace Costaline
             }
             this.Effect = null;
 
-            MessageBox.Show("Новое имя "+ inputMessageBox.textBox.Text);
+            MessageBox.Show(selectedViewModelTest.FrameOrSlotValue + 
+                " -> "+ inputMessageBox.textBox.Text);
 
             selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
 
