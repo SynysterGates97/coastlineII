@@ -134,7 +134,6 @@
     <Compile Include="Model\Frame.cs" />
     <Compile Include="Model\FrameContainer.cs" />
     <Compile Include="Model\Loader.cs" />
-    <Compile Include="Model\MLV.cs" />
     <Compile Include="Model\Slot.cs" />
     <Compile Include="ViewModels\ViewModelMain.cs" />
     <Compile Include="GraphXModels\DataEdge.cs" />
