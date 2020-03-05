@@ -150,7 +150,7 @@ namespace Costaline.ViewModels
             firstNode[0].Nodes.Add(newFrameVMFH);
         }
 
-        public void GetAnswerByFrame(Frame frame)
+        public List<Frame> GetAnswerByFrame(Frame frame)
         {
             FrameContainer kBFrameContainer = this.GetFrameContainer();
             List<Frame> frameAnswer = kBFrameContainer.GetAnswer(frame);
@@ -162,9 +162,11 @@ namespace Costaline.ViewModels
             }
             else
             {
+                frameAnswer = null;
                 answer = "Наша БЗ не очень, идите FUCK SLAVES";
             }
             MessageBox.Show("Ну типа такой ответ: " + answer);
+            return frameAnswer;
 
         }
 

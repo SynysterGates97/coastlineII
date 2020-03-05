@@ -16,6 +16,7 @@ namespace Costaline.ViewModels
     {
         public ViewModelFramesHierarchy viewModelFramesHierarchy = new ViewModelFramesHierarchy();
         ObservableCollection<ViewModelFramesHierarchy> nodes = new ObservableCollection<ViewModelFramesHierarchy>();
+        public GraphAreaExample ViewGraphArea { set; get; }
         public ViewModelEvents()
         {
 
@@ -32,13 +33,54 @@ namespace Costaline.ViewModels
             contextMenuDrawGraph.IsOpen = true;
         }
 
-        public void NewDrawGraph(ref GraphAreaExample graphArea)
+        string _GetGraphVerticeText(Frame frameVertice)
+        {
+            string verticeText = "->" + frameVertice.name + "<-";
+
+            foreach (Slot slot in frameVertice.slots)
+            {
+                verticeText += "\n" + slot.name + ": " + slot.value;
+            }
+            
+
+            return verticeText;
+
+        }
+        public void NewDrawGraph(List<Frame> answerFrames)
         {
             try
             {
                 FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
                 List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
-                //currentFrames[0].
+
+                var dataGraph = new EasyGraph();
+
+                var mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
+                dataGraph.AddVertex(mainDataVertex);
+
+                for(int i = 1; i< answerFrames.Count; i++)
+                {
+                    var subFrameDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[i]));
+                    dataGraph.AddVertex(subFrameDataVertex);
+                    var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
+                    dataGraph.AddEdge(dataEdge);
+                }
+
+                var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
+
+                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+
+                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+
+                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+
+                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+
+                logicCore.AsyncAlgorithmCompute = false;
+
+                ViewGraphArea.LogicCore = logicCore;
+
+                ViewGraphArea.GenerateGraph(true, true);
 
 
             }
@@ -166,7 +208,9 @@ namespace Costaline.ViewModels
 
             if (consultationWindow.AnswerFrame != null)
             {
-                viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
+                List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
+                if(answerFrames != null)
+                    NewDrawGraph(answerFrames);
             }                   
 
             if (consultationWindow.NewFrame != null)

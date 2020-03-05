@@ -106,9 +106,7 @@ namespace Costaline
 
         private void buttonADReadyKB_click(object sender, RoutedEventArgs e)
         {
-            bool isKBLoaded =  viewModel.Events.OpenReadyKBFromDialogWindow(ref kBLoader, ref existingSituationsTreeView);
-            if(isKBLoaded)
-                viewModel.Events.NewDrawGraph(ref graphArea);
+            viewModel.Events.OpenReadyKBFromDialogWindow(ref kBLoader, ref existingSituationsTreeView);
         }
 
         private void interTestButton_Click(object sender, RoutedEventArgs e)

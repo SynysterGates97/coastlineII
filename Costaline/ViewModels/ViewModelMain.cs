@@ -37,6 +37,7 @@ namespace Costaline.ViewModels
         }
         public void InitGraphArea(ref GraphAreaExample graphArea, ref ZoomControl zoomControl, Visibility visibility)
         {
+            Events.ViewGraphArea = graphArea;
             ZoomControl.SetViewFinderVisibility(zoomControl, Visibility.Visible);
 
             zoomControl.ZoomToFill();
