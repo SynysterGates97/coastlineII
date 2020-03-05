@@ -105,6 +105,8 @@ namespace Costaline
                     var slot = new Slot();
                     slot.name = content[0];
                     slot.value = content[1];
+
+                    newFrame.slots.Add(slot);
                 }
 
                 if (newFrame.slots.Count > 0)
