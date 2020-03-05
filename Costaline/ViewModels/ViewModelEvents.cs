@@ -8,7 +8,7 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-
+using System.Windows.Input;
 
 namespace Costaline.ViewModels
 {
@@ -161,19 +161,20 @@ namespace Costaline.ViewModels
         public void OpenAddingNewKbForm(ref TreeView existingSituationsTreeView)
         {
             ConsultationWindow consultationWindow = new ConsultationWindow();
-            consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();//
+            consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();
             consultationWindow.ShowDialog();
 
-            List<Slot> maxFrameSlots = new List<Slot>();
-            Slot item = new Slot { name = "Тот самый слот", value = "Значение того самого" };
-            maxFrameSlots.Add(item);
-            Frame FromMaxConsToHierFrame = new Frame { name = "Тот самый фрейм", isA = null, slots = maxFrameSlots };
+            if (consultationWindow.AnswerFrame != null)
+            {
+                viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
+            }                   
 
-            //viewModelFramesHierarchy.AppendFrame(FromMaxConsToHierFrame);//TODO: Это для добавления
-            viewModelFramesHierarchy.GetAnswerByFrame(FromMaxConsToHierFrame);////TODO: Это для получения ответа.
+            if (consultationWindow.NewFrame != null)
+            {
+                viewModelFramesHierarchy.AppendFrame(consultationWindow.NewFrame);
+            }
 
             existingSituationsTreeView.Items.Refresh();
         }
-
     }
 }

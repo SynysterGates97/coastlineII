@@ -132,13 +132,27 @@ namespace Costaline
 
         public List<Frame> GetAnswer(Frame frame)
         {
-            var answer = new List<Frame>();
+            var answer = new List<Frame>();            
 
             foreach (var f in _frames)
             {
-                if (f.slots.SequenceEqual(frame.slots)) 
+                var equalsSlots = new List<Slot>();
+
+                if (f.slots.Count == frame.slots.Count)
+                {                    
+                    foreach (var slot in frame.slots)
+                    {
+                        if (f.slots.Where(fr=> fr.name == slot.name && fr.value == slot.value).Count() == 0)
+                        {
+                            equalsSlots.Add(slot);
+                        }
+                    }
+                }
+
+                if(equalsSlots.Count == 0)
                 {
                     answer.Add(f);
+                    break;
                 }
             }
 

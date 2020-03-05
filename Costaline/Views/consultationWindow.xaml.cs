@@ -31,10 +31,14 @@ namespace Costaline
 
         public FrameContainer FrameContainer {get; set;}
 
+        public Frame AnswerFrame { get; set; }
+
+        public Frame NewFrame { get; set; }
+
         private void domainNameLoaded(object sender, RoutedEventArgs e)
         {
             var domains = FrameContainer.GetDomains();
-            List<string> data = new List<string>();
+            List<object> data = new List<object>();
 
             foreach (var d in domains)
             {
@@ -43,8 +47,11 @@ namespace Costaline
 
             var comboBox = sender as ComboBox;
 
-            comboBox.ItemsSource = data;
+            TextBox textBox = new TextBox();
+            domainValues.ItemsSource = new List<object>() { new TextBox() };
+            data.Add(textBox);
 
+            comboBox.ItemsSource = data;
             comboBox.SelectedIndex = 0;
         }
 
@@ -52,23 +59,69 @@ namespace Costaline
         {
             if (FrameContainer != null)
             {
+                var answerFrame = new Frame();
 
-            }
-           
+                answerFrame.name = "answerFrame";
+
+                foreach (var str in frame)
+                {
+                    var data = Split(str);
+                    var slot = new Slot();
+
+                    slot.name = data[0];
+                    slot.value = data[1];
+
+                    answerFrame.slots.Add(slot);
+                }
+
+                AnswerFrame = answerFrame;
+
+                this.Close();
+            }          
         }
 
         private void BC_AddSlot(object sender, RoutedEventArgs e)
-        {
-            string slot = domainNames.SelectedItem.ToString() + ":" + domainValues.SelectedItem.ToString();
+        {           
+            var name = TakeStrFromCombobox(domainNames.SelectedItem);
+            var value = TakeStrFromCombobox(domainValues.SelectedItem);
+            
+            string slot = name + ":" + value;
 
             frame.Add(slot);
+        }
+
+        private void BC_AddFrame(object sender, RoutedEventArgs e)
+        {
+            if (NameFrameTextbox.Text != null && frame.Count > 0)
+            {
+                Frame newFrame = new Frame();
+
+                newFrame.name = NameFrameTextbox.Text;
+
+                foreach (var elem in frame)
+                {
+                    var content = Split(elem);
+
+                    var slot = new Slot();
+                    slot.name = content[0];
+                    slot.value = content[1];
+
+                    newFrame.slots.Add(slot);
+                }
+
+                if (newFrame.slots.Count > 0)
+                {
+                    NewFrame = newFrame;
+                    this.Close();
+                }
+            }
         }
 
         private void domainNameSelected(object sender, SelectionChangedEventArgs e)
         {
             var name = domainNames.SelectedItem.ToString();
             var domains = FrameContainer.GetDomains();
-            List<string> data = new List<string>();
+            List<object> data = new List<object>();
 
             foreach (var d in domains)
             {
@@ -79,10 +132,38 @@ namespace Costaline
                         data.Add(v);
                     }
 
-                    domainValues.ItemsSource = data;
+                    TextBox textBox = new TextBox();
+                    data.Add(textBox);
+
+                    domainValues.ItemsSource = data;                    
                     domainValues.SelectedIndex = 0;
                 }
             }
+        }
+
+        public void ListBox_ItemSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (frameList.SelectedItem != null)
+            {
+                frame.Remove(frameList.SelectedItem.ToString());
+            }
+        }
+
+        String[] Split(string str)
+        {
+            string[] words = str.Split(new char[] { ':' });
+            return words;
+        }
+
+        string TakeStrFromCombobox(object obj)
+        {
+            if (obj == null) return null;
+
+            if (obj is TextBox)
+            {
+               return (obj as TextBox).Text;
+            }
+            else return obj.ToString();
         }
     }
 }

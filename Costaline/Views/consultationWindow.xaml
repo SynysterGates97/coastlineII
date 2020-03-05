@@ -12,12 +12,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox x:Name="frameList" />
+        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-
+            <TextBox Width="120" Name="NameFrameTextbox"/>
             <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected" Grid.Column="2" Grid.Row="3"/>
             <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
-            <Button Content="Сохранить" MaxWidth="70" Margin="10 0 0 0" Click="BC_AddSlot" />
+            <Button Content="Сохранить" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
+            <Button Content="Консультировать" MaxWidth="120" Margin="10 0 0 0" Click="BC_TakeConsultation"/>
+            <Button Content="Добавить" MaxWidth="120" Margin="10 0 0 0" Click="BC_AddFrame"/>
         </StackPanel>
     </Grid>
 </Window>
