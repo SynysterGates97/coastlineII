@@ -158,15 +158,13 @@ namespace Costaline.ViewModels
             string answer = "";
             if(frameAnswer != null)
             {
-                foreach(Frame elem in frameAnswer)
-                {
-                    answer += " " + elem.name;
-                }
+                answer = frameAnswer[0].name;
             }
             else
             {
-                MessageBox.Show("Ну типа такой ответ: " + answer);
+                answer = "Наша БЗ не очень, идите FUCK SLAVES";
             }
+            MessageBox.Show("Ну типа такой ответ: " + answer);
 
         }
 
