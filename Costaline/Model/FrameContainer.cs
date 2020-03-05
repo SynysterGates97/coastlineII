@@ -142,14 +142,14 @@ namespace Costaline
                 {                    
                     foreach (var slot in frame.slots)
                     {
-                        if (f.slots.Where(fr=> fr.name == slot.name && fr.value == slot.value).Count() == 0)
+                        if (f.slots.Where(fr=> fr.name == slot.name && fr.value == slot.value).Count() > 0)
                         {
                             equalsSlots.Add(slot);
                         }
                     }
                 }
 
-                if(equalsSlots.Count == 0)
+                if(equalsSlots.Count == frame.slots.Count)
                 {
                     answer.Add(f);
                     break;
