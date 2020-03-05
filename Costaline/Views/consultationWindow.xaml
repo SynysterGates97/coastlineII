@@ -17,7 +17,8 @@
 
             <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected" Grid.Column="2" Grid.Row="3"/>
             <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
-            <Button Content="Сохранить" MaxWidth="70" Margin="10 0 0 0" Click="BC_AddSlot" />
+            <Button Content="Сохранить" MaxWidth="70" Margin="10 0 0 0" Click="BC_AddSlot"/>
+            <Button Content="Консультировать" MaxWidth="120" Margin="10 0 0 0" Click="BC_TakeConsultation"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -163,14 +163,11 @@ namespace Costaline.ViewModels
             ConsultationWindow consultationWindow = new ConsultationWindow();
             consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();//
             consultationWindow.ShowDialog();
-
-            List<Slot> maxFrameSlots = new List<Slot>();
-            Slot item = new Slot { name = "Тот самый слот", value = "Значение того самого" };
-            maxFrameSlots.Add(item);
-            Frame FromMaxConsToHierFrame = new Frame { name = "Тот самый фрейм", isA = null, slots = maxFrameSlots };
+            
+            Frame AnswerFrame = consultationWindow.AnswerFrame;
 
             //viewModelFramesHierarchy.AppendFrame(FromMaxConsToHierFrame);//TODO: Это для добавления
-            viewModelFramesHierarchy.GetAnswerByFrame(FromMaxConsToHierFrame);////TODO: Это для получения ответа.
+            viewModelFramesHierarchy.GetAnswerByFrame(AnswerFrame);////TODO: Это для получения ответа.
 
             existingSituationsTreeView.Items.Refresh();
         }

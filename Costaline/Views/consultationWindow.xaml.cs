@@ -31,6 +31,8 @@ namespace Costaline
 
         public FrameContainer FrameContainer {get; set;}
 
+        public Frame AnswerFrame { get; set; }
+
         private void domainNameLoaded(object sender, RoutedEventArgs e)
         {
             var domains = FrameContainer.GetDomains();
@@ -52,9 +54,25 @@ namespace Costaline
         {
             if (FrameContainer != null)
             {
+                var answerFrame = new Frame();
 
-            }
-           
+                answerFrame.name = "answerFrame";
+
+                foreach (var str in frame)
+                {
+                    var data = Split(str);
+                    var slot = new Slot();
+
+                    slot.name = data[0];
+                    slot.value = data[1];
+
+                    answerFrame.slots.Add(slot);
+                }
+
+                AnswerFrame = answerFrame;
+
+                this.Close();
+            }          
         }
 
         private void BC_AddSlot(object sender, RoutedEventArgs e)
@@ -83,6 +101,12 @@ namespace Costaline
                     domainValues.SelectedIndex = 0;
                 }
             }
+        }
+
+        String[] Split(string str)
+        {
+            string[] words = str.Split(new char[] { ':' });
+            return words;
         }
     }
 }
