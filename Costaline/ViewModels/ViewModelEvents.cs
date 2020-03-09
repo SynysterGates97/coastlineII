@@ -53,11 +53,21 @@ namespace Costaline.ViewModels
 
             if (isA_Frame != null)
             {
-                var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
+                do
+                {
+                    var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
 
-                dataGraph.AddVertex(isA_frameVertice);
-                var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a"};
-                dataGraph.AddEdge(dataEdge);
+                    dataGraph.AddVertex(isA_frameVertice);
+                    var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a" };
+                    dataGraph.AddEdge(dataEdge);
+
+                    if(isA_Frame.isA != "null")
+                    {
+                        isA_Frame = frameContainer.FrameFinder(isA_Frame.isA);
+                    }
+                }
+                while (isA_Frame.isA != "null");
+                
             }
             else
             {
