@@ -33,18 +33,41 @@ namespace Costaline.ViewModels
             contextMenuDrawGraph.IsOpen = true;
         }
 
+        string _GetSlotAndItsValueText(Slot slot)
+        {
+            return slot.name + ": " + slot.value;
+        }
         string _GetGraphVerticeText(Frame frameVertice)
         {
-            string verticeText = "->" + frameVertice.name + "<-";
+            //string verticeText = "->" + frameVertice.name + "<-";
+            string verticeText = "";
 
+            int maximumStringLen = 0;
             foreach (Slot slot in frameVertice.slots)
             {
-                verticeText += "\n" + slot.name + ": " + slot.value;
+                string slotAndItsValue = _GetSlotAndItsValueText(slot);
+                if (slotAndItsValue.Length > maximumStringLen)
+                    maximumStringLen = slotAndItsValue.Length;
+
+                verticeText += '\n' + slotAndItsValue;
             }
-            
+
+            int countOfAlignSpaces = (maximumStringLen - frameVertice.name.Length) / 2;
+
+            string alignSpaces;
+            if (countOfAlignSpaces >= 0)
+            {
+                alignSpaces = new string(' ', countOfAlignSpaces);
+                
+            }
+            else
+            {
+                alignSpaces = "";
+            }
+
+            verticeText = alignSpaces + frameVertice.name + verticeText;
 
             return verticeText;
-
         }
 
         private void _DrawAllVerticeHierarchy(ref EasyGraph dataGraph, DataVertex parentalVertice, string firstIsA, FrameContainer frameContainer)
