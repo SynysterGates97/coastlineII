@@ -16,10 +16,10 @@
         <vm:ViewModelFramesHierarchy/>
     </Controls:MetroWindow.DataContext>
 
-    <Grid Background="#FF2067E4">
+    <Grid Background="#FF2067E4" Margin="-2,0,2,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="377*"/>
+            <ColumnDefinition Width="235*"/>
+            <ColumnDefinition Width="557*"/>
         </Grid.ColumnDefinitions>
 
         <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56">
@@ -32,11 +32,11 @@
 
 
 
-        <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" Grid.Row="1" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
-        <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" >
+        <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
+        <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Margin="0,10,10,10" >
             <models:GraphAreaExample x:Name="graphArea"/>
         </graphControls:ZoomControl>
-        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,0,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" HorizontalAlignment="Left" Width="107"/>
+        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,118,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated"/>
         <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="104"/>
     </Grid>
 </Controls:MetroWindow>

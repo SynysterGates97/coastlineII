@@ -117,9 +117,9 @@ namespace Costaline
             }
         }
 
-        public Frame FrameFinder(string frameName, List<Frame> frames)
+        public Frame FrameFinder(string frameName)
         {
-            foreach (var frame in frames)
+            foreach (var frame in _frames)
             {
                 if (frame.name == frameName)
                 {

@@ -46,6 +46,24 @@ namespace Costaline.ViewModels
             return verticeText;
 
         }
+
+        private void _DrawAllVerticeHierarchy(ref EasyGraph dataGraph, DataVertex parentalVertice, string firstIsA, FrameContainer frameContainer)
+        {
+            Frame isA_Frame = frameContainer.FrameFinder(firstIsA);
+
+            if (isA_Frame != null)
+            {
+                var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
+
+                dataGraph.AddVertex(isA_frameVertice);
+                var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a"};
+                dataGraph.AddEdge(dataEdge);
+            }
+            else
+            {
+                MessageBox.Show(firstIsA + " в БЗ не найден!");
+            }
+        }
         public void NewDrawGraph(List<Frame> answerFrames)
         {
             try
@@ -53,17 +71,26 @@ namespace Costaline.ViewModels
                 FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
                 List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
 
-                var dataGraph = new EasyGraph();
+                var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
 
                 var mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
                 dataGraph.AddVertex(mainDataVertex);
 
+                //Берем каждый фрейм из ответа
                 for(int i = 1; i< answerFrames.Count; i++)
                 {
-                    var subFrameDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[i]));
+                    Frame currentFrameToDraw = answerFrames[i];
+                    DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));  
+
+                    
+
                     dataGraph.AddVertex(subFrameDataVertex);
                     var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
                     dataGraph.AddEdge(dataEdge);
+                    if (currentFrameToDraw.isA != "null")
+                    {
+                        _DrawAllVerticeHierarchy(ref dataGraph, subFrameDataVertex, currentFrameToDraw.isA, currentFrameContainer);
+                    }
                 }
 
                 var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
