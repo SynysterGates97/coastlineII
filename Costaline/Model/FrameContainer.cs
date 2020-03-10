@@ -24,17 +24,38 @@ namespace Costaline
         }
 
         public bool AddFrame(Frame frame)
-        {
-            bool isNotInFrames = false;
-
+        {            
             foreach (var f in _frames)
-            {                
+            {
+                var equalsSlots = new List<Slot>();
 
-                if (f.slots.SequenceEqual(frame.slots))
+                foreach (var d in _domains)
                 {
-                    return isNotInFrames;
+                    foreach (var v in d.values)
+                    {
+                        if (frame.name == v && f.name == v)
+                        {
+                            return false;
+                        }
+                    }
                 }
-            }
+
+                if (f.slots.Count == frame.slots.Count)
+                {
+                    foreach (var slot in frame.slots)
+                    {
+                        if (f.slots.Where(fr => fr.name == slot.name && fr.value == slot.value).Count() > 0)
+                        {
+                            equalsSlots.Add(slot);
+                        }
+                    }
+                }
+
+                if (equalsSlots.Count == frame.slots.Count)
+                {
+                    return false;
+                }
+            }            
 
             foreach (var slot in frame.slots)
             {
@@ -177,4 +198,6 @@ namespace Costaline
             }
         }
     }
+
+
 }

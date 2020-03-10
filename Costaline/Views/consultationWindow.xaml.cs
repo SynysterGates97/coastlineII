@@ -20,7 +20,7 @@ namespace Costaline
     /// </summary>
     public partial class ConsultationWindow : Window
     {
-        ObservableCollection<string> frame;
+        ObservableCollection<string> frame;// нужно переменовать на что то более осмысленое
         public ConsultationWindow()
         {
             InitializeComponent();
@@ -78,6 +78,34 @@ namespace Costaline
 
                 this.Close();
             }          
+        }
+
+        private void isANameLoaded(object sender, RoutedEventArgs e)
+        {
+            var domains = FrameContainer.GetDomains();
+
+            var frame = FrameContainer.GetAllFrames();
+
+            List<string> isA = new List<string>();
+
+            foreach (var f in frame)
+            {
+                foreach (var d in domains)
+                {
+                    foreach (var v in d.values)
+                    {
+                        if (v == f.name)
+                        {
+                            isA.Add(f.name);
+                        }
+                    }
+                }
+            }
+
+            isA.Add("");
+
+            IsANames.ItemsSource = isA;
+            
         }
 
         private void BC_AddSlot(object sender, RoutedEventArgs e)
@@ -141,7 +169,32 @@ namespace Costaline
             }
         }
 
-        public void ListBox_ItemSelected(object sender, SelectionChangedEventArgs e)
+        private void isASelected(object sender, SelectionChangedEventArgs e)
+        {
+            var isA = IsANames.SelectedItem.ToString();
+
+            if (isA != "")
+            {
+                frame = new ObservableCollection<string>();
+
+                var fr = FrameContainer.GetAllFrames();
+
+                foreach (var f in fr)
+                {
+                    if (isA == f.name)
+                    {
+                        foreach (var slot in f.slots)
+                        {
+                            frame.Add(slot.name + ":" + slot.value);                            
+                        }
+                        frameList.ItemsSource = frame;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void ListBox_ItemSelected(object sender, SelectionChangedEventArgs e)
         {
             if (frameList.SelectedItem != null)
             {
