@@ -15,7 +15,7 @@ namespace Costaline.ViewModels
         private static ObservableCollection<ViewModelFramesHierarchy> firstNode = new ObservableCollection<ViewModelFramesHierarchy>();//Первый узел
         private Frame frame = new Frame();
         public ViewModelFramesHierarchy ParentalNode { get; set; }
-        public ViewModelFramesHierarchy LastNode { get; set; }
+
         public int SlotIndex { get; set; }
         public string Name
         {
@@ -51,21 +51,26 @@ namespace Costaline.ViewModels
             }
             set
             {
-                if(IsFrame)
-                {                  
-                    frame.name = value;
-                    Name = value;
-                }
-                else
+                try
                 {
-                    
-                    int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
+                    if (IsFrame)
+                    {
+                        frame.name = value;
+                        Name = value;
+                    }
+                    else
+                    {
+                        int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
-                    ParentalNode.frame.slots[indexOfChosenSlot].value = value;
-                    MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
-                    Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
+                        ParentalNode.frame.slots[indexOfChosenSlot].value = value;
+                        MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
+                        Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
+                    }
                 }
-                
+                catch(Exception e)
+                {
+                    MessageBox.Show("Опция редактирования не доступна!");
+                }
             }
         }
 
@@ -93,42 +98,50 @@ namespace Costaline.ViewModels
         }
         public void FillOutFrameContainer(List<Frame> listOfFrames)
         {
-            Nodes.Clear();
-            MainFrameContainer.ClearContainer();
-
-            Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
-            firstNode = Nodes;
-            ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
-
-            foreach (var frame in listOfFrames)
+            try
             {
-                MainFrameContainer.AddFrame(frame);
+                Nodes.Clear();
+                MainFrameContainer.ClearContainer();
 
-                ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy() { Name = frame.name, Frame = frame, IsFrame = true, SlotIndex = -1, ParentalNode = vmtToMainNodes };
-                int slotIndex = 0;
-                List<Slot> newSlots = new List<Slot>();
-                foreach (var slot in frame.slots)
+                Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
+                firstNode = Nodes;
+                ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
+
+                foreach (var frame in listOfFrames)
                 {
-                    newSlots.Add(slot);
-                    ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
-                    {
-                        Name = slot.name + ": " + slot.value,
-                        IsFrame = false,
-                        SlotIndex = slotIndex++,
-                        ParentalNode = vmtFrame
-                    };
-                    vmtFrame.Nodes.Add(vmtSlots);
-                }
-                vmtFrame.frame.slots = newSlots;
+                    MainFrameContainer.AddFrame(frame);
 
-                vmtToMainNodes.Nodes.Add(vmtFrame);
+                    ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy() { Name = frame.name, Frame = frame, IsFrame = true, SlotIndex = -1, ParentalNode = vmtToMainNodes };
+                    int slotIndex = 0;
+                    List<Slot> newSlots = new List<Slot>();
+                    foreach (var slot in frame.slots)
+                    {
+                        newSlots.Add(slot);
+                        ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
+                        {
+                            Name = slot.name + ": " + slot.value,
+                            IsFrame = false,
+                            SlotIndex = slotIndex++,
+                            ParentalNode = vmtFrame
+                        };
+                        vmtFrame.Nodes.Add(vmtSlots);
+                    }
+                    vmtFrame.frame.slots = newSlots;
+
+                    vmtToMainNodes.Nodes.Add(vmtFrame);
+                }
+                Nodes.Add(vmtToMainNodes);
+                OnPropertyChanged("Frames1");
             }
-            Nodes.Add(vmtToMainNodes);
-            OnPropertyChanged("Frames1");
+            catch(Exception e)
+            {
+                MessageBox.Show("Добавление с нуля еще не работает(");
+            }
         }
-        public void AppendFrame(Frame frame)
+        public void PrependFrame(Frame frame)
         {
             ViewModelFramesHierarchy newFrameVMFH = new ViewModelFramesHierarchy();
+
             newFrameVMFH.Name = frame.name;
             newFrameVMFH.IsFrame = true;
 
@@ -147,7 +160,20 @@ namespace Costaline.ViewModels
                 newFrameVMFH.frame.slots = newSlots;
                 newFrameVMFH.Nodes.Add(vmtSlots);
             }
-            firstNode[0].Nodes.Add(newFrameVMFH);
+
+            ViewModelFramesHierarchy prevNode = firstNode[0].Nodes[0];
+            ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
+            //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
+            firstNode[0].Nodes[0] = newFrameVMFH;
+            
+            for (int i = 1; i < firstNode[0].Nodes.Count; i++)
+            {
+                nextNode = firstNode[0].Nodes[i];
+                firstNode[0].Nodes[i] = prevNode;
+                prevNode = nextNode;
+            }
+
+            firstNode[0].Nodes.Add(nextNode);
         }
 
         public List<Frame> GetAnswerByFrame(Frame frame)
@@ -163,9 +189,9 @@ namespace Costaline.ViewModels
             else
             {
                 frameAnswer = null;
-                answer = "Наша БЗ не очень, идите FUCK SLAVES";
+                answer = "Наша система не может найти ответ, попробуйте обратиться к другой системе";
             }
-            MessageBox.Show("Ну типа такой ответ: " + answer);
+            MessageBox.Show("Ответ: " + answer);
             return frameAnswer;
 
         }

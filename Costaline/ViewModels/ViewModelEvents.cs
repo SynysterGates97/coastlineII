@@ -57,7 +57,7 @@ namespace Costaline.ViewModels
             string alignSpaces;
             if (countOfAlignSpaces >= 0)
             {
-                alignSpaces = new string(' ', countOfAlignSpaces);
+                alignSpaces = new string((char)0x20, countOfAlignSpaces);
                 
             }
             else
@@ -106,7 +106,8 @@ namespace Costaline.ViewModels
 
                 var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
 
-                var mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
+                DataVertex mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
+                
                 dataGraph.AddVertex(mainDataVertex);
 
                 //Берем каждый фрейм из ответа
@@ -253,7 +254,6 @@ namespace Costaline.ViewModels
                 viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
-
                 return true;
             }
             return false;
@@ -275,7 +275,7 @@ namespace Costaline.ViewModels
 
             if (consultationWindow.NewFrame != null)
             {
-                viewModelFramesHierarchy.AppendFrame(consultationWindow.NewFrame);
+                viewModelFramesHierarchy.PrependFrame(consultationWindow.NewFrame);
             }
 
             existingSituationsTreeView.Items.Refresh();
