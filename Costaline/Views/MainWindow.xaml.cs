@@ -109,14 +109,6 @@ namespace Costaline
             viewModel.Events.OpenReadyKBFromDialogWindow(ref kBLoader, ref existingSituationsTreeView);
         }
 
-        private void interTestButton_Click(object sender, RoutedEventArgs e)
-        {
-            FrameContainer frameContainer = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
-            List<Frame> frames = frameContainer.GetAllFrames();
-
-            for (int i = 0; i < 10; i++)
-                MessageBox.Show(frames[i].name);
-        }
     }
 }
 

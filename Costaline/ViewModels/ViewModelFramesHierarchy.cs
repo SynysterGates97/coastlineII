@@ -87,14 +87,14 @@ namespace Costaline.ViewModels
         {
             FrameContainer outputFrameContainer = new FrameContainer();
 
-            foreach(ViewModelFramesHierarchy node in firstNode)
+            foreach(ViewModelFramesHierarchy node in firstNode[0].Nodes)
             {
                 if(node.IsFrame == true)
                 {
                     outputFrameContainer.AddFrame(node.frame);
                 }
             }
-            return MainFrameContainer;
+            return outputFrameContainer;
         }
         public void FillOutFrameContainer(List<Frame> listOfFrames)
         {
@@ -142,6 +142,7 @@ namespace Costaline.ViewModels
         {
             ViewModelFramesHierarchy newFrameVMFH = new ViewModelFramesHierarchy();
 
+            newFrameVMFH.Frame = frame;
             newFrameVMFH.Name = frame.name;
             newFrameVMFH.IsFrame = true;
 

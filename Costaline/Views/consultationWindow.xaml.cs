@@ -126,6 +126,11 @@ namespace Costaline
 
                 newFrame.name = NameFrameTextbox.Text;
 
+                if (IsANames.Text != "")
+                    newFrame.isA = IsANames.Text;
+                else
+                    newFrame.isA = "null";
+
                 foreach (var elem in frame)
                 {
                     var content = Split(elem);
