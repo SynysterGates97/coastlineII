@@ -26,6 +26,7 @@ namespace Costaline
             InitializeComponent();
 
             frame = new ObservableCollection<string>();
+            frame.Add("");
             frameList.ItemsSource = frame;
         }
 
@@ -65,13 +66,17 @@ namespace Costaline
 
                 foreach (var str in frame)
                 {
-                    var data = Split(str);
-                    var slot = new Slot();
+                    if (str != "")
+                    {
 
-                    slot.name = data[0];
-                    slot.value = data[1];
+                        var data = Split(str);
+                        var slot = new Slot();
 
-                    answerFrame.slots.Add(slot);
+                        slot.name = data[0];
+                        slot.value = data[1];
+
+                        answerFrame.slots.Add(slot);
+                    }
                 }
 
                 AnswerFrame = answerFrame;
@@ -94,9 +99,14 @@ namespace Costaline
                 {
                     foreach (var v in d.values)
                     {
-                        if (v == f.name)
+                        if (v == f.name && !isA.Contains(f.name))
                         {
                             isA.Add(f.name);
+                        }
+
+                        if (f.isA != "null" && !isA.Contains(f.isA))
+                        {
+                            isA.Add(f.isA);
                         }
                     }
                 }
@@ -120,7 +130,7 @@ namespace Costaline
 
         private void BC_AddFrame(object sender, RoutedEventArgs e)
         {
-            if (NameFrameTextbox.Text != null && frame.Count > 0)
+            if (NameFrameTextbox.Text != null && frame.Count > 1)
             {
                 Frame newFrame = new Frame();
 
@@ -133,13 +143,16 @@ namespace Costaline
 
                 foreach (var elem in frame)
                 {
-                    var content = Split(elem);
+                    if (elem != "")
+                    {
+                        var content = Split(elem);
 
-                    var slot = new Slot();
-                    slot.name = content[0];
-                    slot.value = content[1];
+                        var slot = new Slot();
+                        slot.name = content[0];
+                        slot.value = content[1];
 
-                    newFrame.slots.Add(slot);
+                        newFrame.slots.Add(slot);
+                    }
                 }
 
                 if (newFrame.slots.Count > 0)
@@ -181,6 +194,7 @@ namespace Costaline
             if (isA != "")
             {
                 frame = new ObservableCollection<string>();
+                frame.Add("");
 
                 var fr = FrameContainer.GetAllFrames();
 
@@ -201,7 +215,8 @@ namespace Costaline
 
         private void ListBox_ItemSelected(object sender, SelectionChangedEventArgs e)
         {
-            if (frameList.SelectedItem != null)
+
+            if (frameList.SelectedItem != null && frameList.SelectedIndex != 0)
             {
                 frame.Remove(frameList.SelectedItem.ToString());
             }
