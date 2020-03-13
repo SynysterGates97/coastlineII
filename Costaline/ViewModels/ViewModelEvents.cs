@@ -276,6 +276,7 @@ namespace Costaline.ViewModels
             if (consultationWindow.NewFrame != null)
             {
                 viewModelFramesHierarchy.PrependFrame(consultationWindow.NewFrame);
+                existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
             }
 
             existingSituationsTreeView.Items.Refresh();

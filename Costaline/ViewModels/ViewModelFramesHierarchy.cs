@@ -85,6 +85,7 @@ namespace Costaline.ViewModels
                 _nodeCollection = new ObservableCollection<ViewModelFramesHierarchy>();
                 ViewModelFramesHierarchy nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
+
             }
             SlotIndex = -1;
         }
@@ -106,11 +107,6 @@ namespace Costaline.ViewModels
         {
             try
             {
-                Nodes.Clear();
-                MainFrameContainer.ClearContainer();
-                _nodeCollection[0].Nodes.Clear();
-                //ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
-
                 foreach (var frame in listOfFrames)
                 {
                     MainFrameContainer.AddFrame(frame);
@@ -151,6 +147,7 @@ namespace Costaline.ViewModels
             newFrameVMFH.Frame = frame;
             newFrameVMFH.Name = frame.name;
             newFrameVMFH.IsFrame = true;
+            newFrameVMFH.ParentalNode = _nodeCollection[0];
 
             List<Slot> newSlots = new List<Slot>();
             int slotIndex = 0;
@@ -186,8 +183,11 @@ namespace Costaline.ViewModels
             }
             else
             {
+                Nodes = _nodeCollection;
                 _nodeCollection[0].Nodes.Add(newFrameVMFH);
             }
+
+            OnPropertyChanged("PrepEnd");
         }
 
         public List<Frame> GetAnswerByFrame(Frame frame)
