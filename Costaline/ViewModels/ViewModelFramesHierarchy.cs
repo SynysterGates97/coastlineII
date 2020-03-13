@@ -12,7 +12,7 @@ namespace Costaline.ViewModels
     class ViewModelFramesHierarchy : ViewModelBase
     {
         private static FrameContainer MainFrameContainer = new FrameContainer();
-        private static ObservableCollection<ViewModelFramesHierarchy> firstNode = new ObservableCollection<ViewModelFramesHierarchy>();//Первый узел
+        private static ObservableCollection<ViewModelFramesHierarchy> _nodeCollection = null;//Первый узел
         private Frame frame = new Frame();
         public ViewModelFramesHierarchy ParentalNode { get; set; }
 
@@ -80,6 +80,12 @@ namespace Costaline.ViewModels
             IsFrame = false;
             Name = "Тест";
             Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
+            if(_nodeCollection == null)
+            {
+                _nodeCollection = new ObservableCollection<ViewModelFramesHierarchy>();
+                ViewModelFramesHierarchy nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
+                _nodeCollection.Add(nodeCollectionFirstNode);
+            }
             SlotIndex = -1;
         }
         public bool IsFrame { get; set; }
@@ -87,7 +93,7 @@ namespace Costaline.ViewModels
         {
             FrameContainer outputFrameContainer = new FrameContainer();
 
-            foreach(ViewModelFramesHierarchy node in firstNode[0].Nodes)
+            foreach(ViewModelFramesHierarchy node in _nodeCollection[0].Nodes)
             {
                 if(node.IsFrame == true)
                 {
@@ -102,16 +108,14 @@ namespace Costaline.ViewModels
             {
                 Nodes.Clear();
                 MainFrameContainer.ClearContainer();
-
-                Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
-                firstNode = Nodes;
-                ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
+                _nodeCollection[0].Nodes.Clear();
+                //ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
 
                 foreach (var frame in listOfFrames)
                 {
                     MainFrameContainer.AddFrame(frame);
 
-                    ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy() { Name = frame.name, Frame = frame, IsFrame = true, SlotIndex = -1, ParentalNode = vmtToMainNodes };
+                    ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy() { Name = frame.name, Frame = frame, IsFrame = true, SlotIndex = -1, ParentalNode = _nodeCollection[0] };
                     int slotIndex = 0;
                     List<Slot> newSlots = new List<Slot>();
                     foreach (var slot in frame.slots)
@@ -128,9 +132,11 @@ namespace Costaline.ViewModels
                     }
                     vmtFrame.frame.slots = newSlots;
 
-                    vmtToMainNodes.Nodes.Add(vmtFrame);
+                    _nodeCollection[0].Nodes.Add(vmtFrame);
+                    Nodes = _nodeCollection;
+                    //vmtToMainNodes.Nodes.Add(vmtFrame);
                 }
-                Nodes.Add(vmtToMainNodes);
+     
                 OnPropertyChanged("Frames1");
             }
             catch(Exception e)
@@ -162,19 +168,26 @@ namespace Costaline.ViewModels
                 newFrameVMFH.Nodes.Add(vmtSlots);
             }
 
-            ViewModelFramesHierarchy prevNode = firstNode[0].Nodes[0];
-            ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
-            //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
-            firstNode[0].Nodes[0] = newFrameVMFH;
-            
-            for (int i = 1; i < firstNode[0].Nodes.Count; i++)
+            if (_nodeCollection[0].Nodes.Count != 0)
             {
-                nextNode = firstNode[0].Nodes[i];
-                firstNode[0].Nodes[i] = prevNode;
-                prevNode = nextNode;
-            }
+                ViewModelFramesHierarchy prevNode = _nodeCollection[0].Nodes[0];
+                ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
+                //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
+                _nodeCollection[0].Nodes[0] = newFrameVMFH;
 
-            firstNode[0].Nodes.Add(nextNode);
+                for (int i = 1; i < _nodeCollection[0].Nodes.Count; i++)
+                {
+                    nextNode = _nodeCollection[0].Nodes[i];
+                    _nodeCollection[0].Nodes[i] = prevNode;
+                    prevNode = nextNode;
+                }
+
+                _nodeCollection[0].Nodes.Add(nextNode);
+            }
+            else
+            {
+                _nodeCollection[0].Nodes.Add(newFrameVMFH);
+            }
         }
 
         public List<Frame> GetAnswerByFrame(Frame frame)
