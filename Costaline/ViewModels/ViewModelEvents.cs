@@ -109,9 +109,9 @@ namespace Costaline.ViewModels
                 DataVertex mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
                 
                 dataGraph.AddVertex(mainDataVertex);
-
+                _DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, currentFrameContainer);
                 //Берем каждый фрейм из ответа
-                for(int i = 1; i< answerFrames.Count; i++)
+                for (int i = 1; i< answerFrames.Count; i++)
                 {
                     Frame currentFrameToDraw = answerFrames[i];
                     DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));  
