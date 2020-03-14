@@ -19,11 +19,25 @@ namespace Costaline
     /// </summary>
     public partial class InputMessageBox : Window
     {
-
+        public string NewFrameOrSlotName
+        {
+            set;get;
+        }
         public InputMessageBox()
         {
-
+            NewFrameOrSlotName = null;
             InitializeComponent();
+        }
+
+        private void buttonNo_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonYes_Click(object sender, RoutedEventArgs e)
+        {
+            NewFrameOrSlotName = textBox.Text;
+            this.Close();
         }
     }
 }

@@ -57,13 +57,14 @@ namespace Costaline.ViewModels
                     {
                         frame.name = value;
                         Name = value;
+                        //Name = value + " (is_a \"" + frame.isA + "\")";
                     }
                     else
                     {
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
                         ParentalNode.frame.slots[indexOfChosenSlot].value = value;
-                        MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
+                        //MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
                         Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
                     }
                 }
@@ -78,7 +79,7 @@ namespace Costaline.ViewModels
         public ViewModelFramesHierarchy()
         {
             IsFrame = false;
-            Name = "Тест";
+            Name = "ERROR";
             Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
             if(_nodeCollection == null)
             {

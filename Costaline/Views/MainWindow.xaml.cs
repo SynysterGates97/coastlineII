@@ -52,14 +52,13 @@ namespace Costaline
 
             TreeView treeView = (TreeView)sender;
             ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
-            
-            MessageBox.Show(selectedViewModelTest.Frame.name);
                     
             InputMessageBox inputMessageBox = new InputMessageBox();
 
             inputMessageBox.Owner = this;
 
             inputMessageBox.Title = "Поменять имя";
+            inputMessageBox.textBlock.Text = "Изменить имя " + selectedViewModelTest.Name + " на:";
             System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
             objBlur.Radius = 5;
             this.Effect = objBlur;
@@ -70,12 +69,15 @@ namespace Costaline
             }
             this.Effect = null;
 
-            MessageBox.Show(selectedViewModelTest.FrameOrSlotValue + 
-                " -> "+ inputMessageBox.textBox.Text);
+            if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
+            {
+                MessageBox.Show(selectedViewModelTest.FrameOrSlotValue +
+                    " -> " + inputMessageBox.NewFrameOrSlotName);
 
-            selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
+                selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
 
-            existingSituationsTreeView.Items.Refresh();
+                existingSituationsTreeView.Items.Refresh();
+            }
         }
 
 
