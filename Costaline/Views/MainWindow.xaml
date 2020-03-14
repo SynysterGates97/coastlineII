@@ -10,7 +10,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Coastline V0.1" Height="472" Width="800">
+        Title="Coastline V0.9" Height="472" Width="800">
 
     <Controls:MetroWindow.DataContext>
         <vm:ViewModelFramesHierarchy/>
