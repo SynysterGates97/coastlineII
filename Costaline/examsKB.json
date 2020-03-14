@@ -3,7 +3,6 @@
 	[
       "name:Exam4",
 	  "is_a:null",
-	  "mark:4",
       "student:Ordinary_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -14,7 +13,6 @@
 	[
       "name:Exam5",
 	  "is_a:null",
-	  "mark:5",
       "student:Excellent_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -25,7 +23,6 @@
 	[
       "name:Exam3",
 	  "is_a:null",
-	  "mark:3",
       "student:Mediocre_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -36,7 +33,6 @@
 	[
       "name:Exam2",
 	  "is_a:null",
-	  "mark:2",
       "student:Mediocre_Student",
       "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -47,7 +43,6 @@
     [
       "name:Exam4_1",
 	  "is_a:Exam4",
-	  "mark:4",
       "student:Ordinary_Student",
       "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -58,7 +53,6 @@
     [
       "name:Exam4_2",
 	  "is_a:Exam4",
-	  "mark:4",
       "student:Excellent_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -69,7 +63,6 @@
     [
       "name:Exam4_3",
 	  "is_a:Exam4",
-	  "mark:4",
       "student:Idle_Student",
       "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -80,7 +73,6 @@
     [
       "name:Exam4_4",
 	  "is_a:Exam4",
-	  "mark:4",
       "student:Mediocre_Student",
       "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -91,7 +83,6 @@
     [
       "name:Exam5_1",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Ordinary_Student",
       "teacher:Ordinary_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -102,7 +93,6 @@
     [
       "name:Exam5_2",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Excellent_Student",
       "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -113,7 +103,6 @@
     [
       "name:Exam5_3",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Idle_Student",
       "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -124,7 +113,6 @@
     [
       "name:Exam5_4",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Mediocre_Student",
       "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -135,7 +123,6 @@
     [
       "name:Exam5_5",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Mediocre_Student",
       "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -146,7 +133,6 @@
     [
       "name:Exam5_6",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Excellent_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -157,7 +143,6 @@
     [
       "name:Exam5_7",
 	  "is_a:Exam5",
-	  "mark:5",
       "student:Ordinary_Student",
       "teacher:Indifferent_Teacher",
       "classroom:SUITABLE_FOR_CHEATING",
@@ -168,7 +153,6 @@
     [
       "name:Exam3_1",
 	  "is_a:Exam3",
-	  "mark:3",
       "student:Ordinary_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -179,7 +163,6 @@
     [
       "name:Exam3_2",
 	  "is_a:Exam3",
-	  "mark:3",
       "student:Ordinary_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -190,7 +173,6 @@
     [
       "name:Exam3_3",
 	  "is_a:Exam3",
-	  "mark:3",
       "student:Mediocre_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -201,7 +183,6 @@
     [
       "name:Exam3_4",
 	  "is_a:Exam3",
-	  "mark:3",
       "student:Mediocre_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -212,7 +193,6 @@
     [
       "name:Exam3_5",
 	  "is_a:Exam3",
-	  "mark:3",
       "student:Mediocre_Student",
       "teacher:Indifferent_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -223,7 +203,6 @@
     [
       "name:Exam2_1",
 	  "is_a:Exam2",
-	  "mark:2",
       "student:Idle_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -234,7 +213,6 @@
     [
       "name:Exam2_2",
 	  "is_a:Exam2",
-	  "mark:2",
       "student:Idle_Student",
       "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -245,7 +223,6 @@
     [
       "name:Exam2_3",
 	  "is_a:Exam2",
-	  "mark:2",
       "student:Mediocre_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -256,7 +233,6 @@
     [
       "name:Exam2_4",
 	  "is_a:Exam2",
-	  "mark:2",
       "student:Idle_Student",
       "teacher:Ordinary_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
@@ -267,7 +243,6 @@
     [
       "name:Exam2_5",
 	  "is_a:Exam2",
-	  "mark:2",
       "student:Idle_Student",
       "teacher:Fair_Teacher",
       "classroom:NOT_SUITABLE_FOR_CHEATING",
