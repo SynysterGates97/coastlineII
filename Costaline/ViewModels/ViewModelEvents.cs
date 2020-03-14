@@ -92,10 +92,6 @@ namespace Costaline.ViewModels
                 while (isA_Frame.isA != "null");
                 
             }
-            else
-            {
-                MessageBox.Show(firstIsA + " в БЗ не найден!");
-            }
         }
         public void NewDrawGraph(List<Frame> answerFrames)
         {
