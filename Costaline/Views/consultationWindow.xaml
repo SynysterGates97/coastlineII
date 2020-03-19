@@ -13,25 +13,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected" Grid.Row="0"/>
+        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected" Grid.Row="1"/>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="1">
-            <Label Content="Введите имя фрейма"/>
-            <TextBox Width="120" Name="NameFrameTextbox"/>
-            <Label Content="Is A"/>
-            <ComboBox Name="IsANames" Loaded="isANameLoaded" SelectionChanged="isASelected" />
-        </StackPanel>
-        
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected" Grid.Column="2" Grid.Row="3"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected"/>
             <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
             <Button Content="+ Slot" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="3">
-            <Button Content="New Frame" MaxWidth="120" Margin="10 0 0 0" Click="BC_AddFrame"/>
-            <Button Content="Консультировать" MaxWidth="120" Margin="10 0 0 0" Click="BC_TakeConsultation"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="4">
+            <Button Content="Следующий этап консультации"  Margin="10 0 0 0" Click="BC_TakeConsultation"/>
         </StackPanel>
     </Grid>
 </Window>

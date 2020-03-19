@@ -262,18 +262,12 @@ namespace Costaline.ViewModels
             consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();
             consultationWindow.ShowDialog();
 
-            if (consultationWindow.AnswerFrame != null)
+            if (consultationWindow.AnswerFrame != null || consultationWindow.AnswerFrame.slots.Count > 0)
             {
                 List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
                 if(answerFrames != null)
                     NewDrawGraph(answerFrames);
-            }                   
-
-            if (consultationWindow.NewFrame != null)
-            {
-                viewModelFramesHierarchy.PrependFrame(consultationWindow.NewFrame);
-                existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
-            }
+            }                               
 
             existingSituationsTreeView.Items.Refresh();
         }
