@@ -93,104 +93,7 @@ namespace Costaline.ViewModels
                 
             }
         }
-
-        public void DrawAllKB()
-        {
-            try
-            {
-                FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
-                List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
-                List<Domain> currentDomain = currentFrameContainer.GetDomains();
-
-                List<string> currentDomainValues = new List<string>();
-                
-
-                foreach (Domain domain in currentDomain)
-                {
-                    foreach (string value in domain.values)
-                    {
-                        currentDomainValues.Add(value);
-                    }
-                }
-
-                var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
-
-                foreach (Frame frame in currentFrames)
-                {
-                    //находим корневой фрейм
-
-                    bool isFrameInDomains = currentDomainValues.Contains(frame.name);
-                    bool isFrameIsNil = frame.isA == "null";
-
-                    if (!isFrameInDomains && isFrameIsNil)
-                    {
-                        Frame nilFrame = frame;
-                        
-                        DataVertex mainDataVertex = new DataVertex(nilFrame.name);
-                        
-                        dataGraph.AddVertex(mainDataVertex);
-                        mainDataVertex.ID = 54;
-                        MessageBox.Show(mainDataVertex.ID.ToString());
-                        foreach (Frame childFrame in currentFrames)
-                        {
-                            if (childFrame == nilFrame) continue;//В принципе не нужно
-
-                            if(childFrame.isA == nilFrame.name)
-                            {
-                                
-                            }
-                        }
-                    }
-                }
-
-
-
-                    //dataGraph.AddVertex(mainDataVertex);
-                    //_DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, currentFrameContainer);
-                    ////Берем каждый фрейм из ответа
-                    //for (int i = 1; i < answerFrames.Count; i++)
-                    //{
-                    //    Frame currentFrameToDraw = answerFrames[i];
-                    //    DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));
-
-
-
-                    //    dataGraph.AddVertex(subFrameDataVertex);
-                    //    var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
-                    //    dataGraph.AddEdge(dataEdge);
-                    //    if (currentFrameToDraw.isA != "null")
-                    //    {
-                    //        _DrawAllVerticeHierarchy(ref dataGraph, subFrameDataVertex, currentFrameToDraw.isA, currentFrameContainer);
-
-                    //    }
-                    //}
-
-                    //var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
-
-                    //logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
-
-                    //logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
-
-                    //logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
-
-                    //logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
-
-                    //logicCore.AsyncAlgorithmCompute = false;
-
-                    //ViewGraphArea.LogicCore = logicCore;
-
-                    //ViewGraphArea.GenerateGraph(true, true);
-
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("При отрисовке что-то пошло не так :( \n" + e.ToString());
-            }
-
-        }
-
-        public void DrawAnswer(List<Frame> answerFrames)
+        public void NewDrawGraph(List<Frame> answerFrames)
         {
             try
             {
@@ -347,7 +250,6 @@ namespace Costaline.ViewModels
                 viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
-                DrawAllKB();
                 return true;
             }
             return false;
@@ -360,18 +262,12 @@ namespace Costaline.ViewModels
             consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();
             consultationWindow.ShowDialog();
 
-            if (consultationWindow.AnswerFrame != null)
+            if (consultationWindow.AnswerFrame != null || consultationWindow.AnswerFrame.slots.Count > 0)
             {
                 List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
                 if(answerFrames != null)
-                    DrawAnswer(answerFrames);
-            }                   
-
-            if (consultationWindow.NewFrame != null)
-            {
-                viewModelFramesHierarchy.PrependFrame(consultationWindow.NewFrame);
-                existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
-            }
+                    NewDrawGraph(answerFrames);
+            }                               
 
             existingSituationsTreeView.Items.Refresh();
         }

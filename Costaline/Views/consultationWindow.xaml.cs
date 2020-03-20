@@ -24,15 +24,34 @@ namespace Costaline
         public ConsultationWindow()
         {
             InitializeComponent();
-
+            
             frame = new ObservableCollection<string>();
             frame.Add("");
             frameList.ItemsSource = frame;
         }
 
-        public FrameContainer FrameContainer {get; set;}
+        FrameContainer frameContainer;
 
-        public Frame AnswerFrame { get; set; }
+        bool isSubFrame; 
+
+        public FrameContainer FrameContainer 
+        {
+            get { return frameContainer; }
+
+            set
+            {
+                frameContainer = value;
+                foreach (var f in value.GetAllFrames())
+                {
+                    if(NewFrame == null || f.slots.Count > NewFrame.slots.Count)
+                    {
+                        NewFrame = f;                        
+                    }
+                }
+            }
+        }
+
+        public Frame AnswerFrame { get; set; } = new Frame();
 
         public Frame NewFrame { get; set; }
 
@@ -41,25 +60,54 @@ namespace Costaline
             var domains = FrameContainer.GetDomains();
             List<object> data = new List<object>();
 
-            foreach (var d in domains)
+            var frame = FrameContainer.GetAllFrames();
+
+            Frame findFrame = null;
+            
+            foreach (var slot in NewFrame.slots)
+            {                
+
+                findFrame = FrameContainer.FrameFinder(slot.value);
+                if (findFrame != null)
+                {
+                    isSubFrame = true;
+                    NewFrame.slots.Remove(slot);
+                    break;
+                }
+            }
+
+            if (findFrame != null)
             {
-                data.Add(d.name);
+                foreach (var slot in findFrame.slots)
+                {
+                    foreach (var d in domains)
+                    {
+                        if (slot.name == d.name)
+                        {
+                            data.Add(d.name);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                isSubFrame = false;
+                foreach (var slot in NewFrame.slots)
+                {                   
+                    data.Add(slot.name);                    
+                }
             }
 
             var comboBox = sender as ComboBox;
-
-            TextBox textBox = new TextBox();
-            domainValues.ItemsSource = new List<object>() { new TextBox() };
-            data.Add(textBox);
 
             comboBox.ItemsSource = data;
             comboBox.SelectedIndex = 0;
         }
 
         private void BC_TakeConsultation(object sender, RoutedEventArgs e)
-        {
-            if (FrameContainer != null)
-            {
+        {            
+                var domains = FrameContainer.GetDomains();
+
                 var answerFrame = new Frame();
 
                 answerFrame.name = "answerFrame";
@@ -79,43 +127,47 @@ namespace Costaline
                     }
                 }
 
-                AnswerFrame = answerFrame;
-
-                this.Close();
-            }          
-        }
-
-        private void isANameLoaded(object sender, RoutedEventArgs e)
-        {
-            var domains = FrameContainer.GetDomains();
-
-            var frame = FrameContainer.GetAllFrames();
-
-            List<string> isA = new List<string>();
-
-            foreach (var f in frame)
-            {
-                foreach (var d in domains)
+                var find = frameContainer.GetAnswer(answerFrame);
+                if (isSubFrame)
                 {
-                    foreach (var v in d.values)
-                    {
-                        if (v == f.name && !isA.Contains(f.name))
-                        {
-                            isA.Add(f.name);
-                        }
+                    isSubFrame = false;
 
-                        if (f.isA != "null" && !isA.Contains(f.isA))
+                    if (find == null || answerFrame.slots.Count == 0)
+                    {
+                        MessageBox.Show("Системе не удалось найти ответ. Проверте правильность ввода.");
+                    }
+                    else
+                    {
+                        frame.Clear();
+                        foreach (var d in domains)
                         {
-                            isA.Add(f.isA);
+                            foreach (var value in d.values)
+                            {
+                                if (find[0].name == value)
+                                {
+                                    var slot = new Slot();
+
+                                    slot.name = d.name;
+                                    slot.value = value;
+
+                                    AnswerFrame.slots.Add(slot);
+                                }
+                            }
                         }
+                        domainNameLoaded(domainNames, e);
                     }
                 }
-            }
+                else
+                {
+                    AnswerFrame.name = "answerFrame";
 
-            isA.Add("");
+                    foreach(var slot in answerFrame.slots)
+                    {
+                        AnswerFrame.slots.Add(slot);
+                    }
 
-            IsANames.ItemsSource = isA;
-            
+                    this.Close();
+                }                      
         }
 
         private void BC_AddSlot(object sender, RoutedEventArgs e)
@@ -128,43 +180,13 @@ namespace Costaline
             frame.Add(slot);
         }
 
-        private void BC_AddFrame(object sender, RoutedEventArgs e)
-        {
-            if (NameFrameTextbox.Text != null && frame.Count > 1)
-            {
-                Frame newFrame = new Frame();
-
-                newFrame.name = NameFrameTextbox.Text;
-
-                if (IsANames.Text != "")
-                    newFrame.isA = IsANames.Text;
-                else
-                    newFrame.isA = "null";
-
-                foreach (var elem in frame)
-                {
-                    if (elem != "")
-                    {
-                        var content = Split(elem);
-
-                        var slot = new Slot();
-                        slot.name = content[0];
-                        slot.value = content[1];
-
-                        newFrame.slots.Add(slot);
-                    }
-                }
-
-                if (newFrame.slots.Count > 0)
-                {
-                    NewFrame = newFrame;
-                    this.Close();
-                }
-            }
-        }
-
         private void domainNameSelected(object sender, SelectionChangedEventArgs e)
         {
+            if (domainNames.SelectedItem == null)
+            {
+                domainNames.SelectedIndex = 0;
+            }
+
             var name = domainNames.SelectedItem.ToString();
             var domains = FrameContainer.GetDomains();
             List<object> data = new List<object>();
@@ -178,37 +200,8 @@ namespace Costaline
                         data.Add(v);
                     }
 
-                    TextBox textBox = new TextBox();
-                    data.Add(textBox);
-
                     domainValues.ItemsSource = data;                    
                     domainValues.SelectedIndex = 0;
-                }
-            }
-        }
-
-        private void isASelected(object sender, SelectionChangedEventArgs e)
-        {
-            var isA = IsANames.SelectedItem.ToString();
-
-            if (isA != "")
-            {
-                frame = new ObservableCollection<string>();
-                frame.Add("");
-
-                var fr = FrameContainer.GetAllFrames();
-
-                foreach (var f in fr)
-                {
-                    if (isA == f.name)
-                    {
-                        foreach (var slot in f.slots)
-                        {
-                            frame.Add(slot.name + ":" + slot.value);                            
-                        }
-                        frameList.ItemsSource = frame;
-                        break;
-                    }
                 }
             }
         }
