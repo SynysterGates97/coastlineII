@@ -11,6 +11,7 @@ namespace Costaline
         public string name { get; set; }
         public string isA { get; set; }
         public List<Slot> slots{ get; set; }
+        public int Id { get; set; }
 
         public Frame()
         {

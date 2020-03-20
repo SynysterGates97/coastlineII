@@ -83,7 +83,11 @@ namespace Costaline
                         }
                         else
                         {
-                            parsingFrame.FrameAddSlot(words[0], words[1]);                                                  
+                            if(words[0] == "ID")
+                            {
+                                parsingFrame.Id = Convert.ToInt32(words[1]);
+                            }
+                            else parsingFrame.FrameAddSlot(words[0], words[1]);                                                  
                         }
                     }
 
