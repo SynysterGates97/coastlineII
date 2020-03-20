@@ -25,7 +25,14 @@
         <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
-                    <TextBlock Text="{Binding Frame.name}" />
+                    <TextBlock Text="{Binding Frame.name}" >
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header ="Add SubNode" Click="MenuItem_Add"></MenuItem>
+                                <MenuItem Header ="Remove Node" Click="MenuItem_Del"></MenuItem>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

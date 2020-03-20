@@ -43,12 +43,26 @@ namespace Costaline
             zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
 
             //existingSituationsTreeView.SelectedItemChanged += ExistingSituationsTreeView_SelectedItemChanged;
-            existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick; ;
+            existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick;
         }
 
-        
+
         private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
+            //Чисто для тестов
+            //ContextMenu contextMenu = new ContextMenu();
+
+            //MenuItem menuItemDoDrawGraph = new MenuItem();
+
+            //menuItemDoDrawGraph.Header = "Ну да, ну да, ну да";
+            ////menuItemDoDrawGraph.Click += clickToDrawFunction;
+
+            //contextMenu.Items.Add(menuItemDoDrawGraph);
+            //contextMenu.IsOpen = true;
+
+            //existingSituationsTreeView.ContextMenu.IsOpen = true;
+            ///////
 
             TreeView treeView = (TreeView)sender;
             ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
@@ -111,6 +125,15 @@ namespace Costaline
             viewModel.Events.OpenReadyKBFromDialogWindow(ref kBLoader, ref existingSituationsTreeView);
         }
 
+        private void MenuItem_Add(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Ну добавил и че");
+        }
+
+        private void MenuItem_Del(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Ну удалил и че");
+        }
     }
 }
 

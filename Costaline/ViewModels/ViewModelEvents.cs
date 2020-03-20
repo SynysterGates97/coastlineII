@@ -93,7 +93,7 @@ namespace Costaline.ViewModels
                 
             }
         }
-        public void NewDrawGraph(List<Frame> answerFrames)
+        public void DrawAnswer(List<Frame> answerFrames)
         {
             try
             {
@@ -266,7 +266,7 @@ namespace Costaline.ViewModels
             {
                 List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
                 if(answerFrames != null)
-                    NewDrawGraph(answerFrames);
+                    DrawAnswer(answerFrames);
             }                   
 
             if (consultationWindow.NewFrame != null)
