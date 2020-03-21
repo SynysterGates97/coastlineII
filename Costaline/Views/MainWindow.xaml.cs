@@ -90,7 +90,7 @@ namespace Costaline
 
                 selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
 
-                existingSituationsTreeView.Items.Refresh();
+                //existingSituationsTreeView.Items.Refresh();
             }
         }
 

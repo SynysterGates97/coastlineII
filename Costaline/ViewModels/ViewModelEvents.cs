@@ -16,11 +16,18 @@ namespace Costaline.ViewModels
     {
         public ViewModelFramesHierarchy viewModelFramesHierarchy = new ViewModelFramesHierarchy();
         ObservableCollection<ViewModelFramesHierarchy> nodes = new ObservableCollection<ViewModelFramesHierarchy>();
+
         public GraphAreaExample ViewGraphArea { set; get; }
         public ViewModelEvents()
         {
-
+            viewModelFramesHierarchy.PropertyChanged += ViewModelFramesHierarchy_PropertyChanged;
         }
+
+        private void ViewModelFramesHierarchy_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            MessageBox.Show("Все изменилось");
+        }
+
         public void OnEmptyGraphAreaClick(RoutedEventHandler clickToDrawFunction) //Буду переделывать работу с этими меню, поэтому пока название непонятное
         {
             ContextMenu contextMenuDrawGraph = new ContextMenu();
@@ -166,7 +173,7 @@ namespace Costaline.ViewModels
                     }
                 }
 
-                var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
+                EasyGraph dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
 
                 foreach (Frame frame in currentFrames)
                 {
@@ -180,9 +187,8 @@ namespace Costaline.ViewModels
                         Frame nilFrame = frame;
 
                         DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = frame .Id};
-
                         dataGraph.AddVertex(nilDataVertex);
-                        nilDataVertex.ID = 54;
+
                         MessageBox.Show(nilDataVertex.ID.ToString());
                         foreach (Frame childFrame in currentFrames)
                         {
@@ -190,7 +196,8 @@ namespace Costaline.ViewModels
 
                             if (childFrame.isA == nilFrame.name)
                             {
-
+                                List<DataVertex> listOfVertices = (List<DataVertex>) dataGraph.Vertices;
+                                MessageBox.Show(listOfVertices[0].ID.ToString());
                             }
                         }
                     }
@@ -324,7 +331,7 @@ namespace Costaline.ViewModels
                     NewDrawGraph(answerFrames);
             }                               
 
-            existingSituationsTreeView.Items.Refresh();
+            //existingSituationsTreeView.Items.Refresh();
         }
     }
 }

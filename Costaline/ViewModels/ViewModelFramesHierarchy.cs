@@ -6,14 +6,21 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.Windows;
+using System.ComponentModel;
 
 namespace Costaline.ViewModels
 {
-    class ViewModelFramesHierarchy : ViewModelBase
+    class ViewModelFramesHierarchy : INotifyPropertyChanged
     {
         private static FrameContainer MainFrameContainer = new FrameContainer();
         private static ObservableCollection<ViewModelFramesHierarchy> _nodeCollection = null;//Первый узел
         private Frame frame = new Frame();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
         public ViewModelFramesHierarchy ParentalNode { get; set; }
 
         public int SlotIndex { get; set; }
@@ -39,7 +46,7 @@ namespace Costaline.ViewModels
             set
             {
                 frame = value;
-                OnPropertyChanged("_Frame");
+                OnPropertyChanged();
             }
         }
 
@@ -67,6 +74,7 @@ namespace Costaline.ViewModels
                         //MessageBox.Show(ParentalNode.frame.slots[indexOfChosenSlot].value);
                         Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
                     }
+                    OnPropertyChanged();
                 }
                 catch(Exception e)
                 {
@@ -136,7 +144,7 @@ namespace Costaline.ViewModels
                     //vmtToMainNodes.Nodes.Add(vmtFrame);
                 }
      
-                OnPropertyChanged("Frames1");
+                OnPropertyChanged();
             }
             catch(Exception e)
             {

@@ -15,7 +15,7 @@ namespace Costaline.ViewModels
         {
             if (PropertyChanged != null)
             {
-                // PropertyChanged(this, new PropertyChangedEventArgs(propname));
+                //PropertyChanged(this, new PropertyChangedEventArgs(propname));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
             }
         }
