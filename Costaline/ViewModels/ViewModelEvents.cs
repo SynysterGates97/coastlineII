@@ -147,45 +147,100 @@ namespace Costaline.ViewModels
             }
             
         }
-        public void DrawGraph(ref Loader kBLoader, ref GraphAreaExample graphArea)
+        public void DrawAllKB()
         {
             try
             {
-                Frame frameToDraw = kBLoader.GetFrames()[0];
+                FrameContainer currentFrameContainer = viewModelFramesHierarchy.GetFrameContainer();
+                List<Frame> currentFrames = currentFrameContainer.GetAllFrames();
+                List<Domain> currentDomain = currentFrameContainer.GetDomains();
 
-                var dataGraph = new EasyGraph();
-                var mainDataVertex = new DataVertex(frameToDraw.name);
+                List<string> currentDomainValues = new List<string>();
 
-                dataGraph.AddVertex(mainDataVertex);
 
-                foreach (var slot in frameToDraw.slots)
+                foreach (Domain domain in currentDomain)
                 {
-                    var dataVertex = new DataVertex(slot.name);
-                    dataGraph.AddVertex(dataVertex);
-                    var dataEdge = new DataEdge(mainDataVertex, dataVertex) { };
-                    dataGraph.AddEdge(dataEdge);
+                    foreach (string value in domain.values)
+                    {
+                        currentDomainValues.Add(value);
+                    }
                 }
 
-                var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
+                var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
 
-                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+                foreach (Frame frame in currentFrames)
+                {
+                    //находим корневой фрейм
 
-                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+                    bool isFrameInDomains = currentDomainValues.Contains(frame.name);
+                    bool isFrameIsNil = frame.isA == "null";
 
-                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+                    if (!isFrameInDomains && isFrameIsNil)
+                    {
+                        Frame nilFrame = frame;
 
-                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+                        DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = frame .Id};
 
-                logicCore.AsyncAlgorithmCompute = false;
+                        dataGraph.AddVertex(nilDataVertex);
+                        nilDataVertex.ID = 54;
+                        MessageBox.Show(nilDataVertex.ID.ToString());
+                        foreach (Frame childFrame in currentFrames)
+                        {
+                            if (childFrame == nilFrame) continue;//В принципе не нужно
 
-                graphArea.LogicCore = logicCore;
+                            if (childFrame.isA == nilFrame.name)
+                            {
 
-                graphArea.GenerateGraph(true, true);
+                            }
+                        }
+                    }
+                }
+
+
+
+                //dataGraph.AddVertex(mainDataVertex);
+                //_DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, currentFrameContainer);
+                ////Берем каждый фрейм из ответа
+                //for (int i = 1; i < answerFrames.Count; i++)
+                //{
+                //    Frame currentFrameToDraw = answerFrames[i];
+                //    DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));
+
+
+
+                //    dataGraph.AddVertex(subFrameDataVertex);
+                //    var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
+                //    dataGraph.AddEdge(dataEdge);
+                //    if (currentFrameToDraw.isA != "null")
+                //    {
+                //        _DrawAllVerticeHierarchy(ref dataGraph, subFrameDataVertex, currentFrameToDraw.isA, currentFrameContainer);
+
+                //    }
+                //}
+
+                //var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
+
+                //logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+
+                //logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+
+                //logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+
+                //logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+
+                //logicCore.AsyncAlgorithmCompute = false;
+
+                //ViewGraphArea.LogicCore = logicCore;
+
+                //ViewGraphArea.GenerateGraph(true, true);
+
+
             }
-            catch
+            catch (Exception e)
             {
-                MessageBox.Show("Ситуация не выбрана!");
+                MessageBox.Show("При отрисовке что-то пошло не так :( \n" + e.ToString());
             }
+
         }
 
         public void ShowVerticeMenu(VertexClickedEventArgs args, MainWindow mainWindow)

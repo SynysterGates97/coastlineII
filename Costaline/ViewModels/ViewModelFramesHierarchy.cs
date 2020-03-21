@@ -86,6 +86,8 @@ namespace Costaline.ViewModels
                 _nodeCollection = new ObservableCollection<ViewModelFramesHierarchy>();
                 ViewModelFramesHierarchy nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
+                nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Демоны", IsFrame = false, SlotIndex = -1 };
+                _nodeCollection.Add(nodeCollectionFirstNode);
 
             }
             SlotIndex = -1;

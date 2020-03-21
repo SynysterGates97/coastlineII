@@ -102,7 +102,7 @@ namespace Costaline
 
         private void MenuItemDrawGraph_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.Events.DrawGraph(ref kBLoader, ref graphArea);
+            MessageBox.Show("MenuItemDrawGraph_Click");
         }
 
         private void Area_EdgeClicked(object sender, EdgeClickedEventArgs args)
