@@ -141,7 +141,6 @@ namespace Costaline.ViewModels
 
                     _nodeCollection[0].Nodes.Add(vmtFrame);
                     Nodes = _nodeCollection;
-                    //vmtToMainNodes.Nodes.Add(vmtFrame);
                 }
      
                 OnPropertyChanged();

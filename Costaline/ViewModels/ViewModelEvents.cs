@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows.Input;
+using QuickGraph;
 
 namespace Costaline.ViewModels
 {
@@ -25,7 +26,7 @@ namespace Costaline.ViewModels
 
         private void ViewModelFramesHierarchy_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            MessageBox.Show("Все изменилось");
+            //MessageBox.Show("Все изменилось");
         }
 
         public void OnEmptyGraphAreaClick(RoutedEventHandler clickToDrawFunction) //Буду переделывать работу с этими меню, поэтому пока название непонятное
@@ -164,7 +165,6 @@ namespace Costaline.ViewModels
 
                 List<string> currentDomainValues = new List<string>();
 
-
                 foreach (Domain domain in currentDomain)
                 {
                     foreach (string value in domain.values)
@@ -188,18 +188,22 @@ namespace Costaline.ViewModels
 
                         DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = frame .Id};
                         dataGraph.AddVertex(nilDataVertex);
-
+                        
                         MessageBox.Show(nilDataVertex.ID.ToString());
-                        foreach (Frame childFrame in currentFrames)
-                        {
-                            if (childFrame == nilFrame) continue;//В принципе не нужно
+                        var listOfVertices = dataGraph.Vertices;
+                        var dataGraph1 = new BidirectionalGraph<DataVertex, DataEdge>();
+                        
+                        //MessageBox.Show(listOfVertices);
+                        //foreach (Frame childFrame in currentFrames)
+                        //{
+                        //    if (childFrame == nilFrame) continue;//В принципе не нужно
 
-                            if (childFrame.isA == nilFrame.name)
-                            {
-                                List<DataVertex> listOfVertices = (List<DataVertex>) dataGraph.Vertices;
-                                MessageBox.Show(listOfVertices[0].ID.ToString());
-                            }
-                        }
+                        //    if (childFrame.isA == nilFrame.name)
+                        //    {
+                        //        List<DataVertex> listOfVertices = (List<DataVertex>) dataGraph.Vertices;
+                        //        MessageBox.Show(listOfVertices[0].ID.ToString());
+                        //    }
+                        //}
                     }
                 }
 
@@ -312,6 +316,7 @@ namespace Costaline.ViewModels
                 viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
+                DrawAllKB();
                 return true;
             }
             return false;

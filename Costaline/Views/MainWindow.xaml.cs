@@ -85,12 +85,7 @@ namespace Costaline
 
             if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
             {
-                MessageBox.Show(selectedViewModelTest.FrameOrSlotValue +
-                    " -> " + inputMessageBox.NewFrameOrSlotName);
-
                 selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
-
-                //existingSituationsTreeView.Items.Refresh();
             }
         }
 
