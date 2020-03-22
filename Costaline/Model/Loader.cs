@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Windows;//Удалить
 
@@ -123,5 +124,47 @@ namespace Costaline
             return words;
         }
 
+        public void SaveInFile(string name)// хз будет ли работать
+        {
+            List<List<string>> domainsInFile = new List<List<string>>();
+            List<List<string>> framesInFile = new List<List<string>>();          
+
+            foreach (var domain in _domains)
+            {
+                List<string> str = new List<string>();
+
+                str.Add("name:" + domain.name);
+
+                foreach(var v in domain.values)
+                {
+                    str.Add(v);
+                }
+
+                domainsInFile.Add(str);
+            }
+
+            foreach (var frame in _frames)
+            {
+                List<string> str = new List<string>();
+
+                str.Add("name:" + frame.name);
+                str.Add("is_a:" + frame.isA);
+                str.Add("ID:" + frame.Id);
+
+                foreach (var slot in frame.slots)
+                {
+                    str.Add(slot.name + ":" + slot.value);
+                }
+
+                framesInFile.Add(str);
+            }
+
+            name = name + ".json";
+
+            SerializeData serialize = new SerializeData { Frames = framesInFile, Domains = domainsInFile };
+
+            string jsonString = JsonConvert.SerializeObject(serialize);
+            File.WriteAllText(name, jsonString);
+        }
     }
 }

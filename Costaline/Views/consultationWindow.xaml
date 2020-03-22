@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Costaline"
         mc:Ignorable="d"
-        Title="consultationWindow" Height="450" Width="800">
+        Title="Consultation Window" Height="450" Width="800">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -15,16 +15,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected" Grid.Row="1"/>
+
+        <TextBlock Grid.Row="0" Text="В данном окне необходимо ответить на предложеные вопрсоы. В левом всплывающем меню и ответ в правом. "/>
+
+        <Label Grid.Row="1" Content="Список отвеченных вами вопросов"/>
+        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected" Grid.Row="2"/>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected"/>
             <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
-            <Button Content="+ Slot" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
+            <Button Content="Ответить" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="4">
-            <Button Content="Следующий этап консультации"  Margin="10 0 0 0" Click="BC_TakeConsultation"/>
+            <Button Content="ОК"  Margin="10 0 0 0" Click="BC_TakeConsultation"/>
         </StackPanel>
     </Grid>
 </Window>
