@@ -228,6 +228,8 @@ namespace Costaline.ViewModels
                     }
                     var dataEdge = new DataEdge(nextFrameDataVertex, isA_nilFrameDataVertex) { };
                     dataGraph.AddEdge(dataEdge);
+
+                    //TODO: Здесь супер функция по отрисовке всех из-а для этого
                 }
 
             }

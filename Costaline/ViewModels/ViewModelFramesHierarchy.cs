@@ -140,9 +140,17 @@ namespace Costaline.ViewModels
                     vmtFrame.frame.slots = newSlots;
 
                     _nodeCollection[0].Nodes.Add(vmtFrame);
-                    Nodes = _nodeCollection;
+
                 }
-     
+                foreach (var domain in MainFrameContainer.GetDomains())
+                {
+                    Frame CostilFrame = new Frame() { Id = -404, name = domain.name };
+                    ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy() { Name = domain.name, Frame = CostilFrame, IsFrame = true, SlotIndex = -2, ParentalNode = _nodeCollection[1] };
+                    
+                    _nodeCollection[1].Nodes.Add(vmtFrame);
+                    
+                }
+                Nodes = _nodeCollection;
                 OnPropertyChanged();
             }
             catch(Exception e)
