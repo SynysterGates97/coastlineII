@@ -12,6 +12,15 @@ using System.Windows.Input;
 using QuickGraph;
 using System.Linq;
 
+using GraphX.Controls;
+using System;
+using System.Linq;
+using System.Windows;
+
+
+using GraphX.Controls;
+
+
 
 namespace Costaline.ViewModels
 {
@@ -159,19 +168,18 @@ namespace Costaline.ViewModels
 
                 var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
 
-                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.BoundedFR;
 
-                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.BoundedFR);
 
-                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.None;
 
-                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.None;
 
                 logicCore.AsyncAlgorithmCompute = false;
 
                 ViewGraphArea.LogicCore = logicCore;
-
-                ViewGraphArea.GenerateGraph(true, true);
+                ViewGraphArea.GenerateGraph(dataGraph,true, true);
 
 
             }
@@ -195,15 +203,15 @@ namespace Costaline.ViewModels
             foreach(DataVertex vertex in dataGraph.Vertices.ToList())
             {
                 if (vertex.ID == frame.Id)
-                    return false;
+                    return true;
             }
-            return true;
+            return false;
         }
         private void _DrawAllFrameSubframes(EasyGraph dataGraph, FrameContainer frameContainer, Frame isA_nilFrame, DataVertex isA_nilFrameDataVertex)
         {
             foreach (Slot slot in isA_nilFrame.slots)
             {
-                Frame nextFrame = frameContainer.FrameFinder(slot.name);
+                Frame nextFrame = frameContainer.FrameFinder(slot.value);
                 if (nextFrame != null)
                 {
                     DataVertex nextFrameDataVertex = new DataVertex();
@@ -277,8 +285,8 @@ namespace Costaline.ViewModels
 
                         //Супер функция по отрисовке текущей иерархии для nil узла()
                         DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = nilFrame.Id};
+                        
                         dataGraph.AddVertex(nilDataVertex);
-
                         //MessageBox.Show(listOfVertices[0].ID.ToString());
                         _DrawAllRelatedToNilVertices(nilFrame, ref dataGraph, nilDataVertex, currentFrameContainer);
 
@@ -286,20 +294,24 @@ namespace Costaline.ViewModels
                 }
 
 
-
-
+                ViewGraphArea.SetEdgesDashStyle(EdgeDashStyle.Solid);
 
                 var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
 
-                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+                //CompoundFDP,ISOM,LinLog,
+                //Sugiyama
+                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.LinLog;
 
-                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.LinLog);
 
                 logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
 
-                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
+                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.Bundling;
+
+              
 
                 logicCore.AsyncAlgorithmCompute = false;
+
 
                 ViewGraphArea.LogicCore = logicCore;
 
