@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows.Input;
 using QuickGraph;
+using System.Linq;
+
 
 namespace Costaline.ViewModels
 {
@@ -77,6 +79,31 @@ namespace Costaline.ViewModels
 
             return verticeText;
         }
+        private void _DrawNewAllVerticeHierarchy(ref EasyGraph dataGraph, DataVertex parentalVertice, Frame parentalFrame, FrameContainer frameContainer)
+        {
+
+            Frame isA_Frame = frameContainer.FrameFinder(parentalFrame.isA);
+
+            if (isA_Frame != null)
+            {
+                do
+                {
+                    var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
+
+                    dataGraph.AddVertex(isA_frameVertice);
+
+                    var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a" };
+                    dataGraph.AddEdge(dataEdge);
+
+                    if (isA_Frame.isA != "null")
+                    {
+                        isA_Frame = frameContainer.FrameFinder(isA_Frame.isA);
+                    }
+                }
+                while (isA_Frame.isA != "null");
+
+            }
+        }
 
         private void _DrawAllVerticeHierarchy(ref EasyGraph dataGraph, DataVertex parentalVertice, string firstIsA, FrameContainer frameContainer)
         {
@@ -87,7 +114,7 @@ namespace Costaline.ViewModels
                 do
                 {
                     var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
-
+                    
                     dataGraph.AddVertex(isA_frameVertice);
                     var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a" };
                     dataGraph.AddEdge(dataEdge);
@@ -113,15 +140,14 @@ namespace Costaline.ViewModels
                 DataVertex mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
                 
                 dataGraph.AddVertex(mainDataVertex);
+               
                 _DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, currentFrameContainer);
                 //Берем каждый фрейм из ответа
                 for (int i = 1; i< answerFrames.Count; i++)
                 {
                     Frame currentFrameToDraw = answerFrames[i];
                     DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));  
-
-                    
-
+                                      
                     dataGraph.AddVertex(subFrameDataVertex);
                     var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
                     dataGraph.AddEdge(dataEdge);
@@ -155,6 +181,69 @@ namespace Costaline.ViewModels
             }
             
         }
+        DataVertex _DrawGetVertexById(int id, EasyGraph dataGraph )
+        {
+            foreach(DataVertex Vertex in dataGraph.Vertices.ToList())
+            {
+                if (Vertex.ID == id)
+                    return Vertex;
+            }
+            return null;
+        }
+        bool _IsFrameAlreadyInVertices(Frame frame, EasyGraph dataGraph)
+        {
+            foreach(DataVertex vertex in dataGraph.Vertices.ToList())
+            {
+                if (vertex.ID == frame.Id)
+                    return false;
+            }
+            return true;
+        }
+        private void _DrawAllFrameSubframes(EasyGraph dataGraph, FrameContainer frameContainer, Frame isA_nilFrame, DataVertex isA_nilFrameDataVertex)
+        {
+            foreach (Slot slot in isA_nilFrame.slots)
+            {
+                Frame nextFrame = frameContainer.FrameFinder(slot.name);
+                if (nextFrame != null)
+                {
+                    DataVertex nextFrameDataVertex = new DataVertex();
+                    if (!_IsFrameAlreadyInVertices(nextFrame, dataGraph))
+                    {
+                        nextFrameDataVertex.Text = nextFrame.name;
+                        nextFrameDataVertex.ID = nextFrame.Id;
+
+                        dataGraph.AddVertex(nextFrameDataVertex);
+                    }
+                    else
+                    {
+                        nextFrameDataVertex = _DrawGetVertexById(nextFrame.Id, dataGraph);
+                    }
+                    var dataEdge = new DataEdge(nextFrameDataVertex, isA_nilFrameDataVertex) { };
+                    dataGraph.AddEdge(dataEdge);
+                }
+
+            }
+        }
+        private void _DrawAllRelatedToNilVertices(Frame nilFrame, ref EasyGraph dataGraph, DataVertex nilVertice, FrameContainer frameContainer)
+        {
+            List<Frame> currentFrames = frameContainer.GetAllFrames();
+
+            foreach (Frame childFrame in currentFrames)//находим Frame, который is_a от корневого
+            {
+                if (childFrame.isA == nilFrame.name)
+                {
+                    Frame isA_nilFrame = childFrame;
+                    DataVertex isA_nillDataVertex = new DataVertex(isA_nilFrame.name) { ID = isA_nilFrame.Id };
+                    dataGraph.AddVertex(isA_nillDataVertex);
+                    var dataEdge = new DataEdge(isA_nillDataVertex, nilVertice) { Text = "is_a"};
+                    dataGraph.AddEdge(dataEdge);//тут какая-то херня
+
+                    //////До сюда ничего "не повторяется".
+                    _DrawAllFrameSubframes(dataGraph, frameContainer, isA_nilFrame, isA_nillDataVertex);
+                }
+            }
+        }
+
         public void DrawAllKB()
         {
             try
@@ -186,64 +275,35 @@ namespace Costaline.ViewModels
                     {
                         Frame nilFrame = frame;
 
-                        DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = frame .Id};
+                        //Супер функция по отрисовке текущей иерархии для nil узла()
+                        DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = nilFrame.Id};
                         dataGraph.AddVertex(nilDataVertex);
-                        
-                        MessageBox.Show(nilDataVertex.ID.ToString());
-                        var listOfVertices = dataGraph.Vertices;
-                        var dataGraph1 = new BidirectionalGraph<DataVertex, DataEdge>();
-                        
-                        //MessageBox.Show(listOfVertices);
-                        //foreach (Frame childFrame in currentFrames)
-                        //{
-                        //    if (childFrame == nilFrame) continue;//В принципе не нужно
 
-                        //    if (childFrame.isA == nilFrame.name)
-                        //    {
-                        //        List<DataVertex> listOfVertices = (List<DataVertex>) dataGraph.Vertices;
-                        //        MessageBox.Show(listOfVertices[0].ID.ToString());
-                        //    }
-                        //}
+                        //MessageBox.Show(listOfVertices[0].ID.ToString());
+                        _DrawAllRelatedToNilVertices(nilFrame, ref dataGraph, nilDataVertex, currentFrameContainer);
+
                     }
                 }
 
 
 
-                //dataGraph.AddVertex(mainDataVertex);
-                //_DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, currentFrameContainer);
-                ////Берем каждый фрейм из ответа
-                //for (int i = 1; i < answerFrames.Count; i++)
-                //{
-                //    Frame currentFrameToDraw = answerFrames[i];
-                //    DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));
 
 
+                var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
 
-                //    dataGraph.AddVertex(subFrameDataVertex);
-                //    var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
-                //    dataGraph.AddEdge(dataEdge);
-                //    if (currentFrameToDraw.isA != "null")
-                //    {
-                //        _DrawAllVerticeHierarchy(ref dataGraph, subFrameDataVertex, currentFrameToDraw.isA, currentFrameContainer);
+                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
 
-                //    }
-                //}
+                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
 
-                //var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
+                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
 
-                //logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.KK;
+                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
 
-                //logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.KK);
+                logicCore.AsyncAlgorithmCompute = false;
 
-                //logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
+                ViewGraphArea.LogicCore = logicCore;
 
-                //logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.SimpleER;
-
-                //logicCore.AsyncAlgorithmCompute = false;
-
-                //ViewGraphArea.LogicCore = logicCore;
-
-                //ViewGraphArea.GenerateGraph(true, true);
+                ViewGraphArea.GenerateGraph(true, true);
 
 
             }
