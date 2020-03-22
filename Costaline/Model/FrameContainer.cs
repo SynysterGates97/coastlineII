@@ -82,7 +82,13 @@ namespace Costaline
                     _domains.Add(domain);
                 }
             }
-            
+
+            if (_frames.Count == 0)
+            {
+                frame.Id = 1;
+            }
+            else frame.Id = _frames.Last().Id + 1;
+
             _frames.Add(frame);
             return true;
         }
