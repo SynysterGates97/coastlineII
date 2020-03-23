@@ -42,9 +42,25 @@ namespace Costaline
 
             zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
 
-            //existingSituationsTreeView.SelectedItemChanged += ExistingSituationsTreeView_SelectedItemChanged;
             existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick;
+            //existingSituationsTreeView.MouseRightButtonDown += ExistingSituationsTreeView_MouseRightButtonDown;
+
         }
+
+        //private void ExistingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //existingSituationsTreeView.ContextMenu.IsOpen = true;
+        //    TreeViewItem SelectedItem = existingSituationsTreeView.SelectedItem as TreeViewItem;
+        //    switch (SelectedItem.Tag.ToString())
+        //    {
+        //        case "Solution":
+        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["SolutionContext"] as System.Windows.Controls.ContextMenu;
+        //            break;
+        //        case "Folder":
+        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["FolderContext"] as System.Windows.Controls.ContextMenu;
+        //            break;
+        //    }
+        //}
 
 
         private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -129,6 +145,41 @@ namespace Costaline
         {
             MessageBox.Show("Ну удалил и че");
         }
+
+
+        private void existingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (existingSituationsTreeView.SelectedItem != null)
+            {
+                ContextMenu nodeOptionContextMenu = new ContextMenu();
+
+                MenuItem delNode = new MenuItem() { Header = "Удалить" };
+                delNode.Click += MenuItem_Del;
+
+                MenuItem addNode = new MenuItem() { Header = "Добавить" };
+                addNode.Click += MenuItem_Add;
+
+                nodeOptionContextMenu.Items.Add(delNode);
+                nodeOptionContextMenu.Items.Add(addNode);
+
+                nodeOptionContextMenu.IsOpen = true;
+            }
+        }
+
+        //private void existingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    //existingSituationsTreeView.ContextMenu.IsOpen = true;
+        //    TreeViewItem SelectedItem = existingSituationsTreeView.SelectedItem as TreeViewItem;
+        //    switch (SelectedItem.Tag.ToString())
+        //    {
+        //        case "Solution":
+        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["SolutionContext"] as System.Windows.Controls.ContextMenu;
+        //            break;
+        //        case "Folder":
+        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["FolderContext"] as System.Windows.Controls.ContextMenu;
+        //            break;
+        //    }
+        //}
     }
 }
 

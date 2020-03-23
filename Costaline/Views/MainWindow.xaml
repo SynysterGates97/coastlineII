@@ -22,16 +22,11 @@
             <ColumnDefinition Width="557*"/>
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56">
+            
+        <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56" MouseRightButtonDown ="existingSituationsTreeView_MouseRightButtonDown" >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
                     <TextBlock Text="{Binding Name}" >
-                        <TextBlock.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header ="Add SubNode" Click="MenuItem_Add"></MenuItem>
-                                <MenuItem Header ="Remove Node" Click="MenuItem_Del"></MenuItem>
-                            </ContextMenu>
-                        </TextBlock.ContextMenu>
                     </TextBlock>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
