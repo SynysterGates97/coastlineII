@@ -79,29 +79,35 @@ namespace Costaline
 
             //existingSituationsTreeView.ContextMenu.IsOpen = true;
             ///////
-
-            TreeView treeView = (TreeView)sender;
-            ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
-                    
-            InputMessageBox inputMessageBox = new InputMessageBox();
-
-            inputMessageBox.Owner = this;
-
-            inputMessageBox.Title = "Поменять имя";
-            inputMessageBox.textBlock.Text = "Изменить имя " + selectedViewModelTest.Name + " на:";
-            System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
-            objBlur.Radius = 5;
-            this.Effect = objBlur;
-
-            if (inputMessageBox.ShowDialog() == true)
+            try
             {
+                TreeView treeView = (TreeView)sender;
+                ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
 
+                InputMessageBox inputMessageBox = new InputMessageBox();
+
+                inputMessageBox.Owner = this;
+
+                inputMessageBox.Title = "Поменять имя";
+                inputMessageBox.textBlock.Text = "Изменить имя " + selectedViewModelTest.Name + " на:";
+                System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
+                objBlur.Radius = 5;
+                this.Effect = objBlur;
+
+                if (inputMessageBox.ShowDialog() == true)
+                {
+
+                }
+                this.Effect = null;
+
+                if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
+                {
+                    selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
+                }
             }
-            this.Effect = null;
-
-            if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
+            catch(Exception E)
             {
-                selectedViewModelTest.FrameOrSlotValue = inputMessageBox.textBox.Text;
+                MessageBox.Show("Неверныe аргументы");
             }
         }
 
