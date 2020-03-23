@@ -17,8 +17,11 @@ namespace Costaline.ViewModels
         private Frame frame = new Frame();
         private Domain domain = new Domain();
 
+        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public int Id { get; set; }
         public Domain Domain
         {
             get
@@ -64,8 +67,6 @@ namespace Costaline.ViewModels
                 {
                     return frame.name;
                 }
-
-                return null;
             }
             set
             {
@@ -95,25 +96,26 @@ namespace Costaline.ViewModels
                         frame.name = value;
                         Name = value;
                     }
-                    else if(!IsDomain && frame != null)
+                    else if (!IsDomain && frame != null)
                     {
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
                         ParentalNode.frame.slots[indexOfChosenSlot].value = value;
                         Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
                     }
-                    if(IsDomain)
+                    if (IsDomain)
                     {
                         domain.name = value;
                         Name = value;
                     }
-                    else if(!IsFrame && domain != null)
+                    else if (!IsFrame && domain != null)
                     {
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
                         ParentalNode.domain.values[indexOfChosenSlot] = value;
                         Name = value;
                     }
+
                     OnPropertyChanged();
                 }
                 catch(Exception e)
@@ -161,12 +163,13 @@ namespace Costaline.ViewModels
                 foreach (var frame in listOfFrames)
                 {
                     MainFrameContainer.AddFrame(frame);
-                    
-                    ViewModelFramesHierarchy frameToNode = new ViewModelFramesHierarchy() 
+
+                    ViewModelFramesHierarchy frameToNode = new ViewModelFramesHierarchy()
                     {
                         IsFrame = true,
                         IsDomain = false,
                         SlotIndex = -1,
+                        Id = frame.Id,
                         Name = frame.name, 
                         Frame = frame, 
                         ParentalNode = _nodeCollection[0] 
@@ -181,6 +184,7 @@ namespace Costaline.ViewModels
                             IsFrame = false,
                             IsDomain = false,
                             SlotIndex = slotIndex++,
+                            Id = -404,
                             Name = slot.name + ": " + slot.value,
                             ParentalNode = frameToNode
                         };
@@ -198,6 +202,7 @@ namespace Costaline.ViewModels
                         Name = domain.name,
                         IsFrame = false,
                         IsDomain = true,
+                        Id = -404,
                         Frame = null,
                         Domain = domain,
                         SlotIndex = -2, 
@@ -212,6 +217,7 @@ namespace Costaline.ViewModels
                             IsFrame = false,
                             IsDomain = true,
                             SlotIndex = domainIndex++,
+                            Id = -404,
                             Name = value,
                             ParentalNode = domainToNode
                         };
@@ -228,6 +234,17 @@ namespace Costaline.ViewModels
             {
                 MessageBox.Show("Добавление с нуля еще не работает(");
             }
+        }
+        public Frame GetFrameFromNodesById(int Id)
+        {
+            foreach(var node in _nodeCollection[0].Nodes)
+            {
+                if(node.Id == Id)
+                {
+                    return node.Frame;
+                }
+            }
+            return null;
         }
         public void PrependFrame(Frame frame)
         {
@@ -274,6 +291,7 @@ namespace Costaline.ViewModels
                 }
 
                 _nodeCollection[0].Nodes.Add(nextNode);
+                newFrameVMFH.Id = nextNode.Id + 1;
             }
             else
             {

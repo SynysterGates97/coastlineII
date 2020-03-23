@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
 
             
-        <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56" MouseRightButtonDown ="existingSituationsTreeView_MouseRightButtonDown" >
+        <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56" MouseRightButtonDown ="existingSituationsTreeView_MouseRightButtonDown">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
                     <TextBlock Text="{Binding Name}" >

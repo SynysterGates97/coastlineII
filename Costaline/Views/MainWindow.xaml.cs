@@ -38,47 +38,38 @@ namespace Costaline
         {
             graphArea.EdgeClicked += Area_EdgeClicked;
 
-            graphArea.VertexClicked += Area_VertexClicked;
-
             zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
-
+            graphArea.VertexClicked += GraphArea_VertexClicked;
             existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick;
-            //existingSituationsTreeView.MouseRightButtonDown += ExistingSituationsTreeView_MouseRightButtonDown;
+        }
+
+        private void GraphArea_VertexClicked(object sender, VertexClickedEventArgs args)
+        {
+            DataVertex selectedVertex = new DataVertex();
+            string mouseButton = args.MouseArgs.ChangedButton.ToString();
+            int selectedVertexId = (int)args.Control.GetDataVertex<DataVertex>().ID;
+            Frame frame = viewModel.Events.viewModelFramesHierarchy.GetFrameFromNodesById(selectedVertexId);
+            string messageBoxString = viewModel.Events._GetGraphVerticeText(frame);
+
+            MessageBox.Show(messageBoxString);
+
 
         }
 
-        //private void ExistingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //existingSituationsTreeView.ContextMenu.IsOpen = true;
-        //    TreeViewItem SelectedItem = existingSituationsTreeView.SelectedItem as TreeViewItem;
-        //    switch (SelectedItem.Tag.ToString())
-        //    {
-        //        case "Solution":
-        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["SolutionContext"] as System.Windows.Controls.ContextMenu;
-        //            break;
-        //        case "Folder":
-        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["FolderContext"] as System.Windows.Controls.ContextMenu;
-        //            break;
-        //    }
-        //}
+        private void GraphArea_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
+
+        private void GraphArea_VertexSelected(object sender, VertexSelectedEventArgs args)
+        {
+
+           
+        }
 
         private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-            //Чисто для тестов
-            //ContextMenu contextMenu = new ContextMenu();
-
-            //MenuItem menuItemDoDrawGraph = new MenuItem();
-
-            //menuItemDoDrawGraph.Header = "Ну да, ну да, ну да";
-            ////menuItemDoDrawGraph.Click += clickToDrawFunction;
-
-            //contextMenu.Items.Add(menuItemDoDrawGraph);
-            //contextMenu.IsOpen = true;
-
-            //existingSituationsTreeView.ContextMenu.IsOpen = true;
-            ///////
             try
             {
                 TreeView treeView = (TreeView)sender;
@@ -127,10 +118,7 @@ namespace Costaline
             MessageBox.Show("Area_EdgeClicked");
         }
 
-        private void Area_VertexClicked(object sender, VertexClickedEventArgs args)
-        {
-            viewModel.Events.ShowVerticeMenu(args, this);
-        }
+
 
         private void buttonAddKBManually_click(object sender, RoutedEventArgs e)
         {
