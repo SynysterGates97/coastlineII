@@ -98,6 +98,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\SerializeData.cs" />
+    <Compile Include="Views\AddNodeWindow.xaml.cs">
+      <DependentUpon>AddNodeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\consultationWindow.xaml.cs">
       <DependentUpon>consultationWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
     <Compile Include="ViewModels\ViewModelSlot.cs" />
     <Compile Include="ViewModels\ViewModelSlotValue.cs" />
     <Compile Include="ViewModels\ViewModelFramesHierarchy.cs" />
+    <Page Include="Views\AddNodeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\consultationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
