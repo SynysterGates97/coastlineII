@@ -107,7 +107,7 @@ namespace Costaline
 
         private void BC_AddFrame(object sender, RoutedEventArgs e)
         {
-            if (NameFrameTextbox.Text != null && _frame.Count > 1)
+            if (NameFrameTextbox.Text != "" && _frame.Count > 1)
             {
                 Frame newFrame = new Frame();
 
@@ -142,7 +142,7 @@ namespace Costaline
 
         private void BC_AddDomain(object sender, RoutedEventArgs e)
         {
-            if (domainNameForAdd.Text != null && _domains.Count > 1)
+            if (domainNameForAdd.Text != "" && _domains.Count > 1)
             {
                 var newDomain = new Domain();
 
