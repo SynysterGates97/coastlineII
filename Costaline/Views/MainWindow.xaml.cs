@@ -139,6 +139,7 @@ namespace Costaline
         private void MenuItem_Add(object sender, RoutedEventArgs e)
         {
             AddNodeWindow addNodeWindow = new AddNodeWindow();
+            addNodeWindow.FrameContainer = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
             addNodeWindow.ShowDialog();
             MessageBox.Show("Ну добавил и че");
         }

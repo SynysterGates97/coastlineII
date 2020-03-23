@@ -7,8 +7,39 @@
         mc:Ignorable="d"
         Title="Добавить" Height="450" Width="800">
     <Grid>
-        <Label x:Name="label" Content="Да придет спаситель Макс .&#xD;&#xA;И устроит царский флекс.&#xD;&#xA;Косталина плохо пахнет)&#xD;&#xA;Сдадим? Почему бы и нет" HorizontalAlignment="Left" Height="233" Margin="100,93,0,0" VerticalAlignment="Top" Width="615" FontSize="20"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox x:Name="frameList" SelectionChanged="ListBox_ItemSelected" Grid.Row="0"/>
 
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="1">
+            <Label Content="Введите имя фрейма"/>
+            <TextBox Width="120" Name="NameFrameTextbox"/>
+            <Label Content="Is A"/>
+            <ComboBox Name="IsANames" Loaded="isANameLoaded" SelectionChanged="isASelected" />
+            <Button Content="New Frame" MaxWidth="120" Margin="10 0 0 0" Click="BC_AddFrame"/>
+        </StackPanel>
 
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected" Grid.Column="2" Grid.Row="3"/>
+            <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
+            <Button Content="+ Slot" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
+        </StackPanel>
+
+        <ListBox x:Name="domainList" SelectionChanged="ListBoxDomain_ItemSelected" Grid.Row="3"/>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 15 0 0" Grid.Row="4">
+            <ComboBox Name="domainsForAdd" Loaded="domainNameLoaded" SelectionChanged="domainNameForAddSelected" Grid.Column="2" Grid.Row="4"/>
+            <TextBox Width="120" Name="domainNameForAdd"/>
+            <Button Content="Добавить значение" MaxWidth="160" Margin="10 0 0 0" Click="BC_AddValue"/>
+            <Button Content="+ Domain" MaxWidth="160" Margin="10 0 0 0" Click="BC_AddDomain"/>
+        </StackPanel>
+        
+        
     </Grid>
+
 </Window>
