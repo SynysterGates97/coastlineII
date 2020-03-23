@@ -82,7 +82,7 @@ namespace Costaline.ViewModels
         
 
 
-        public string FrameOrSlotValue
+        public string NodeValue
         {
             get
             {
