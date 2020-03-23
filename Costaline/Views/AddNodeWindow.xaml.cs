@@ -120,7 +120,7 @@ namespace Costaline
 
                 foreach (var elem in _frame)
                 {
-                    if (elem != "")
+                    if (elem != _frame[0])
                     {
                         var content = Split(elem);
 
@@ -142,7 +142,7 @@ namespace Costaline
 
         private void BC_AddDomain(object sender, RoutedEventArgs e)
         {
-            if (domainNameForAdd.Text != null && _domains.Count>1)
+            if (domainNameForAdd.Text != null && _domains.Count > 1)
             {
                 var newDomain = new Domain();
 
@@ -150,7 +150,7 @@ namespace Costaline
 
                 foreach (var elem in _domains)
                 {
-                    newDomain.values.Add(elem);
+                    if (elem != _domains[0]) newDomain.values.Add(elem);
                 }
 
                 if (newDomain.values.Count > 0)
@@ -163,9 +163,9 @@ namespace Costaline
 
         private void BC_AddValue(object sender, RoutedEventArgs e)
         {
-            var value = domainNameForAdd.Text;
+            string v = domainNameForAdd.Text;
 
-            _domains.Add(value);
+            _domains.Add(v);           
         }
 
         private void domainNameForAddSelected(object sender, SelectionChangedEventArgs e)
@@ -186,11 +186,16 @@ namespace Costaline
                         foreach (var v in d.values)
                         {
                             _domains.Add(v);
-                        }
-                        domainList.ItemsSource = _domains;
+                        }                        
                         break;
-                    }
+                    }                    
                 }
+                domainList.ItemsSource = _domains;
+            }
+            else
+            {
+                _domains = new ObservableCollection<string>();
+                domainList.ItemsSource = _domains;
             }
         }
         private void domainNameSelected(object sender, SelectionChangedEventArgs e)
@@ -236,10 +241,10 @@ namespace Costaline
                         {
                             _frame.Add(slot.name + ":" + slot.value);
                         }
-                        frameList.ItemsSource = _frame;
                         break;
-                    }
+                    }                    
                 }
+                frameList.ItemsSource = _frame;
             }
         }
 
