@@ -80,8 +80,6 @@ namespace Costaline.ViewModels
         public ObservableCollection<ViewModelFramesHierarchy> Nodes { get; set; }
 
         
-
-
         public string NodeValue
         {
             get
@@ -97,12 +95,24 @@ namespace Costaline.ViewModels
                         frame.name = value;
                         Name = value;
                     }
-                    else
+                    else if(!IsDomain && frame != null)
                     {
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
                         ParentalNode.frame.slots[indexOfChosenSlot].value = value;
                         Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
+                    }
+                    if(IsDomain)
+                    {
+                        domain.name = value;
+                        Name = value;
+                    }
+                    else if(!IsFrame && domain != null)
+                    {
+                        int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
+
+                        ParentalNode.domain.values[indexOfChosenSlot] = value;
+                        Name = value;
                     }
                     OnPropertyChanged();
                 }
@@ -183,7 +193,7 @@ namespace Costaline.ViewModels
                 }
                 foreach (var domain in MainFrameContainer.GetDomains())
                 {
-                    ViewModelFramesHierarchy vmtFrame = new ViewModelFramesHierarchy()
+                    ViewModelFramesHierarchy domainToNode = new ViewModelFramesHierarchy()
                     {
                         Name = domain.name,
                         IsFrame = false,
@@ -193,8 +203,22 @@ namespace Costaline.ViewModels
                         SlotIndex = -2, 
                         ParentalNode = _nodeCollection[1] 
                     };
-                    
-                    _nodeCollection[1].Nodes.Add(vmtFrame);
+
+                    int domainIndex = 0;
+                    foreach (var value in domain.values)
+                    {
+                        ViewModelFramesHierarchy domainValuesToNode = new ViewModelFramesHierarchy()
+                        {
+                            IsFrame = false,
+                            IsDomain = true,
+                            SlotIndex = domainIndex++,
+                            Name = value,
+                            ParentalNode = domainToNode
+                        };
+                        domainToNode.Nodes.Add(domainValuesToNode);
+                    }
+
+                    _nodeCollection[1].Nodes.Add(domainToNode);
                     
                 }
                 Nodes = _nodeCollection;
