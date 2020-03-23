@@ -133,6 +133,16 @@ namespace Costaline
             return _domains;
         }
 
+        public void SetDomains(List<Domain> domains)
+        {
+            _domains = domains;
+        }
+
+        public void SetFrame(List<Frame> frames)
+        {
+            _frames = frames;
+        }
+
         void DropDuplicates()
         {
             if (_domains != null)
