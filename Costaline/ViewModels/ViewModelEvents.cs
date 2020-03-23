@@ -56,7 +56,7 @@ namespace Costaline.ViewModels
         {
             return slot.name + ": " + slot.value;
         }
-        string _GetGraphVerticeText(Frame frameVertice)
+        public string _GetGraphVerticeText(Frame frameVertice)
         {
             //string verticeText = "->" + frameVertice.name + "<-";
             string verticeText = "";
