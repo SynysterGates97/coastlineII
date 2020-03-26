@@ -124,12 +124,12 @@ namespace Costaline
             return words;
         }
 
-        public void SaveInFile(string name)// хз будет ли работать
+        public void SaveInFile(string name, FrameContainer frameContainer)
         {
             List<List<string>> domainsInFile = new List<List<string>>();
             List<List<string>> framesInFile = new List<List<string>>();          
 
-            foreach (var domain in _domains)
+            foreach (var domain in frameContainer.GetDomains())
             {
                 List<string> str = new List<string>();
 
@@ -143,7 +143,7 @@ namespace Costaline
                 domainsInFile.Add(str);
             }
 
-            foreach (var frame in _frames)
+            foreach (var frame in frameContainer.GetAllFrames())
             {
                 List<string> str = new List<string>();
 
