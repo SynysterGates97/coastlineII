@@ -93,7 +93,7 @@ namespace Costaline
 
                 if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
                 {
-                    selectedViewModelTest.NodeValue = inputMessageBox.textBox.Text;
+                    selectedViewModelTest.SetNodeName = inputMessageBox.textBox.Text;
                 }
             }
             catch(Exception E)

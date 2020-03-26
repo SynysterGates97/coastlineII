@@ -382,12 +382,11 @@ namespace Costaline.ViewModels
                 kBLoader.LoadContent();
                 kBLoader.ParseContent();
 
-                nodes = new ObservableCollection<ViewModelFramesHierarchy>();
-                ViewModelFramesHierarchy vmtToMainNodes = new ViewModelFramesHierarchy();
-                vmtToMainNodes.Name = "Фреймы";
 
-                List<Frame> frameListFromFile = kBLoader.GetFrames();
-                viewModelFramesHierarchy.FillOutFrameContainer(frameListFromFile);
+
+                List<Frame> framesFromFile = kBLoader.GetFrames();
+                List<Domain> domainsFromFile = kBLoader.GetDomains();
+                viewModelFramesHierarchy.FillOutFrameContainer(framesFromFile, domainsFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
                 DrawAllKB();

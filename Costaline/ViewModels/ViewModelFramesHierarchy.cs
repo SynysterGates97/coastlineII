@@ -16,8 +16,7 @@ namespace Costaline.ViewModels
         private static ObservableCollection<ViewModelFramesHierarchy> _nodeCollection = null;//Первый узел
         private Frame frame = new Frame();
         private Domain domain = new Domain();
-
-        
+               
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,7 +62,7 @@ namespace Costaline.ViewModels
             {
                 if (IsDomain)
                     return domain.name;
-                else
+                else 
                 {
                     return frame.name;
                 }
@@ -80,28 +79,30 @@ namespace Costaline.ViewModels
         }
         public ObservableCollection<ViewModelFramesHierarchy> Nodes { get; set; }
 
-        
-        public string NodeValue
+        //нужно сделать методом, нет смысла в возвращаемом значеннии
+        public string SetNodeName
         {
-            get
-            {
-                return frame.name;
-            }
             set
             {
                 try
                 {
                     if (IsFrame)
                     {
+                        MainFrameContainer.DelFrame(frame);
                         frame.name = value;
                         Name = value;
+                        MainFrameContainer.AddFrame(frame);
+
                     }
                     else if (!IsDomain && frame != null)
                     {
+                        MainFrameContainer.DelFrame(frame);
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
                         ParentalNode.frame.slots[indexOfChosenSlot].value = value;
                         Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
+                        MainFrameContainer.AddFrame(frame);
+
                     }
                     if (IsDomain)
                     {
@@ -134,7 +135,12 @@ namespace Costaline.ViewModels
             if(_nodeCollection == null)
             {
                 _nodeCollection = new ObservableCollection<ViewModelFramesHierarchy>();
-                ViewModelFramesHierarchy nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Фреймы", IsFrame = false, SlotIndex = -1 };
+                ViewModelFramesHierarchy nodeCollectionFirstNode = new ViewModelFramesHierarchy() 
+                {
+                    Name = "Фреймы", 
+                    IsFrame = false, 
+                    SlotIndex = -1 
+                };
                 _nodeCollection.Add(nodeCollectionFirstNode);
                 nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Домены", IsFrame = false, SlotIndex = -1 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
@@ -145,25 +151,18 @@ namespace Costaline.ViewModels
         
         public FrameContainer GetFrameContainer()
         {
-            FrameContainer outputFrameContainer = new FrameContainer();
-
-            foreach(ViewModelFramesHierarchy node in _nodeCollection[0].Nodes)
-            {
-                if(node.IsFrame == true)
-                {
-                    outputFrameContainer.AddFrame(node.frame);
-                }
-            }
-            return outputFrameContainer;
+           
+            return MainFrameContainer;
         }
-        public void FillOutFrameContainer(List<Frame> listOfFrames)
+        public void FillOutFrameContainer(List<Frame> listOfFrames, List<Domain> listOfDomains)
         {
+            MainFrameContainer.SetDomains(listOfDomains);
+            MainFrameContainer.SetFrame(listOfFrames);
+
             try
             {
                 foreach (var frame in listOfFrames)
                 {
-                    MainFrameContainer.AddFrame(frame);
-
                     ViewModelFramesHierarchy frameToNode = new ViewModelFramesHierarchy()
                     {
                         IsFrame = true,
@@ -174,6 +173,7 @@ namespace Costaline.ViewModels
                         Frame = frame, 
                         ParentalNode = _nodeCollection[0] 
                     };
+
                     int slotIndex = 0;
                     List<Slot> newSlots = new List<Slot>();
                     foreach (var slot in frame.slots)
@@ -190,12 +190,12 @@ namespace Costaline.ViewModels
                         };
                         frameToNode.Nodes.Add(vmtSlots);
                     }
-                    frameToNode.frame.slots = newSlots;
+                    frameToNode.frame.slots = newSlots;//todo: проверить
 
                     _nodeCollection[0].Nodes.Add(frameToNode);
 
                 }
-                foreach (var domain in MainFrameContainer.GetDomains())
+                foreach (var domain in listOfDomains)
                 {
                     ViewModelFramesHierarchy domainToNode = new ViewModelFramesHierarchy()
                     {
@@ -256,6 +256,8 @@ namespace Costaline.ViewModels
                 IsFrame = true,
                 IsDomain = false,
                 ParentalNode = _nodeCollection[0]
+                //string ht = new string ("wefwefwe");
+                //ht
 
             };
 
@@ -298,6 +300,8 @@ namespace Costaline.ViewModels
                 Nodes = _nodeCollection;
                 _nodeCollection[0].Nodes.Add(newFrameVMFH);
             }
+
+            MainFrameContainer.AddFrame(frame);
 
             OnPropertyChanged("PrepEnd");
         }

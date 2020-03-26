@@ -27,6 +27,7 @@ namespace Costaline
         {
             NewFrameOrSlotName = null;
             InitializeComponent();
+            textBox.Focus();
         }
 
         private void buttonNo_Click(object sender, RoutedEventArgs e)
