@@ -213,5 +213,45 @@ namespace Costaline
                 return answer;
             }
         }
+
+        public void Rename(string input, string changed)// сначала переименовываем домены потом фреимы и слоты
+        {
+            foreach(var d in _domains)
+            {
+                if (d.name == input)
+                {
+                    d.name = changed;
+                }
+
+                for (int i = 0; i < d.values.Count; i++)// используеться for т к forech - указатели. его поля у него можно менять его самого нет
+                {
+                    if (d.values[i] == input)
+                    {
+                        d.values[i] = changed;
+                    }
+                }
+            }
+
+            foreach (var f in _frames)
+            {
+                if (f.name == input)
+                {
+                    f.name = changed;
+                }
+
+                if (f.isA == input)
+                {
+                    f.isA = changed;
+                }
+
+                foreach(var s in f.slots)
+                {
+                    if(s.name == input)
+                    {
+                        s.name = changed;                        
+                    }
+                }
+            }
+        }
     }
 }
