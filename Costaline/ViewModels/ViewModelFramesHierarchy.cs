@@ -109,7 +109,7 @@ namespace Costaline.ViewModels
                         domain.name = value;
                         Name = value;
                     }
-                    else if (!IsFrame && domain != null)
+                    else if (!IsFrame && domain.name != null)
                     {
                         int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
 
