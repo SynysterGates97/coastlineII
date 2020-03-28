@@ -17,6 +17,11 @@ namespace Costaline
             _frames.Clear();
         }
 
+        void ClearDomains()
+        {
+            _domains.Clear();
+        }
+
         public FrameContainer()
         {
             _frames = new List<Frame>();
@@ -24,7 +29,7 @@ namespace Costaline
         }
 
         public bool AddFrame(Frame frame)
-        {            
+        {
             foreach (var f in _frames)
             {
                 var equalsSlots = new List<Slot>();
@@ -55,7 +60,7 @@ namespace Costaline
                 {
                     return false;
                 }
-            }            
+            }
 
             foreach (var slot in frame.slots)
             {
@@ -99,14 +104,14 @@ namespace Costaline
         }
         public bool DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
         {
-            return _frames.Remove(frame);             
+            return _frames.Remove(frame);
         }
 
         public List<Domain> GetDomains()
         {
             foreach (var f in _frames)
             {
-                foreach(var slot in f.slots)
+                foreach (var slot in f.slots)
                 {
                     if (_domains != null)
                     {
@@ -169,24 +174,24 @@ namespace Costaline
 
         public List<Frame> GetAnswer(Frame frame)
         {
-            var answer = new List<Frame>();            
+            var answer = new List<Frame>();
 
             foreach (var f in _frames)
             {
                 var equalsSlots = new List<Slot>();
 
                 if (f.slots.Count == frame.slots.Count)
-                {                    
+                {
                     foreach (var slot in frame.slots)
                     {
-                        if (f.slots.Where(fr=> fr.name == slot.name && fr.value == slot.value).Count() > 0)
+                        if (f.slots.Where(fr => fr.name == slot.name && fr.value == slot.value).Count() > 0)
                         {
                             equalsSlots.Add(slot);
                         }
                     }
                 }
 
-                if(equalsSlots.Count == frame.slots.Count)
+                if (equalsSlots.Count == frame.slots.Count)
                 {
                     answer.Add(f);
                     break;
@@ -203,7 +208,7 @@ namespace Costaline
                 {
                     foreach (var f in _frames)
                     {
-                        if(slot.value == f.name)
+                        if (slot.value == f.name)
                         {
                             answer.Add(f);
                         }
@@ -214,44 +219,29 @@ namespace Costaline
             }
         }
 
-        public void Rename(string input, string changed)// сначала переименовываем домены потом фреимы и слоты
+        public void Rename(string lastName, Frame newFrame)//новая функция  для добавления
         {
-            foreach(var d in _domains)
-            {
-                if (d.name == input)
-                {
-                    d.name = changed;
-                }
+            var frame = FrameFinder(lastName);
 
-                for (int i = 0; i < d.values.Count; i++)// используеться for т к forech - указатели. его поля у него можно менять его самого нет
-                {
-                    if (d.values[i] == input)
-                    {
-                        d.values[i] = changed;
-                    }
-                }
+            if (frame == null)
+            {
+                return;
             }
-
-            foreach (var f in _frames)
+            else
             {
-                if (f.name == input)
+                for (int i = 0; i < _frames.Count; i++)
                 {
-                    f.name = changed;
-                }
-
-                if (f.isA == input)
-                {
-                    f.isA = changed;
-                }
-
-                foreach(var s in f.slots)
-                {
-                    if(s.name == input)
+                    if (_frames[i].name == frame.name)
                     {
-                        s.name = changed;                        
+                        _frames[i] = newFrame;
                     }
                 }
+
+                ClearDomains();
+                GetDomains();// домены собираються когда вызываешь гет. поэтому лучшим решением что бы они снова собрались будет удалить все домены и собрать заного
             }
         }
     }
 }
+
+
