@@ -43,36 +43,59 @@ namespace Costaline
                 frameContainer = value;
                 foreach (var f in value.GetAllFrames())
                 {
-                    if(NewFrame == null || f.slots.Count > NewFrame.slots.Count)
+                    if(BigBoy == null || f.slots.Count > BigBoy.slots.Count)
                     {
-                        NewFrame = f;                        
+                        BigBoy = f;                        
                     }
-                }
+
+                    load();
+                }               
             }
         }
 
         public Frame AnswerFrame { get; set; } = new Frame();
+        private Frame BigBoy { get; set; }
+        public Frame NewFrame;
 
-        public Frame NewFrame { get; set; }
+        private void load()
+        {
+            NewFrame = new Frame();
+
+            NewFrame.name = "tata";            
+
+            foreach (var slot in BigBoy.slots)
+            {
+                var s = new Slot();
+                s.name = slot.name;
+                s.value = slot.value;
+
+                NewFrame.slots.Add(s);
+            }
+        }
 
         private void domainNameLoaded(object sender, RoutedEventArgs e)
-        {
-            var domains = FrameContainer.GetDomains();
-            List<object> data = new List<object>();
-
-            var frame = FrameContainer.GetAllFrames();
+        {           
+            var domains = frameContainer.GetDomains();
+            List<object> data = new List<object>();            
 
             Frame findFrame = null;
             
             foreach (var slot in NewFrame.slots)
             {                
 
-                findFrame = FrameContainer.FrameFinder(slot.value);
+                findFrame = frameContainer.FrameFinder(slot.value);
+                
                 if (findFrame != null)
                 {
+                    frame[0] = slot.name;
+
                     isSubFrame = true;
                     NewFrame.slots.Remove(slot);
                     break;
+                }
+                else
+                {
+                    frame[0] = "Оставшиеся вопрсы";
                 }
             }
 
@@ -105,69 +128,66 @@ namespace Costaline
         }
 
         private void BC_TakeConsultation(object sender, RoutedEventArgs e)
-        {            
-                var domains = FrameContainer.GetDomains();
+        {
+            var domains = frameContainer.GetDomains();
 
-                var answerFrame = new Frame();
+            var answerFrame = new Frame();
 
-                answerFrame.name = "answerFrame";
+            answerFrame.name = "answerFrame";
 
-                foreach (var str in frame)
+            for (int i = 1; i < frame.Count; i++)
+            {
+                var data = Split(frame[i]);
+                var slot = new Slot();
+
+                slot.name = data[0];
+                slot.value = data[1];
+
+                answerFrame.slots.Add(slot);
+            }
+
+            var find = frameContainer.GetAnswer(answerFrame);
+            if (isSubFrame)
+            {
+                isSubFrame = false;
+
+                if (find == null || answerFrame.slots.Count == 0)
                 {
-                    if (str != "")
-                    {
-
-                        var data = Split(str);
-                        var slot = new Slot();
-
-                        slot.name = data[0];
-                        slot.value = data[1];
-
-                        answerFrame.slots.Add(slot);
-                    }
-                }
-
-                var find = frameContainer.GetAnswer(answerFrame);
-                if (isSubFrame)
-                {
-                    isSubFrame = false;
-
-                    if (find == null || answerFrame.slots.Count == 0)
-                    {
-                        MessageBox.Show("Системе не удалось найти ответ. Проверте правильность ввода.");
-                    }
-                    else
-                    {
-                        frame.Clear();
-                        foreach (var d in domains)
-                        {
-                            foreach (var value in d.values)
-                            {
-                                if (find[0].name == value)
-                                {
-                                    var slot = new Slot();
-
-                                    slot.name = d.name;
-                                    slot.value = value;
-
-                                    AnswerFrame.slots.Add(slot);
-                                }
-                            }
-                        }
-                        domainNameLoaded(domainNames, e);
-                    }
+                    MessageBox.Show("Системе не удалось найти ответ. Проверте правильность ввода.");
                 }
                 else
                 {
-                    AnswerFrame.name = "answerFrame";
-
-                    foreach(var slot in answerFrame.slots)
+                    frame.Clear();                    
+                    foreach (var d in domains)
                     {
-                        AnswerFrame.slots.Add(slot);
-                    }
+                        foreach (var value in d.values)
+                        {
+                            if (find[0].name == value)
+                            {
+                                var slot = new Slot();
 
-                    this.Close();
-                }                      
+                                slot.name = d.name;
+                                slot.value = value;
+
+                                AnswerFrame.slots.Add(slot);
+                            }
+                        }
+                    }
+                    frame.Add("");
+                    domainNameLoaded(domainNames, e);
+                }
+            }
+            else
+            {
+                AnswerFrame.name = "answerFrame";
+
+                foreach (var slot in answerFrame.slots)
+                {
+                    AnswerFrame.slots.Add(slot);
+                }
+
+                this.Close();
+            }
         }
 
         private void BC_AddSlot(object sender, RoutedEventArgs e)
@@ -180,6 +200,17 @@ namespace Costaline
             frame.Add(slot);
         }
 
+        private void BC_Del(object sender, RoutedEventArgs e)
+        {
+            var delWin = new DeleteWindow();
+            delWin.ShowDialog();
+
+            if (delWin.IsDelete == true)
+            {
+                ListBox_ItemSelected(sender);
+            }
+        }
+
         private void domainNameSelected(object sender, SelectionChangedEventArgs e)
         {
             if (domainNames.SelectedItem == null)
@@ -188,7 +219,7 @@ namespace Costaline
             }
 
             var name = domainNames.SelectedItem.ToString();
-            var domains = FrameContainer.GetDomains();
+            var domains = frameContainer.GetDomains();
             List<object> data = new List<object>();
 
             foreach (var d in domains)
@@ -204,9 +235,9 @@ namespace Costaline
                     domainValues.SelectedIndex = 0;
                 }
             }
-        }
+        }        
 
-        private void ListBox_ItemSelected(object sender, SelectionChangedEventArgs e)
+        private void ListBox_ItemSelected(object sender)
         {
 
             if (frameList.SelectedItem != null && frameList.SelectedIndex != 0)
