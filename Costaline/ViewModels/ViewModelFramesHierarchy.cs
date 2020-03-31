@@ -22,11 +22,12 @@ namespace Costaline.ViewModels
         {
             DEFAULT_ENTITY,
             FRAME,
-            SLOT,
-            DOMAIN,
+            SLOT_NAME,
+            SLOT_VALUE,
+            DOMAIN_NAME,
+            DOMAIN_VALUE,
             IS_A,
-        }
-               
+        }     
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,7 +64,8 @@ namespace Costaline.ViewModels
         }
         public ViewModelFramesHierarchy ParentalNode { get; set; }
 
-        public int SlotIndex { get; set; }
+        //Только для доменов и слотов
+        private int NodeIndex { get; set; }
         public string Name
         {
             get
@@ -74,13 +76,22 @@ namespace Costaline.ViewModels
                         {
                             return frame.name;
                         }
-                    case KBEntity.DOMAIN:
+                    case KBEntity.DOMAIN_NAME:
                         {
                             return domain.name;
                         }
-                    case KBEntity.SLOT:
+                    case KBEntity.DOMAIN_VALUE:
                         {
-                            return ParentalNode.frame.slots[SlotIndex - 1].name +": " + ParentalNode.frame.slots[SlotIndex - 1].value;
+                            return ParentalNode.domain.values[NodeIndex];
+                        }
+                    case KBEntity.SLOT_NAME:
+                        {
+                            return ParentalNode.frame.slots[NodeIndex - 1].name;
+                        }
+                    case KBEntity.SLOT_VALUE:
+                        {
+                            int slotIndex = ParentalNode.NodeIndex - 1;
+                            return ParentalNode.ParentalNode.frame.slots[slotIndex].value;
                         }
                     case KBEntity.IS_A:
                         {
@@ -103,14 +114,25 @@ namespace Costaline.ViewModels
                             frame.name = value;
                             break;
                         }
-                    case KBEntity.DOMAIN:
+                    case KBEntity.DOMAIN_NAME:
                         {
                             domain.name = value;
                             break;
                         }
-                    case KBEntity.SLOT:
+                    case KBEntity.DOMAIN_VALUE:
                         {
-                            ParentalNode.frame.slots[SlotIndex-1].value = value;
+                            ParentalNode.domain.values[NodeIndex] = value;
+                            break;
+                        }
+                    case KBEntity.SLOT_NAME:
+                        {
+                            ParentalNode.frame.slots[NodeIndex-1].name = value;
+                            break;
+                        }
+                    case KBEntity.SLOT_VALUE:
+                        {
+                            int slotIndex = ParentalNode.NodeIndex - 1;
+                            ParentalNode.ParentalNode.frame.slots[slotIndex].value = value;
                             break;
                         }
                     case KBEntity.IS_A:
@@ -138,38 +160,55 @@ namespace Costaline.ViewModels
             {
                 try
                 {
-                    if (kbEntity == KBEntity.FRAME)
+                    switch (kbEntity)
                     {
-                        //MainFrameContainer.DelFrame(frame);
+                        case KBEntity.FRAME:
+                            {
+                                frame.name = value;
+                                Name = value;
+                                break;
+                            }
+                        case KBEntity.DOMAIN_NAME:
+                            {
+                                domain.name = value;
+                                break;
+                            }
+                        case KBEntity.DOMAIN_VALUE:
+                            {
+                                int indexOfChosenDomain = ParentalNode.Nodes.IndexOf(this);
+                                ParentalNode.domain.values[indexOfChosenDomain] = value;
+                                break;
+                            }
+                        case KBEntity.SLOT_NAME:
+                            {
+                                //MainFrameContainer.DelFrame(frame);
+                                int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this)-1;
 
-                        frame.name = value;
-                        Name = value;
-                        //MainFrameContainer.AddFrame(frame);
-
+                                ParentalNode.frame.slots[indexOfChosenSlot].name = value;
+                                Name = ParentalNode.frame.slots[indexOfChosenSlot].name;
+                                //MainFrameContainer.AddFrame(frame);
+                                break;
+                            }
+                        case KBEntity.SLOT_VALUE:
+                            {
+                                int slotIndex = ParentalNode.NodeIndex - 1;
+                                ParentalNode.ParentalNode.frame.slots[slotIndex].value = value;
+                                break;
+                            }
+                        case KBEntity.IS_A:
+                            {
+                                ParentalNode.frame.isA = "is_a: " + value;
+                                break;
+                            }
+                        case KBEntity.DEFAULT_ENTITY:
+                            {
+                                MessageBox.Show("Низя");
+                                break;
+                            }
+                        default:
+                            break;
+                        
                     }
-                    else if (!(kbEntity == KBEntity.DOMAIN) && frame != null)
-                    {
-                        MainFrameContainer.DelFrame(frame);
-                        int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
-
-                        ParentalNode.frame.slots[indexOfChosenSlot].value = value;
-                        Name = ParentalNode.frame.slots[indexOfChosenSlot].name + ": " + value;
-                        MainFrameContainer.AddFrame(frame);
-
-                    }
-                    if (kbEntity == KBEntity.DOMAIN)
-                    {
-                        domain.name = value;
-                        Name = value;
-                    }
-                    else if (!(kbEntity == KBEntity.FRAME) && domain.name != null)
-                    {
-                        int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this);
-
-                        ParentalNode.domain.values[indexOfChosenSlot] = value;
-                        Name = value;
-                    }
-
                     OnPropertyChanged();
                 }
                 catch(Exception e)
@@ -196,7 +235,7 @@ namespace Costaline.ViewModels
                     kbEntity = KBEntity.DEFAULT_ENTITY,
                 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
-                nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Домены", kbEntity = KBEntity.DEFAULT_ENTITY, SlotIndex = -1 };
+                nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Домены", kbEntity = KBEntity.DEFAULT_ENTITY, NodeIndex = -1 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
 
             }
@@ -220,18 +259,21 @@ namespace Costaline.ViewModels
                     {
                         kbEntity = KBEntity.FRAME,
 
+                        ParentalNode = _nodeCollection[0],
+
                         Id = frame.Id,
                         Name = frame.name, 
                         Frame = frame, 
-                        ParentalNode = _nodeCollection[0] 
+                        
                     };
 
                     ViewModelFramesHierarchy isA_node = new ViewModelFramesHierarchy()
                     {
                         kbEntity = KBEntity.IS_A,
+
                         ParentalNode = frameToNode,
                         Name = "is_a: " + frame.isA,
-                        SlotIndex = 0,
+                        NodeIndex = 0,
                         
                     };
 
@@ -242,48 +284,58 @@ namespace Costaline.ViewModels
                     foreach (var slot in frame.slots)
                     {
                         newSlots.Add(slot);
-                        ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
+                        ViewModelFramesHierarchy slotNameNode = new ViewModelFramesHierarchy()
                         {
-                            kbEntity = KBEntity.SLOT,
+                            kbEntity = KBEntity.SLOT_NAME,
+
                             ParentalNode = frameToNode,
-                            SlotIndex = slotIndex++,
-                            Name = slot.value,
-                            
+                            NodeIndex = slotIndex++,
+                            Name = slot.name,
                         };
-                        frameToNode.Nodes.Add(vmtSlots);
+                        
+                        ViewModelFramesHierarchy slotValueNode = new ViewModelFramesHierarchy()
+                        {
+                            kbEntity = KBEntity.SLOT_VALUE,
+
+                            ParentalNode = slotNameNode,
+                            Name = slot.value,
+                        };
+                        slotNameNode.Nodes.Add(slotValueNode);
+                        frameToNode.Nodes.Add(slotNameNode);
                     }
                     frameToNode.frame.slots = newSlots;//todo: проверить
 
                     _nodeCollection[0].Nodes.Add(frameToNode);
 
                 }
-                foreach (var domain in listOfDomains)
+                foreach (Domain newDomain in listOfDomains)
                 {
                     ViewModelFramesHierarchy domainToNode = new ViewModelFramesHierarchy()
                     {
-                        Name = domain.name,
-                        kbEntity = KBEntity.DOMAIN,
-                        Id = -404,
+                        kbEntity = KBEntity.DOMAIN_NAME,
+                        Domain = newDomain,
+                        ParentalNode = _nodeCollection[1],
+                        Name = newDomain.name,
                         Frame = null,
-                        Domain = domain,
-                        SlotIndex = -2, 
-                        ParentalNode = _nodeCollection[1] 
+                        
+                        
                     };
 
-                    int domainIndex = 0;
-                    foreach (var value in domain.values)
+                    for (int i=0;i< newDomain.values.Count;i++)
                     {
-                    ViewModelFramesHierarchy domainValuesToNode = new ViewModelFramesHierarchy()
-                    {
-                            kbEntity = KBEntity.DOMAIN,
-                            SlotIndex = domainIndex++,
-                            Id = -404,
-                            Name = value,
-                            ParentalNode = domainToNode
-                        };
-                        domainToNode.Nodes.Add(domainValuesToNode);
-                    }
+                        ViewModelFramesHierarchy domainValueNode = new ViewModelFramesHierarchy()
+                        {
+                            kbEntity = KBEntity.DOMAIN_VALUE,
+                            NodeIndex = i,
 
+                            ParentalNode = domainToNode,
+
+                            Name = newDomain.values[i],
+
+                        };
+                        domainToNode.Nodes.Add(domainValueNode);
+                    }
+                    
                     _nodeCollection[1].Nodes.Add(domainToNode);
                     
                 }
@@ -292,7 +344,7 @@ namespace Costaline.ViewModels
             }
             catch(Exception e)
             {
-                MessageBox.Show("Добавление с нуля еще не работает(");
+                MessageBox.Show(e.ToString());
             }
         }
         public Frame GetFrameFromNodesById(int Id)
@@ -325,8 +377,8 @@ namespace Costaline.ViewModels
                 ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
                 {
                     Name = slot.name + ": " + slot.value,
-                    kbEntity = KBEntity.SLOT,
-                    SlotIndex = slotIndex++,
+                    kbEntity = KBEntity.SLOT_NAME,
+                    NodeIndex = slotIndex++,
                     ParentalNode = newFrameVMFH
                 };
                 newFrameVMFH.frame.slots = newSlots;
