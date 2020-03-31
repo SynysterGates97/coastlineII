@@ -16,7 +16,7 @@ namespace Costaline.ViewModels
         private static ObservableCollection<ViewModelFramesHierarchy> _nodeCollection = null;//Первый узел
         private Frame frame = new Frame();
         private Domain domain = new Domain();
-        private string is_a;
+        private string defaultNodesName;
         private KBEntity kbEntity;
         enum KBEntity
         {
@@ -86,6 +86,10 @@ namespace Costaline.ViewModels
                         {
                             return ParentalNode.frame.isA;
                         }
+                    case KBEntity.DEFAULT_ENTITY:
+                        {
+                            return defaultNodesName;
+                        }
                     default:
                         return null;
                 }
@@ -112,6 +116,11 @@ namespace Costaline.ViewModels
                     case KBEntity.IS_A:
                         {
                             ParentalNode.frame.isA = value;
+                            break;
+                        }
+                    case KBEntity.DEFAULT_ENTITY:
+                        {
+                            defaultNodesName = value;
                             break;
                         }
                     default:
