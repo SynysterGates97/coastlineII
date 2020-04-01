@@ -163,15 +163,17 @@ namespace Costaline.ViewModels
             else if(kbEntity == KBEntity.SLOT_NAME)
             {
                 //Это должно будет переписать в контейнере.
-                //Slot slotToDelete = frame.slots[NodeIndex - 1];
-                //frame.DeleteSlot(slotToDelete);
-                //MainFrameContainer.Rename(frame.name, frame)
+                Slot slotToDelete = ParentalNode.frame.slots[NodeIndex - 1];
+                ParentalNode.frame.DeleteSlot(slotToDelete.name);
+                //Rename используется для замены старого фрейма новым, с измененными слотами
+                MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
 
                 Nodes.Clear();//удаляем из памяти и узлов slotValue
                 ParentalNode.Nodes.Remove(this);//Удаляем и сам slotName
             }
             OnPropertyChanged();
         }
+        //Todo: Переделать под метод
         public string SetSelectedNodeName
         {
             set
@@ -185,7 +187,7 @@ namespace Costaline.ViewModels
                                 string previousFrameName = frame.name;
                                 frame.name = value;
                                 Name = value;
-                                MainFrameContainer.Rename(previousFrameName, frame);
+                                MainFrameContainer.ReplaceFrame(previousFrameName, frame);
                                 break;
                             }
                         case KBEntity.DOMAIN_NAME:
@@ -201,18 +203,21 @@ namespace Costaline.ViewModels
                             }
                         case KBEntity.SLOT_NAME:
                             {
-                                //MainFrameContainer.DelFrame(frame);
                                 int indexOfChosenSlot = ParentalNode.Nodes.IndexOf(this)-1;
 
                                 ParentalNode.frame.slots[indexOfChosenSlot].name = value;
                                 Name = ParentalNode.frame.slots[indexOfChosenSlot].name;
-                                //MainFrameContainer.AddFrame(frame);
+
+                                //Rename используется для замены старого фрейма новым, с измененными слотами
+                                MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
                                 break;
                             }
                         case KBEntity.SLOT_VALUE:
                             {
                                 int slotIndex = ParentalNode.NodeIndex - 1;
                                 ParentalNode.ParentalNode.frame.slots[slotIndex].value = value;
+
+                                MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
                                 break;
                             }
                         case KBEntity.IS_A:
@@ -380,10 +385,7 @@ namespace Costaline.ViewModels
             return null;
         }
 
-        public void DeleteFrame()
-        {
-            ParentalNode.Nodes.Remove(this);
-        }
+
         public void PrependFrame(Frame frame)
         {
             ViewModelFramesHierarchy newFrameVMFH = new ViewModelFramesHierarchy()
