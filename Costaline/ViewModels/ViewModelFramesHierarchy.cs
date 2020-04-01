@@ -153,8 +153,26 @@ namespace Costaline.ViewModels
         }
         public ObservableCollection<ViewModelFramesHierarchy> Nodes { get; set; }
 
-        //нужно сделать методом, нет смысла в возвращаемом значеннии
-        public string SetNodeName
+        public void DeleteSelectedNode()
+        {
+            if(kbEntity == KBEntity.FRAME)
+            {
+                MainFrameContainer.DelFrame(frame);
+                ParentalNode.Nodes.Remove(this);
+            }
+            else if(kbEntity == KBEntity.SLOT_NAME)
+            {
+                //Это должно будет переписать в контейнере.
+                //Slot slotToDelete = frame.slots[NodeIndex - 1];
+                //frame.DeleteSlot(slotToDelete);
+                //MainFrameContainer.Rename(frame.name, frame)
+
+                Nodes.Clear();//удаляем из памяти и узлов slotValue
+                ParentalNode.Nodes.Remove(this);//Удаляем и сам slotName
+            }
+            OnPropertyChanged();
+        }
+        public string SetSelectedNodeName
         {
             set
             {
@@ -164,8 +182,10 @@ namespace Costaline.ViewModels
                     {
                         case KBEntity.FRAME:
                             {
+                                string previousFrameName = frame.name;
                                 frame.name = value;
                                 Name = value;
+                                MainFrameContainer.Rename(previousFrameName, frame);
                                 break;
                             }
                         case KBEntity.DOMAIN_NAME:
@@ -217,6 +237,7 @@ namespace Costaline.ViewModels
                 }
             }
         }
+
 
 
         public ViewModelFramesHierarchy()
@@ -357,6 +378,11 @@ namespace Costaline.ViewModels
                 }
             }
             return null;
+        }
+
+        public void DeleteFrame()
+        {
+            ParentalNode.Nodes.Remove(this);
         }
         public void PrependFrame(Frame frame)
         {

@@ -93,7 +93,7 @@ namespace Costaline
 
                 if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
                 {
-                    selectedViewModelTest.SetNodeName = inputMessageBox.textBox.Text;
+                    selectedViewModelTest.SetSelectedNodeName = inputMessageBox.textBox.Text;
                 }
             }
             catch(Exception E)
@@ -145,7 +145,9 @@ namespace Costaline
 
         private void MenuItem_Del(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ну удалил и че");
+            ViewModelFramesHierarchy SelectedNode = (ViewModelFramesHierarchy)existingSituationsTreeView.SelectedItem;
+            SelectedNode.DeleteSelectedNode();
+            //MessageBox.Show("Ну удалил и че");
         }
 
 
