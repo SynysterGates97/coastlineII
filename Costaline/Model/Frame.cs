@@ -43,6 +43,27 @@ namespace Costaline
             return frame;
         }
 
+        public void RenameSlot(string lastSlotName, Slot newSlot)
+        {
+            foreach (var s in slots)
+            {
+                if (s.name == lastSlotName)
+                {
+                    s.name = newSlot.name;
+                    s.value = newSlot.value;
+                }
+            }
+        }
 
+        public void DelSlot(string nameSlot)
+        {
+            foreach (var s in slots)
+            {
+                if (s.name == nameSlot)
+                {
+                    slots.Remove(s);
+                }
+            }
+        }
     }
 }
