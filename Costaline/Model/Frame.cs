@@ -15,7 +15,11 @@ namespace Costaline
 
         public Frame()
         {
+            name = "EmptyName";
+            isA = "null";
             slots = new List<Slot>();
+            Id = -1;
+
         }
 
         public void FrameAddSlot(string name, string value)
