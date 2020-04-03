@@ -20,19 +20,21 @@ namespace Costaline
     /// </summary>
     public partial class ConsultationWindow : Window
     {
-        ObservableCollection<string> frame;// нужно переменовать на что то более осмысленое
+        public static ObservableCollection<string> frameInWin;// нужно переменовать на что то более осмысленое
         public ConsultationWindow()
         {
             InitializeComponent();
             
-            frame = new ObservableCollection<string>();
-            frame.Add("");
-            frameList.ItemsSource = frame;
+            frameInWin = new ObservableCollection<string>();
+            frameInWin.Add("");
+            frameList.ItemsSource = frameInWin;
+      
         }
 
         FrameContainer frameContainer;
 
-        bool isSubFrame; 
+        public static bool isSubFrameWin;
+        QuestionWindow question;
 
         public FrameContainer FrameContainer 
         {
@@ -49,16 +51,19 @@ namespace Costaline
                     }
 
                     load();
-                }               
+                }
+                FindSubFrame();
             }
         }
 
         public Frame AnswerFrame { get; set; } = new Frame();
         private Frame BigBoy { get; set; }
-        public Frame NewFrame;
+        public static Frame NewFrame;
+
+        public static Frame findFrame;
 
         private void load()
-        {
+        {            
             NewFrame = new Frame();
 
             NewFrame.name = "tata";            
@@ -70,62 +75,31 @@ namespace Costaline
                 s.value = slot.value;
 
                 NewFrame.slots.Add(s);
-            }
+
+            }            
         }
 
-        private void domainNameLoaded(object sender, RoutedEventArgs e)
-        {           
-            var domains = frameContainer.GetDomains();
-            List<object> data = new List<object>();            
-
-            Frame findFrame = null;
-            
+        private void FindSubFrame()
+        {
             foreach (var slot in NewFrame.slots)
-            {                
+            {
 
                 findFrame = frameContainer.FrameFinder(slot.value);
-                
+
                 if (findFrame != null)
                 {
-                    frame[0] = slot.name;
+                    frameInWin[0] = slot.name;
 
-                    isSubFrame = true;
+                    isSubFrameWin = true;
                     NewFrame.slots.Remove(slot);
                     break;
                 }
                 else
                 {
-                    frame[0] = "Оставшиеся вопрсы";
+                    frameInWin[0] = "Оставшиеся вопрсы";
                 }
             }
-
-            if (findFrame != null)
-            {
-                foreach (var slot in findFrame.slots)
-                {
-                    foreach (var d in domains)
-                    {
-                        if (slot.name == d.name)
-                        {
-                            data.Add(d.name);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                isSubFrame = false;
-                foreach (var slot in NewFrame.slots)
-                {                   
-                    data.Add(slot.name);                    
-                }
-            }
-
-            var comboBox = sender as ComboBox;
-
-            comboBox.ItemsSource = data;
-            comboBox.SelectedIndex = 0;
-        }
+        }        
 
         private void BC_TakeConsultation(object sender, RoutedEventArgs e)
         {
@@ -135,9 +109,9 @@ namespace Costaline
 
             answerFrame.name = "answerFrame";
 
-            for (int i = 1; i < frame.Count; i++)
+            for (int i = 1; i < frameInWin.Count; i++)
             {
-                var data = Split(frame[i]);
+                var data = Split(frameInWin[i]);
                 var slot = new Slot();
 
                 slot.name = data[0];
@@ -147,17 +121,17 @@ namespace Costaline
             }
 
             var find = frameContainer.GetAnswer(answerFrame);
-            if (isSubFrame)
+            if (isSubFrameWin)
             {
-                isSubFrame = false;
+                isSubFrameWin = false;
 
-                if (find == null || answerFrame.slots.Count == 0)
+                if (find == null || answerFrame.slots.Count < 2)
                 {
                     MessageBox.Show("Системе не удалось найти ответ. Проверте правильность ввода.");
                 }
                 else
                 {
-                    frame.Clear();                    
+                    frameInWin.Clear();                    
                     foreach (var d in domains)
                     {
                         foreach (var value in d.values)
@@ -173,8 +147,10 @@ namespace Costaline
                             }
                         }
                     }
-                    frame.Add("");
-                    domainNameLoaded(domainNames, e);
+                    frameInWin.Add("");
+                    FindSubFrame();
+                    
+                    question.domainNameLoaded(question.domainNames, e);
                 }
             }
             else
@@ -190,15 +166,11 @@ namespace Costaline
             }
         }
 
-        private void BC_AddSlot(object sender, RoutedEventArgs e)
-        {           
-            var name = TakeStrFromCombobox(domainNames.SelectedItem);
-            var value = TakeStrFromCombobox(domainValues.SelectedItem);
-            
-            string slot = name + ":" + value;
-
-            frame.Add(slot);
-        }
+        private void BC_ShowQuestionWindou(object sender, RoutedEventArgs e)
+        {
+            question = new QuestionWindow(frameContainer);
+            question.ShowDialog();
+        }        
 
         private void BC_Del(object sender, RoutedEventArgs e)
         {
@@ -209,40 +181,14 @@ namespace Costaline
             {
                 ListBox_ItemSelected(sender);
             }
-        }
-
-        private void domainNameSelected(object sender, SelectionChangedEventArgs e)
-        {
-            if (domainNames.SelectedItem == null)
-            {
-                domainNames.SelectedIndex = 0;
-            }
-
-            var name = domainNames.SelectedItem.ToString();
-            var domains = frameContainer.GetDomains();
-            List<object> data = new List<object>();
-
-            foreach (var d in domains)
-            {
-                if (d.name == name)
-                {
-                    foreach(var v in d.values)
-                    {
-                        data.Add(v);
-                    }
-
-                    domainValues.ItemsSource = data;                    
-                    domainValues.SelectedIndex = 0;
-                }
-            }
-        }        
+        }              
 
         private void ListBox_ItemSelected(object sender)
         {
 
             if (frameList.SelectedItem != null && frameList.SelectedIndex != 0)
             {
-                frame.Remove(frameList.SelectedItem.ToString());
+                frameInWin.Remove(frameList.SelectedItem.ToString());
             }
         }
 
@@ -250,17 +196,6 @@ namespace Costaline
         {
             string[] words = str.Split(new char[] { ':' });
             return words;
-        }
-
-        string TakeStrFromCombobox(object obj)
-        {
-            if (obj == null) return null;
-
-            if (obj is TextBox)
-            {
-               return (obj as TextBox).Text;
-            }
-            else return obj.ToString();
         }
     }
 }
