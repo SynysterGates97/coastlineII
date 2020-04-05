@@ -17,8 +17,8 @@ namespace Costaline.ViewModels
         private Frame frame = new Frame();
         private Domain domain = new Domain();
         private string defaultNodesName;
-        private KBEntity kbEntity;
-        enum KBEntity
+        public KBEntity kbEntity;
+        public enum KBEntity
         {
             DEFAULT_ENTITY,
             FRAME,

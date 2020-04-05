@@ -73,14 +73,43 @@ namespace Costaline
             try
             {
                 TreeView treeView = (TreeView)sender;
-                ViewModelFramesHierarchy selectedViewModelTest = (ViewModelFramesHierarchy)treeView.SelectedItem;
+                ViewModelFramesHierarchy selectedNode = (ViewModelFramesHierarchy)treeView.SelectedItem;
 
+                FrameContainer frameContainer = selectedNode.GetFrameContainer();
                 InputMessageBox inputMessageBox = new InputMessageBox();
+
+                switch(selectedNode.kbEntity)
+                {
+                    case ViewModelFramesHierarchy.KBEntity.FRAME:
+                        foreach (var frame in frameContainer.GetAllFrames())
+                        {
+                            inputMessageBox.comboBox.Items.Add(frame.name);
+                        }
+                        break;
+                    case ViewModelFramesHierarchy.KBEntity.SLOT_VALUE:
+                        foreach (var domain in frameContainer.GetDomains())
+                        {
+                            if(domain.name == selectedNode.ParentalNode.Name)
+                            {
+                                foreach(var domainValue in domain.values)
+                                {
+                                    inputMessageBox.comboBox.Items.Add(domainValue);
+                                }
+                            }
+                            
+                        }
+                        break;
+                    default: 
+                        break;
+
+                }
+
+                
 
                 inputMessageBox.Owner = this;
 
                 inputMessageBox.Title = "Поменять имя";
-                inputMessageBox.textBlock.Text = "Изменить имя " + selectedViewModelTest.Name + " на:";
+                inputMessageBox.textBlock.Text = "Изменить имя " + selectedNode.Name + " на:";
                 System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
                 objBlur.Radius = 5;
                 this.Effect = objBlur;
@@ -93,7 +122,7 @@ namespace Costaline
 
                 if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
                 {
-                    selectedViewModelTest.SetSelectedNodeName = inputMessageBox.textBox.Text;
+                    selectedNode.SetSelectedNodeName = inputMessageBox.NewFrameOrSlotName;
                 }
             }
             catch(Exception E)
@@ -173,21 +202,6 @@ namespace Costaline
         {
 
         }
-
-        //private void existingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    //existingSituationsTreeView.ContextMenu.IsOpen = true;
-        //    TreeViewItem SelectedItem = existingSituationsTreeView.SelectedItem as TreeViewItem;
-        //    switch (SelectedItem.Tag.ToString())
-        //    {
-        //        case "Solution":
-        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["SolutionContext"] as System.Windows.Controls.ContextMenu;
-        //            break;
-        //        case "Folder":
-        //            existingSituationsTreeView.ContextMenu = existingSituationsTreeView.Resources["FolderContext"] as System.Windows.Controls.ContextMenu;
-        //            break;
-        //    }
-        //}
     }
 }
 

@@ -19,6 +19,7 @@ namespace Costaline
     /// </summary>
     public partial class InputMessageBox : Window
     {
+        public Domain domain = new Domain();
         public string NewFrameOrSlotName
         {
             set;get;
@@ -27,7 +28,7 @@ namespace Costaline
         {
             NewFrameOrSlotName = null;
             InitializeComponent();
-            textBox.Focus();
+            comboBox.Focus();
         }
 
         private void buttonNo_Click(object sender, RoutedEventArgs e)
@@ -37,8 +38,9 @@ namespace Costaline
 
         private void buttonYes_Click(object sender, RoutedEventArgs e)
         {
-            NewFrameOrSlotName = textBox.Text;
+            NewFrameOrSlotName = comboBox.Text;
             this.Close();
         }
+
     }
 }
