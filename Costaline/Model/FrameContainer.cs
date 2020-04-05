@@ -219,6 +219,7 @@ namespace Costaline
             }
         }
 
+        //TODO: в дальнейшем полюбому нужно возращать, переименовалось ли
         public void ReplaceFrame(string lastName, Frame newFrame)//новая функция  для добавления
         {
             var frame = FrameFinder(lastName);

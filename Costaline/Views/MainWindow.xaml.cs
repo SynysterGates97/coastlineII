@@ -132,15 +132,8 @@ namespace Costaline
 
         private void MenuItem_Add(object sender, RoutedEventArgs e)
         {
-            AddNodeWindow addNodeWindow = new AddNodeWindow();
-            addNodeWindow.FrameContainer = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
-            addNodeWindow.ShowDialog();
-
-            if (addNodeWindow.NewFrame != null)
-            {
-                viewModel.Events.viewModelFramesHierarchy.PrependFrame(addNodeWindow.NewFrame);        
-            }
-            MessageBox.Show("Ну добавил и че");
+            ViewModelFramesHierarchy selectedNode = (ViewModelFramesHierarchy) existingSituationsTreeView.SelectedItem;
+            viewModel.Events.viewModelFramesHierarchy.AddSlotOrDomainValueNode(selectedNode);
         }
 
         private void MenuItem_Del(object sender, RoutedEventArgs e)
@@ -168,6 +161,17 @@ namespace Costaline
 
                 nodeOptionContextMenu.IsOpen = true;
             }
+        }
+
+        private void AddFrameButton_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.Events.viewModelFramesHierarchy.PrependFrame();
+            existingSituationsTreeView.ItemsSource = viewModel.Events.viewModelFramesHierarchy.Nodes;
+        }
+
+        private void AddDomainButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //private void existingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

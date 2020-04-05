@@ -22,7 +22,7 @@
             <ColumnDefinition Width="557*"/>
         </Grid.ColumnDefinitions>
 
-            
+
         <TreeView x:Name="existingSituationsTreeView" Margin="10,49,10,56" MouseRightButtonDown ="existingSituationsTreeView_MouseRightButtonDown">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
@@ -35,10 +35,12 @@
 
 
         <Label x:Name="labelObjectInspector" Content="Инспектор объектов" Grid.Column="0" FontWeight="Bold" Margin="10,10,10,0" FontSize="14" AutomationProperties.IsColumnHeader="True" Background="White" Height="34" VerticalAlignment="Top"/>
-        <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Margin="0,10,10,10" >
+        <graphControls:ZoomControl x:Name="zoomctrl" Grid.Column="1" Margin="0,49,10,10" >
             <models:GraphAreaExample x:Name="graphArea"/>
         </graphControls:ZoomControl>
-        <Button x:Name="buttonAddKBManually" Content="Добавить&#xD;&#xA;БЗ вручную" Margin="10,0,118,5" Click="buttonAddKBManually_click" Height="46" VerticalAlignment="Bottom" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated"/>
-        <Button x:Name="buttonADReadyKB"  Content="Добавить&#xD;&#xA;готовую БЗ" Margin="0,0,10,5" VerticalAlignment="Bottom" Click="buttonADReadyKB_click" Height="46" HorizontalAlignment="Right" Width="104"/>
+        <Button x:Name="buttonAddKBManually" Content="Получить консультацию" Margin="0,10,10,0" Click="buttonAddKBManually_click" Height="34" RenderTransformOrigin="0.526,1.639" TextOptions.TextHintingMode="Animated" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="255"/>
+        <Button x:Name="buttonADReadyKB"  Content="Добавить готовую БЗ" Margin="0,10,0,0" Click="buttonADReadyKB_click" Grid.Column="1" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="287"/>
+        <Button x:Name="AddFrameButton" Content="Добавить&#xD;&#xA;фрейм" Margin="10,0,0,5" RenderTransformOrigin="0.442,0.445" Click="AddFrameButton_Click" HorizontalAlignment="Left" Width="110" Height="46" VerticalAlignment="Bottom"/>
+        <Button x:Name="AddDomainButton" Margin="125,0,10,5" Click="AddDomainButton_Click" BorderThickness="0" Content="ДОБАВИТЬ&#xD;&#xA;ДОМЕН" Height="46" VerticalAlignment="Bottom"/>
     </Grid>
 </Controls:MetroWindow>

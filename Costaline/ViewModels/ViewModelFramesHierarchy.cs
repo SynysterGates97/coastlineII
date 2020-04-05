@@ -242,75 +242,8 @@ namespace Costaline.ViewModels
                 }
             }
         }
-        public void AddNewNode()
-        {
-            //Костыль для создания нового фрейма.
-            var rand = new Random();
-            Frame newFrame = new Frame()
-            {
-                name = "newFrame" + rand.Next(0, 100).ToString(),
-            };
-            MainFrameContainer.AddFrame(newFrame);
-            newFrame.Id = MainFrameContainer.GetAllFrames().Last().Id;
-            ///
-
-            
-            ViewModelFramesHierarchy newFrameVMFH = new ViewModelFramesHierarchy()
-            {
-                kbEntity = KBEntity.FRAME,
-
-                Frame = frame,
-                Name = frame.name,
-                
-                ParentalNode = _nodeCollection[0]
-            };
-
-            List<Slot> newSlots = new List<Slot>();
-            int slotIndex = 0;
-            foreach (var slot in frame.slots)
-            {
-                newSlots.Add(slot);
-                ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
-                {
-                    Name = slot.name + ": " + slot.value,
-                    kbEntity = KBEntity.SLOT_NAME,
-                    NodeIndex = slotIndex++,
-                    ParentalNode = newFrameVMFH
-                };
-                newFrameVMFH.frame.slots = newSlots;
-                newFrameVMFH.Nodes.Add(vmtSlots);
-            }
-
-            if (_nodeCollection[0].Nodes.Count != 0)
-            {
-                ViewModelFramesHierarchy prevNode = _nodeCollection[0].Nodes[0];
-                ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
-                //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
-                _nodeCollection[0].Nodes[0] = newFrameVMFH;
-
-                for (int i = 1; i < _nodeCollection[0].Nodes.Count; i++)
-                {
-                    nextNode = _nodeCollection[0].Nodes[i];
-                    _nodeCollection[0].Nodes[i] = prevNode;
-                    prevNode = nextNode;
-                }
-
-                _nodeCollection[0].Nodes.Add(nextNode);
-                newFrameVMFH.Id = nextNode.Id + 1;
-            }
-            else
-            {
-                Nodes = _nodeCollection;
-                _nodeCollection[0].Nodes.Add(newFrameVMFH);
-            }
-
-            MainFrameContainer.AddFrame(frame);
-
-            OnPropertyChanged("PrepEnd");
-        }
-
-
-            public ViewModelFramesHierarchy()
+        
+        public ViewModelFramesHierarchy()
         {
             Nodes = new ObservableCollection<ViewModelFramesHierarchy>();
             if(_nodeCollection == null)
@@ -328,6 +261,7 @@ namespace Costaline.ViewModels
                 _nodeCollection.Add(nodeCollectionFirstNode);
                 nodeCollectionFirstNode = new ViewModelFramesHierarchy() { Name = "Домены", kbEntity = KBEntity.DEFAULT_ENTITY, NodeIndex = -1 };
                 _nodeCollection.Add(nodeCollectionFirstNode);
+                OnPropertyChanged();
 
             }
 
@@ -450,40 +384,111 @@ namespace Costaline.ViewModels
             return null;
         }
 
+        private static int _newFrameCounter = 0;
+        private static int _newSlotNameCounter = 0;
 
-        public void PrependFrame(Frame frame)
+        public bool AddSlotOrDomainValueNode(ViewModelFramesHierarchy parentNode)
         {
-            ViewModelFramesHierarchy newFrameVMFH = new ViewModelFramesHierarchy()
+            switch(parentNode.kbEntity)
             {
+                case KBEntity.FRAME:
+                    int slotsCount = parentNode.Nodes.Count - 1;
+                    Slot newSlotName_Slot = new Slot()
+                    {
+                        name = "newSlotName " + _newSlotNameCounter++.ToString(),
+                        value = null,
+                    };
+                    parentNode.Frame.slots.Add(newSlotName_Slot);
+                    MainFrameContainer.ReplaceFrame(parentNode.frame.name, parentNode.frame);
+                    //TODO: если переименование вернуло true то делаем следующее:
 
-                Frame = frame,
-                Name = frame.name,
+                    ViewModelFramesHierarchy newSlotName_Node = new ViewModelFramesHierarchy()
+                    {
+                        kbEntity = KBEntity.SLOT_NAME,
+
+                        ParentalNode = parentNode,
+                        NodeIndex = slotsCount + 1,
+                        Name = newSlotName_Slot.name,
+                    };
+                    parentNode.Nodes.Add(newSlotName_Node);
+                    ///////////////
+                    break;
+
+                case KBEntity.SLOT_NAME:
+                    if(parentNode.Nodes.Count == 0)
+                    {
+                        int slotIndex = parentNode.NodeIndex - 1;
+                        Frame parentFrame = parentNode.ParentalNode.frame;
+
+                        parentFrame.slots[slotIndex].value = "newSlotValue ";
+
+                        MainFrameContainer.ReplaceFrame(parentFrame.name, parentFrame);
+
+
+                        ViewModelFramesHierarchy newSlotValue_Node = new ViewModelFramesHierarchy()
+                        {
+                            kbEntity = KBEntity.SLOT_VALUE,
+
+                            ParentalNode = parentNode,
+                            Name = parentFrame.slots[slotIndex].value,
+                        };
+                        parentNode.Nodes.Add(newSlotValue_Node);
+
+                        break;
+                    }
+                    break;
+
+                case KBEntity.DOMAIN_NAME:
+                    break;
+
+                default:
+                    break;
+
+            }
+            OnPropertyChanged("AddSlotOrDomainValueNode");
+            return true;
+
+        }
+        //TODO: Можно возвращать код ошибки
+        public void PrependFrame()
+        {
+            Frame newFrame = new Frame()
+            {
+                name = "newFrame" + _newFrameCounter++.ToString(),
+            };
+            MainFrameContainer.AddFrame(newFrame);
+            newFrame.Id = MainFrameContainer.GetAllFrames().Last().Id;
+
+            ViewModelFramesHierarchy newFrameNode = new ViewModelFramesHierarchy()
+            {
                 kbEntity = KBEntity.FRAME,
-                ParentalNode = _nodeCollection[0]
+
+                ParentalNode = _nodeCollection[0],
+
+                Id = frame.Id,
+                Name = newFrame.name,
+                Frame = newFrame
             };
 
-            List<Slot> newSlots = new List<Slot>();
-            int slotIndex = 0;
-            foreach (var slot in frame.slots)
+            ViewModelFramesHierarchy isA_node = new ViewModelFramesHierarchy()
             {
-                newSlots.Add(slot);
-                ViewModelFramesHierarchy vmtSlots = new ViewModelFramesHierarchy()
-                {
-                    Name = slot.name + ": " + slot.value,
-                    kbEntity = KBEntity.SLOT_NAME,
-                    NodeIndex = slotIndex++,
-                    ParentalNode = newFrameVMFH
-                };
-                newFrameVMFH.frame.slots = newSlots;
-                newFrameVMFH.Nodes.Add(vmtSlots);
-            }
+                kbEntity = KBEntity.IS_A,
+
+                ParentalNode = newFrameNode,
+                Name = "is_a: " + frame.isA,
+                NodeIndex = 0,
+
+            };
+
+            newFrameNode.Nodes.Add(isA_node);
+            ////
 
             if (_nodeCollection[0].Nodes.Count != 0)
             {
                 ViewModelFramesHierarchy prevNode = _nodeCollection[0].Nodes[0];
                 ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
                 //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
-                _nodeCollection[0].Nodes[0] = newFrameVMFH;
+                _nodeCollection[0].Nodes[0] = newFrameNode;
 
                 for (int i = 1; i < _nodeCollection[0].Nodes.Count; i++)
                 {
@@ -493,15 +498,14 @@ namespace Costaline.ViewModels
                 }
 
                 _nodeCollection[0].Nodes.Add(nextNode);
-                newFrameVMFH.Id = nextNode.Id + 1;
+                newFrameNode.Id = nextNode.Id + 1;
             }
             else
             {
                 Nodes = _nodeCollection;
-                _nodeCollection[0].Nodes.Add(newFrameVMFH);
+                _nodeCollection[0].Nodes.Add(newFrameNode);
             }
 
-            MainFrameContainer.AddFrame(frame);
 
             OnPropertyChanged("PrepEnd");
         }
