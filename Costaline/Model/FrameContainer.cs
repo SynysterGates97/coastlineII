@@ -102,7 +102,7 @@ namespace Costaline
         {
             return _frames;
         }
-        public bool DelFrame(Frame frame)// нужно проверить есть чувство, что делает не то, что должно
+        public bool DelFrame(Frame frame)
         {
             return _frames.Remove(frame);
         }
@@ -219,13 +219,13 @@ namespace Costaline
             }
         }
 
-        public void Rename(string lastName, Frame newFrame)//новая функция  для добавления
+        public bool Rename(string lastName, Frame newFrame)//новая функция  для добавления
         {
             var frame = FrameFinder(lastName);
 
             if (frame == null)
             {
-                return;
+                return false;
             }
             else
             {
@@ -234,12 +234,40 @@ namespace Costaline
                     if (_frames[i].name == frame.name)
                     {
                         _frames[i] = newFrame;
+                        return true;
                     }
                 }
-
-                ClearDomains();
-                GetDomains();// домены собираються когда вызываешь гет. поэтому лучшим решением что бы они снова собрались будет удалить все домены и собрать заного
+                return false;
             }
+        }
+
+        public bool AddDomain(string nameDomain, string valueDomain)
+        {           
+            foreach(var d in _domains)
+            {
+                if(d.name == nameDomain)
+                {
+                    d.values.Add(valueDomain);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool AddNewDomain(string nameDomain)
+        {
+            foreach (var d in _domains)
+            {
+                if (d.name == nameDomain)
+                {                    
+                    return false;
+                }
+            }
+
+            var newDom = new Domain();
+            newDom.name = nameDomain;
+            _domains.Add(newDom);
+            return true;
         }
     }
 }
