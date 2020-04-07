@@ -157,20 +157,41 @@ namespace Costaline.ViewModels
         {
             if(kbEntity == KBEntity.FRAME)
             {
-                MainFrameContainer.DelFrame(frame);
-                ParentalNode.Nodes.Remove(this);
+                if (MainFrameContainer.DelFrame(frame))
+                {
+                    ParentalNode.Nodes.Remove(this);
+                }
+                else
+                {
+                    MessageBox.Show("Данный фрейм не может быть удален.");
+                }
             }
             else if(kbEntity == KBEntity.SLOT_NAME)
             {
                 //Это должно будет переписать в контейнере.
                 Slot slotToDelete = ParentalNode.frame.slots[NodeIndex - 1];
-                ParentalNode.frame.DeleteSlot(slotToDelete.name);
-                //Rename используется для замены старого фрейма новым, с измененными слотами
-                MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
 
-                Nodes.Clear();//удаляем из памяти и узлов slotValue
-                ParentalNode.Nodes.Remove(this);//Удаляем и сам slotName
+                if (ParentalNode.frame.DeleteSlot(slotToDelete.name))
+                {
+
+                    //Rename используется для замены старого фрейма новым, с измененными слотами
+                    MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
+
+                    Nodes.Clear();//удаляем из памяти и узлов slotValue
+                    ParentalNode.Nodes.Remove(this);//Удаляем и сам slotName
+
+                    int newNodeIndex = 0;
+                    foreach (var node in ParentalNode.Nodes)
+                    {
+                        node.NodeIndex = newNodeIndex++;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Слот не может быть удален.");
+                }
             }
+
             OnPropertyChanged();
         }
         //Todo: Переделать под метод
@@ -185,14 +206,38 @@ namespace Costaline.ViewModels
                         case KBEntity.FRAME:
                             {
                                 string previousFrameName = frame.name;
-                                frame.name = value;
-                                Name = value;
-                                MainFrameContainer.ReplaceFrame(previousFrameName, frame);
+                                Frame newFrame = new Frame()
+                                {
+                                    name = value,
+                                };
+
+                                for(int i=0;i<frame.slots.Count;i++)
+                                {
+                                    newFrame.slots.Add(frame.slots[i]);
+                                }
+                                if (MainFrameContainer.ReplaceFrame(previousFrameName, newFrame))
+                                {
+                                    frame.name = value;
+                                    Name = value;
+                                }
                                 break;
                             }
                         case KBEntity.DOMAIN_NAME:
                             {
-                                domain.name = value;
+                                List<string> domainNames = new List<string>();
+                                foreach (var domain in MainFrameContainer.GetDomains())
+                                {
+                                    domainNames.Add(domain.name);
+                                }
+
+                                if (!domainNames.Contains(value))
+                                {
+                                    domain.name = value;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Домен с таким именем уже существует");
+                                }
                                 break;
                             }
                         case KBEntity.DOMAIN_VALUE:
@@ -384,6 +429,8 @@ namespace Costaline.ViewModels
             return null;
         }
 
+        private static int _newDomainNameCounter = 0;
+        private static int _newDomainValueCounter = 0;
         private static int _newFrameCounter = 0;
         private static int _newSlotNameCounter = 0;
 
@@ -439,6 +486,26 @@ namespace Costaline.ViewModels
                     break;
 
                 case KBEntity.DOMAIN_NAME:
+                    int domainsCount = parentNode.Nodes.Count - 1;
+
+                    string newDomain_ValueName = "newDomainValue " + _newDomainValueCounter++.ToString();
+
+                    if(MainFrameContainer.AddNewValueToDomain(parentNode.Domain.name, newDomain_ValueName))
+                    {
+                        //TODO: если переименование вернуло true то делаем следующее:
+
+                        parentNode.Domain.values.Add(newDomain_ValueName);
+
+                        ViewModelFramesHierarchy newDomainValue_Node = new ViewModelFramesHierarchy()
+                        {
+                            kbEntity = KBEntity.DOMAIN_VALUE,
+
+                            ParentalNode = parentNode,
+                            NodeIndex = domainsCount + 1,
+                            Name = newDomain_ValueName,
+                        };
+                        parentNode.Nodes.Add(newDomainValue_Node);
+                    }
                     break;
 
                 default:
@@ -481,33 +548,63 @@ namespace Costaline.ViewModels
             };
 
             newFrameNode.Nodes.Add(isA_node);
-            ////
 
-            if (_nodeCollection[0].Nodes.Count != 0)
+            _moveAllOtherNodesRightAfterNewNode(ref newFrameNode, 0); //0 для фреймов
+
+            OnPropertyChanged("PrepEnd");
+        }
+
+        public void PrependDomain()
+        {
+            Domain newDomain = new Domain()
             {
-                ViewModelFramesHierarchy prevNode = _nodeCollection[0].Nodes[0];
+                name = "newDomain" + _newDomainValueCounter++.ToString(),
+            };
+
+            if (MainFrameContainer.AddNewDomain(newDomain))
+            {
+
+                Domain = newDomain;
+
+                ViewModelFramesHierarchy newDomainNode = new ViewModelFramesHierarchy()
+                {
+                    kbEntity = KBEntity.DOMAIN_NAME,
+
+                    ParentalNode = _nodeCollection[1],
+                    Name = newDomain.name,
+                    Frame = null,
+                };
+
+                _moveAllOtherNodesRightAfterNewNode(ref newDomainNode, 1); //1 для доменов
+
+                OnPropertyChanged("PrependDomain");
+            }
+        }
+
+        private void _moveAllOtherNodesRightAfterNewNode(ref ViewModelFramesHierarchy newNode, int domainOrSlot)
+        {
+            if (_nodeCollection[domainOrSlot].Nodes.Count != 0)
+            {
+                ViewModelFramesHierarchy prevNode = _nodeCollection[domainOrSlot].Nodes[0];
                 ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
                 //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
-                _nodeCollection[0].Nodes[0] = newFrameNode;
+                _nodeCollection[domainOrSlot].Nodes[0] = newNode;
 
-                for (int i = 1; i < _nodeCollection[0].Nodes.Count; i++)
+                for (int i = 1; i < _nodeCollection[domainOrSlot].Nodes.Count; i++)
                 {
-                    nextNode = _nodeCollection[0].Nodes[i];
-                    _nodeCollection[0].Nodes[i] = prevNode;
+                    nextNode = _nodeCollection[domainOrSlot].Nodes[i];
+                    _nodeCollection[domainOrSlot].Nodes[i] = prevNode;
                     prevNode = nextNode;
                 }
 
-                _nodeCollection[0].Nodes.Add(nextNode);
-                newFrameNode.Id = nextNode.Id + 1;
+                _nodeCollection[domainOrSlot].Nodes.Add(nextNode);
+                newNode.Id = nextNode.Id + 1;
             }
             else
             {
                 Nodes = _nodeCollection;
-                _nodeCollection[0].Nodes.Add(newFrameNode);
+                _nodeCollection[domainOrSlot].Nodes.Add(newNode);
             }
-
-
-            OnPropertyChanged("PrepEnd");
         }
 
         public List<Frame> GetAnswerByFrame(Frame frame)

@@ -59,16 +59,17 @@ namespace Costaline
             }
         }
 
-        public void DeleteSlot(string nameSlot)
+        public bool DeleteSlot(string nameSlot)
         {
             foreach (var s in slots)
             {
                 if (s.name == nameSlot)
                 {
                     slots.Remove(s);
-                    break;
+                    return true;
                 }
             }
+            return false;
 
         }
     }

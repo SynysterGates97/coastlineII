@@ -220,9 +220,9 @@ namespace Costaline
         }
 
         //TODO: в дальнейшем полюбому нужно возращать, переименовалось ли
-        public bool ReplaceFrame(string lastName, Frame newFrame)//новая функция  для добавления
+        public bool ReplaceFrame(string oldName, Frame newFrame)//новая функция  для добавления
         {
-            var frame = FrameFinder(lastName);
+            var frame = FrameFinder(oldName);
 
             if (frame == null)
             {
@@ -242,7 +242,7 @@ namespace Costaline
             }
         }
 
-        public bool AddDomain(string nameDomain, string valueDomain)
+        public bool AddNewValueToDomain(string nameDomain, string valueDomain)
         {           
             foreach(var d in _domains)
             {
@@ -255,19 +255,17 @@ namespace Costaline
             return false;
         }
 
-        public bool AddNewDomain(string nameDomain)
+        public bool AddNewDomain(Domain newDomain)
         {
             foreach (var d in _domains)
             {
-                if (d.name == nameDomain)
+                if (d.name == newDomain.name)
                 {                    
                     return false;
                 }
             }
 
-            var newDom = new Domain();
-            newDom.name = nameDomain;
-            _domains.Add(newDom);
+            _domains.Add(newDomain);
             return true;
         }
     }

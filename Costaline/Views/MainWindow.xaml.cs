@@ -43,6 +43,7 @@ namespace Costaline
             existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick;
         }
 
+
         private void GraphArea_VertexClicked(object sender, VertexClickedEventArgs args)
         {
             DataVertex selectedVertex = new DataVertex();
@@ -200,7 +201,8 @@ namespace Costaline
 
         private void AddDomainButton_Click(object sender, RoutedEventArgs e)
         {
-
+            viewModel.Events.viewModelFramesHierarchy.PrependDomain();
+            existingSituationsTreeView.ItemsSource = viewModel.Events.viewModelFramesHierarchy.Nodes;
         }
     }
 }
