@@ -20,182 +20,124 @@ namespace Costaline
     /// </summary>
     public partial class ConsultationWindow : Window
     {
-        public static ObservableCollection<string> frameInWin;// нужно переменовать на что то более осмысленое
+        public static ObservableCollection<string> listSlots = new ObservableCollection<string>();
         public ConsultationWindow()
         {
-            InitializeComponent();
-            
-            frameInWin = new ObservableCollection<string>();
-            frameInWin.Add("");
-            frameList.ItemsSource = frameInWin;
-      
+            InitializeComponent();            
         }
 
         FrameContainer frameContainer;
-
-        public static bool isSubFrameWin;
-        QuestionWindow question;
-
         public FrameContainer FrameContainer 
         {
-            get { return frameContainer; }
-
+            get
+            {
+               return frameContainer;
+            }
             set
             {
                 frameContainer = value;
-                foreach (var f in value.GetAllFrames())
+                foreach(var f in value.GetAllFrames())
                 {
-                    if(BigBoy == null || f.slots.Count > BigBoy.slots.Count)
+                    if(BigBoy == null || BigBoy.slots.Count < f.slots.Count)
                     {
-                        BigBoy = f;                        
+                        BigBoy = f;
                     }
-
-                    load();
                 }
-                FindSubFrame();
-            }
+            }           
         }
 
         public Frame AnswerFrame { get; set; } = new Frame();
-        private Frame BigBoy { get; set; }
-        public static Frame NewFrame;
+        public bool IsAnswerGive = false;
+        public static Frame PreAnswer { get; set; } = new Frame();
+        Frame BigBoy { get; set; }        
 
-        public static Frame findFrame;
-
-        private void load()
-        {            
-            NewFrame = new Frame();
-
-            NewFrame.name = "tata";            
-
-            foreach (var slot in BigBoy.slots)
-            {
-                var s = new Slot();
-                s.name = slot.name;
-                s.value = slot.value;
-
-                NewFrame.slots.Add(s);
-
-            }            
-        }
-
-        private void FindSubFrame()
+        void BC_GetAnswer(object sender, RoutedEventArgs e)
         {
-            foreach (var slot in NewFrame.slots)
+            if (frameContainer.GetAllFrames().Count < 1 || frameContainer.GetDomains().Count < 1)
             {
-
-                findFrame = frameContainer.FrameFinder(slot.value);
-
-                if (findFrame != null)
-                {
-                    frameInWin[0] = slot.name;
-
-                    isSubFrameWin = true;
-                    NewFrame.slots.Remove(slot);
-                    break;
-                }
-                else
-                {
-                    frameInWin[0] = "Оставшиеся вопрсы";
-                }
-            }
-        }        
-
-        private void BC_TakeConsultation(object sender, RoutedEventArgs e)
-        {
-            var domains = frameContainer.GetDomains();
-
-            var answerFrame = new Frame();
-
-            answerFrame.name = "answerFrame";
-
-            for (int i = 1; i < frameInWin.Count; i++)
-            {
-                var data = Split(frameInWin[i]);
-                var slot = new Slot();
-
-                slot.name = data[0];
-                slot.value = data[1];
-
-                answerFrame.slots.Add(slot);
+                MessageBox.Show("Загрузите или создайте БЗ.");
+                this.Close();
+                return;
             }
 
-            var find = frameContainer.GetAnswer(answerFrame);
-            if (isSubFrameWin)
-            {
-                isSubFrameWin = false;
+            listSlots = new ObservableCollection<string>();
+            SlotsList.ItemsSource = listSlots;
 
-                if (find == null || answerFrame.slots.Count < 2)
+            var aFrame = frameContainer.GetAnswer(BigBoy);
+
+            for (int i = aFrame.Count - 1; i >= 0; i--)
+            {
+                var f = new Frame();                
+
+                for(int j = 0; j < aFrame[i].slots.Count; j++)
                 {
-                    MessageBox.Show("Системе не удалось найти ответ. Проверте правильность ввода.");
-                }
-                else
-                {
-                    frameInWin.Clear();                    
-                    foreach (var d in domains)
+                    bool isFind = false;
+
+                    foreach(var s in AnswerFrame.slots)
                     {
-                        foreach (var value in d.values)
+                        if(s.name == aFrame[i].slots[j].name)
                         {
-                            if (find[0].name == value)
-                            {
-                                var slot = new Slot();
-
-                                slot.name = d.name;
-                                slot.value = value;
-
-                                AnswerFrame.slots.Add(slot);
-                            }
+                            isFind = true;
+                            break;
                         }
                     }
-                    frameInWin.Add("");
-                    FindSubFrame();
-                    
-                    question.domainNameLoaded(question.domainNames, e);
-                }
-            }
-            else
-            {
-                AnswerFrame.name = "answerFrame";
 
-                foreach (var slot in answerFrame.slots)
+                    if (!isFind)
+                    {
+                        var slot = new Slot();
+                        slot.name = aFrame[i].slots[j].name;                        
+
+                        f.slots.Add(slot);
+                    }
+                }
+
+                QuestionWindow question = new QuestionWindow(frameContainer, f);
+                question.ShowDialog();
+                
+                if(i != 0)
                 {
-                    AnswerFrame.slots.Add(slot);
+                    var frame = frameContainer.GetAnswer(PreAnswer);
+
+                    if (frame == null || PreAnswer.slots.Count < 1)
+                    {
+                        MessageBox.Show("Системе не удалось найти. Проверте правильность и повоторите ввод или обратитесь к другой экспертной системе.");
+                        PreAnswer = new Frame();
+                        break;
+                    }
+                    else 
+                    {
+                        foreach(var d in frameContainer.GetDomains())
+                        {
+                            foreach(var v in d.values)
+                            {
+                                if(v == frame[0].name)
+                                {
+                                    var slot = new Slot();
+                                    slot.name = d.name;
+                                    slot.value = v;
+
+                                    AnswerFrame.slots.Add(slot);
+                                }
+                            }
+                        }
+                        PreAnswer = new Frame();
+                    }
                 }
+                else
+                {
+                    foreach(var slot in PreAnswer.slots)
+                    {
+                        AnswerFrame.slots.Add(slot);
+                    }
 
-                this.Close();
+                    PreAnswer = new Frame();
+                    IsAnswerGive = true;
+
+                    this.Close();
+                }
             }
         }
 
-        private void BC_ShowQuestionWindou(object sender, RoutedEventArgs e)
-        {
-            question = new QuestionWindow(frameContainer);
-            question.ShowDialog();
-        }        
-
-        private void BC_Del(object sender, RoutedEventArgs e)
-        {
-            var delWin = new DeleteWindow();
-            delWin.ShowDialog();
-
-            if (delWin.IsDelete == true)
-            {
-                ListBox_ItemSelected(sender);
-            }
-        }              
-
-        private void ListBox_ItemSelected(object sender)
-        {
-
-            if (frameList.SelectedItem != null && frameList.SelectedIndex != 0)
-            {
-                frameInWin.Remove(frameList.SelectedItem.ToString());
-            }
-        }
-
-        String[] Split(string str)
-        {
-            string[] words = str.Split(new char[] { ':' });
-            return words;
-        }
+         
     }
 }

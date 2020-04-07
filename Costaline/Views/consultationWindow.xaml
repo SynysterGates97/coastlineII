@@ -19,14 +19,11 @@
         <TextBlock Grid.Row="0" Text="В данном окне необходимо ответить на предложеные вопрсоы. В левом всплывающем меню и ответ в правом. "/>
 
         <Label Grid.Row="1" Content="Список отвеченных вами вопросов"/>
-        <ListBox x:Name="frameList" Grid.Row="2">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header= "Удалить" Click="BC_Del"/>
-                    <MenuItem Header= "Ответить" Click="BC_ShowQuestionWindou"/>
-                    <MenuItem Header= "Далее" Click="BC_TakeConsultation"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <ListBox x:Name="SlotsList"/>
+        </StackPanel>
+        
+        <Button Grid.Row="3" Content="Далее" Margin="10 0 0 0" MaxWidth="80" Click="BC_GetAnswer"></Button>
     </Grid>
 </Window>

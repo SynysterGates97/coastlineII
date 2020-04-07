@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,101 +18,69 @@ namespace Costaline
     /// Логика взаимодействия для QuestionWindow.xaml
     /// </summary>
     public partial class QuestionWindow : Window
-    {
-        public QuestionWindow(FrameContainer FrameContainer)
+    {       
+        public QuestionWindow(FrameContainer fContainer, Frame fTAnswer)
         {
-            frameContainer = FrameContainer;
-            frameInWin = ConsultationWindow.frameInWin;
-            NewFrame = ConsultationWindow.NewFrame;
-            isSubFrame = ConsultationWindow.isSubFrameWin;
-            InitializeComponent();            
+            InitializeComponent();
+            frameContainer = fContainer;
+            frameToAnswer = fTAnswer;
+            count = fTAnswer.slots.Count;
+            Load();
         }
 
-        bool isSubFrame;
-
-        ObservableCollection<string> frameInWin;
-        private FrameContainer frameContainer { get; set; }
-
-        Frame NewFrame;
-
-        public void domainNameLoaded(object sender, RoutedEventArgs e)
+        FrameContainer frameContainer;
+        Frame frameToAnswer;
+        Frame aFrame = new Frame();
+        int count;
+        
+        void Load()
         {
-            var domains = frameContainer.GetDomains();
-            List<object> data = new List<object>();
-            
-            if (ConsultationWindow.findFrame != null)
-            {
-                foreach (var slot in ConsultationWindow.findFrame.slots)
-                {
-                    foreach (var d in domains)
-                    {
-                        if (slot.name == d.name)
-                        {
-                            data.Add(d.name);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                isSubFrame = false;
-                foreach (var slot in NewFrame.slots)
-                {
-                    data.Add(slot.name);
-                }
-            }
+            DomainName.Text = frameToAnswer.slots[count - 1].name;
 
-            var comboBox = sender as ComboBox;
+            var data = new List<string>();
 
-            comboBox.ItemsSource = data;
-            comboBox.SelectedIndex = 0;
-        }
-
-        private void BC_AddSlot(object sender, RoutedEventArgs e)
-        {
-            var name = TakeStrFromCombobox(domainNames.SelectedItem);
-            var value = TakeStrFromCombobox(domainValues.SelectedItem);
-
-            string slot = name + ":" + value;
-
-            frameInWin.Add(slot);
-        }
-
-        private void domainNameSelected(object sender, SelectionChangedEventArgs e)
-        {
-            if (domainNames.SelectedItem == null)
-            {
-                domainNames.SelectedIndex = 0;
-            }
-
-            var name = domainNames.SelectedItem.ToString();
-            var domains = frameContainer.GetDomains();
-            List<object> data = new List<object>();
-
-            foreach (var d in domains)
-            {
-                if (d.name == name)
+            foreach (var d in frameContainer.GetDomains())
+            {                
+                if (d.name == frameToAnswer.slots[count-1].name)
                 {
                     foreach (var v in d.values)
                     {
                         data.Add(v);
                     }
 
-                    domainValues.ItemsSource = data;
-                    domainValues.SelectedIndex = 0;
-                }
+                    DomainValues.ItemsSource = data;
+                    DomainValues.SelectedIndex = 0;
+                    break;
+                }                
             }
+
+            count--;
         }
 
-        string TakeStrFromCombobox(object obj)
+        void BC_Answer(object sender, RoutedEventArgs e)
         {
-            if (obj == null) return null;
 
-            if (obj is TextBox)
+            var str = DomainName.Text.ToString() + ":" + DomainValues.Text.ToString();
+
+            Slot slot = new Slot();
+            slot.name = DomainName.Text.ToString();
+            slot.value = DomainValues.Text.ToString();
+
+            aFrame.slots.Add(slot);
+
+            ConsultationWindow.listSlots.Add(str);
+
+            ConsultationWindow.PreAnswer.slots.Add(slot);
+
+            if (count > 0)
             {
-                return (obj as TextBox).Text;
+                Load();
             }
-            else return obj.ToString();
+            else
+            {
+                this.Close();
+            }
+
         }
     }
 }
