@@ -268,6 +268,28 @@ namespace Costaline
             _domains.Add(newDomain);
             return true;
         }
+
+        public bool ReplaceDomain(string oldDomainName, Domain newDomain)//новая функция  для добавления
+        {
+            int domainToChange_index= -1;
+            bool isNewDomainInDomains = false;
+
+            for (int i = 0; i < _domains.Count; i++)
+            {
+                if (newDomain.name == _domains[i].name)
+                    return false;
+                if (_domains[i].name == oldDomainName)
+                {
+                    domainToChange_index = i;
+                }
+            }
+            if (!isNewDomainInDomains && domainToChange_index != -1)
+            {
+                _domains[domainToChange_index] = newDomain;
+                return true;
+            }
+            return false;
+        }
     }
 }
 

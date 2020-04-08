@@ -230,8 +230,23 @@ namespace Costaline.ViewModels
                                     domainNames.Add(domain.name);
                                 }
 
-                                if (!domainNames.Contains(value))
+                                //////////////////
+                                Domain newDomain = new Domain()
                                 {
+                                    name = value,
+                                };
+
+                                for (int i = 0; i < Domain.values.Count; i++)
+                                {
+                                    newDomain.values.Add(Domain.values[i]);
+                                }
+                                ///////////////////
+
+                                
+                                if (MainFrameContainer.ReplaceDomain(Domain.name, newDomain))
+                                {
+
+                                    Name = value;
                                     domain.name = value;
                                 }
                                 else
