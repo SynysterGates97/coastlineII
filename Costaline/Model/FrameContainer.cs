@@ -30,72 +30,75 @@ namespace Costaline
 
         public bool AddFrame(Frame frame)
         {
-            foreach (var f in _frames)
+            if (frame.slots.Count > 0)
             {
-                var equalsSlots = new List<Slot>();
-
-                foreach (var d in _domains)
+                foreach (var f in _frames)
                 {
-                    foreach (var v in d.values)
-                    {
-                        if (frame.name == v && f.name == v)
-                        {
-                            return false;
-                        }
-                    }
-                }
+                    var equalsSlots = new List<Slot>();
 
-                if (f.slots.Count == frame.slots.Count)
-                {
-                    foreach (var slot in frame.slots)
-                    {
-                        if (f.slots.Where(fr => fr.name == slot.name && fr.value == slot.value).Count() > 0)
-                        {
-                            equalsSlots.Add(slot);
-                        }
-                    }
-                }
-
-                if (equalsSlots.Count == frame.slots.Count)
-                {
-                    return false;
-                }
-            }
-
-            foreach (var slot in frame.slots)
-            {
-                var isFind = false;
-                {
                     foreach (var d in _domains)
                     {
-                        if (slot.name == d.name)
+                        foreach (var v in d.values)
                         {
-                            isFind = true;
-                            if (!d.values.Contains(slot.value))
+                            if (frame.name == v && f.name == v)
                             {
-                                d.values.Add(slot.value);
+                                return false;
                             }
                         }
                     }
+
+                    if (f.slots.Count == frame.slots.Count)
+                    {
+                        foreach (var slot in frame.slots)
+                        {
+                            if (f.slots.Where(fr => fr.name == slot.name && fr.value == slot.value).Count() > 0)
+                            {
+                                equalsSlots.Add(slot);
+                            }
+                        }
+                    }
+
+                    if (equalsSlots.Count == frame.slots.Count)
+                    {
+                        return false;
+                    }
                 }
-                if (isFind == false)
+
+                foreach (var slot in frame.slots)
                 {
-                    Domain domain = new Domain();
-                    domain.name = slot.name;
-                    domain.values.Add(slot.value);
+                    var isFind = false;
+                    {
+                        foreach (var d in _domains)
+                        {
+                            if (slot.name == d.name)
+                            {
+                                isFind = true;
+                                if (!d.values.Contains(slot.value))
+                                {
+                                    d.values.Add(slot.value);
+                                }
+                            }
+                        }
+                    }
+                    if (isFind == false)
+                    {
+                        Domain domain = new Domain();
+                        domain.name = slot.name;
+                        domain.values.Add(slot.value);
 
-                    _domains.Add(domain);
+                        _domains.Add(domain);
+                    }
                 }
             }
 
-            if (_frames.Count == 0)
-            {
-                frame.Id = 1;
-            }
-            else frame.Id = _frames.Last().Id + 1;
+                if (_frames.Count == 0)
+                {
+                    frame.Id = 1;
+                }
+                else frame.Id = _frames.Last().Id + 1;
 
-            _frames.Add(frame);
-            return true;
+                _frames.Add(frame);
+                return true;            
         }
 
         public List<Frame> GetAllFrames()
