@@ -5,20 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Costaline"
         mc:Ignorable="d"
-        Title="QuestionWindow" Height="100" Width="500" WindowStyle="ToolWindow">
+        Title="QuestionWindow" Height="170" Width="350" WindowStyle="ToolWindow">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <ComboBox Name="domainNames" Loaded="domainNameLoaded" SelectionChanged="domainNameSelected"/>
-            <ComboBox Name="domainValues" Grid.Column="2" Grid.Row="4"/>
-            <Button Content="Ответить" MaxWidth="80" Margin="10 0 0 0" Click="BC_AddSlot"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="DomainName" Margin="10, 0, 0, 0"></TextBlock>
+            <ComboBox x:Name="DomainValues" Margin="10, 0, 0, 0"></ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Ответить" Click="BC_Answer"/>
         </StackPanel>
     </Grid>
 </Window>

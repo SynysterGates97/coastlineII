@@ -402,7 +402,7 @@ namespace Costaline.ViewModels
             consultationWindow.FrameContainer = viewModelFramesHierarchy.GetFrameContainer();
             consultationWindow.ShowDialog();
 
-            if (consultationWindow.AnswerFrame != null || consultationWindow.AnswerFrame.slots.Count > 0)
+            if (consultationWindow.IsAnswerGive)
             {
                 List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
                 if(answerFrames != null)
