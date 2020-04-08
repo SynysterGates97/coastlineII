@@ -204,6 +204,11 @@ namespace Costaline
             viewModel.Events.viewModelFramesHierarchy.PrependDomain();
             existingSituationsTreeView.ItemsSource = viewModel.Events.viewModelFramesHierarchy.Nodes;
         }
+
+        private void SaveKb_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Ну Сохранил и сохранил");
+        }
     }
 }
 
