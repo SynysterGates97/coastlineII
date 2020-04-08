@@ -224,12 +224,6 @@ namespace Costaline.ViewModels
                             }
                         case KBEntity.DOMAIN_NAME:
                             {
-                                List<string> domainNames = new List<string>();
-                                foreach (var domain in MainFrameContainer.GetDomains())
-                                {
-                                    domainNames.Add(domain.name);
-                                }
-
                                 //////////////////
                                 Domain newDomain = new Domain()
                                 {
@@ -243,7 +237,7 @@ namespace Costaline.ViewModels
                                 ///////////////////
 
                                 
-                                if (MainFrameContainer.ReplaceDomain(Domain.name, newDomain))
+                                if (MainFrameContainer.ReplaceDomain(Domain.name, newDomain,false))//false потому что имя меняется, и нужно проверять не совпадает ли
                                 {
 
                                     Name = value;
@@ -258,7 +252,23 @@ namespace Costaline.ViewModels
                         case KBEntity.DOMAIN_VALUE:
                             {
                                 int indexOfChosenDomain = ParentalNode.Nodes.IndexOf(this);
+
+                                ///////
+                                Domain newDomain = new Domain()
+                                {
+                                    name = ParentalNode.domain.name,
+                                };
+
+                                for (int i = 0; i < ParentalNode.Domain.values.Count; i++)
+                                {
+                                    newDomain.values.Add(ParentalNode.Domain.values[i]);
+                                }
+                                newDomain.values[indexOfChosenDomain] = value;
+                                ///////
+                                MainFrameContainer.ReplaceDomain(ParentalNode.Domain.name, newDomain, true);//true не проверяем имя домена, т.к. мы закидываем то же имя.
+
                                 ParentalNode.domain.values[indexOfChosenDomain] = value;
+
                                 break;
                             }
                         case KBEntity.SLOT_NAME:
@@ -601,7 +611,7 @@ namespace Costaline.ViewModels
             if (_nodeCollection[domainOrSlot].Nodes.Count != 0)
             {
                 ViewModelFramesHierarchy prevNode = _nodeCollection[domainOrSlot].Nodes[0];
-                ViewModelFramesHierarchy nextNode = new ViewModelFramesHierarchy();
+                ViewModelFramesHierarchy nextNode = prevNode;
                 //prevNode = firstNode[0].Nodes[0];// Сохраняем самый первый узел
                 _nodeCollection[domainOrSlot].Nodes[0] = newNode;
 
@@ -613,7 +623,6 @@ namespace Costaline.ViewModels
                 }
 
                 _nodeCollection[domainOrSlot].Nodes.Add(nextNode);
-                newNode.Id = nextNode.Id + 1;
             }
             else
             {

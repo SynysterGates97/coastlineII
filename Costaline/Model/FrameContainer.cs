@@ -237,6 +237,7 @@ namespace Costaline
                 {
                     if (_frames[i].name == frame.name)
                     {
+                        //TODO: Здесь нужно поменять и домен.
                         _frames[i] = newFrame;
                         return true;
                     }
@@ -272,14 +273,14 @@ namespace Costaline
             return true;
         }
 
-        public bool ReplaceDomain(string oldDomainName, Domain newDomain)//новая функция  для добавления
+        public bool ReplaceDomain(string oldDomainName, Domain newDomain, bool isToChangeParentDomainValue)//новая функция  для добавления
         {
             int domainToChange_index= -1;
             bool isNewDomainInDomains = false;
 
             for (int i = 0; i < _domains.Count; i++)
             {
-                if (newDomain.name == _domains[i].name)
+                if (newDomain.name == _domains[i].name && !isToChangeParentDomainValue)
                     return false;
                 if (_domains[i].name == oldDomainName)
                 {
