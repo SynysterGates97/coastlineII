@@ -70,7 +70,7 @@ namespace Costaline
                     {
                         foreach (var d in _domains)
                         {
-                            if (slot.name == d.name)
+                            if (slot.name == d.name && !_isNewNameInvalid(slot.value))
                             {
                                 isFind = true;
                                 if (!d.values.Contains(slot.value))
@@ -81,7 +81,7 @@ namespace Costaline
                         }
                     }
 
-                    if (isFind == false)
+                    if (isFind == false && !_isNewNameInvalid(slot.name) && !_isNewNameInvalid(slot.value))
                     {
                         Domain domain = new Domain();
                         domain.name = slot.name;
@@ -111,10 +111,20 @@ namespace Costaline
         {
             return _frames.Remove(frame);
         }
-        private bool _isSystemNewName(string name)
+        private bool _isNewNameInvalid(string name)
         {
+            if (name == null)
+                return true;
+            if (name == "")
+                return true;
             return name.Contains("!!!");
         }
+        
+        public bool DelDomains(Domain domain)
+        {
+            return _domains.Remove(domain);
+        }
+
         public List<Domain> GetDomains()
         {
             foreach (var f in _frames)
@@ -125,7 +135,7 @@ namespace Costaline
                     {
                         foreach (var d in _domains)//ТУТА
                         {
-                            if (d.name == slot.name && !_isSystemNewName(slot.value))
+                            if (d.name == slot.name && !_isNewNameInvalid(slot.value))
                             {
                                 d.values.Add(slot.value);
                             }
@@ -238,77 +248,50 @@ namespace Costaline
             }
             else
             {
-                for (int i = 0; i < _frames.Count; i++)
+                DelFrame(frame);
+                
+                foreach(var s in frame.slots)
                 {
-                    if (_frames[i].name == frame.name)
+                    if (!IsUsingValue(s.value) && !_isNewNameInvalid(s.value))
                     {
-                        //TODO: Здесь нужно поменять и домен.
-                        _frames[i] = newFrame;
-                        return true;
+                        var listDom = new List<Domain>();
+
+                        foreach(var d in _domains)
+                        {
+                            d.values.Remove(s.value);
+                            if(d.values.Count < 1)
+                            {
+                                listDom.Add(d);
+                            }
+                        }
+
+                        foreach(var elem in listDom)
+                        {
+                            DelDomains(elem);
+                        }
                     }
                 }
-                return false;
+
+                AddFrame(newFrame);
+                return true;
             }
         }
 
-        public bool ReplaceSlotName(string lastNameSlot, string newNameSlot, string lastNameFrame, Frame newFrame)// переменовал имя слота
+        bool IsUsingValue(string value)
         {
-            DelFrame(FrameFinder(lastNameFrame));
-
             foreach(var f in _frames)
             {
                 foreach(var s in f.slots)
                 {
-                    if(s.name == lastNameSlot)
+                    if(s.value == value )
                     {
-                        AddFrame(newFrame);
-                        return true;
-                    }
-                }
-            }
-
-            foreach (var d in _domains) 
-            {
-                if (d.name == lastNameSlot)
-                {
-                    d.name = newNameSlot;
-                    AddFrame(newFrame);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool ReplaceSlotValue(string lastNameVal, string newNameVal, string lastNameFrame, Frame newFrame)// переменовал значение слота 
-        {
-            foreach (var f in _frames)
-            {
-                foreach (var s in f.slots)
-                {
-                    if (s.value == lastNameVal)
-                    {
-                        AddFrame(newFrame);
-                        return true;
-                    }
-                }
-            }
-
-            foreach (var d in _domains)
-            {
-                for (int i = 0; i < d.values.Count; i++)
-                {
-                    if(d.values[i] == lastNameVal)
-                    {
-                        d.values[i] = lastNameVal;
-                        AddFrame(newFrame);
                         return true;
                     }
                 }
             }
 
             return false;
-        }
+        }        
 
         public bool AddNewValueToDomain(string nameDomain, string valueDomain)
         {
