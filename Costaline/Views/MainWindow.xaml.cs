@@ -104,7 +104,51 @@ namespace Costaline
         private void MenuItem_Del(object sender, RoutedEventArgs e)
         {
             ViewModelFramesHierarchy SelectedNode = (ViewModelFramesHierarchy)existingSituationsTreeView.SelectedItem;
-            SelectedNode.DeleteSelectedNode();
+
+            DeleteWindow deleteWindow = new DeleteWindow();
+
+            string deleteInfoText = "Вы действительно хотите удалить ";
+            deleteWindow.Owner = this;
+
+            switch (SelectedNode.kbEntity)
+            {
+                case ViewModelFramesHierarchy.KBEntity.DOMAIN_NAME:
+                    deleteInfoText += "имя домена";
+                    break;
+                case ViewModelFramesHierarchy.KBEntity.DOMAIN_VALUE:
+                    deleteInfoText += "значение домена";
+                    break;
+                case ViewModelFramesHierarchy.KBEntity.FRAME:
+                    deleteInfoText += "фрейм";
+                    break;
+                case ViewModelFramesHierarchy.KBEntity.SLOT_NAME:
+                    deleteInfoText += "имя слота";
+                    break;
+                case ViewModelFramesHierarchy.KBEntity.SLOT_VALUE:
+                    deleteInfoText += "значение слота";
+                    break;
+                default:
+                    deleteInfoText = "Удаление невозможно для";
+                    break;
+            }
+            deleteInfoText += " \"" + SelectedNode.Name + "\"";
+
+            deleteWindow.Title = "Удаление";
+            deleteWindow.textBlock.Text = deleteInfoText;
+            System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
+            objBlur.Radius = 5;
+            this.Effect = objBlur;
+
+            if (deleteWindow.ShowDialog() == true)
+            {
+
+            }
+            this.Effect = null;
+
+            if (deleteWindow.IsDelete)
+            {
+                SelectedNode.DeleteSelectedNode();
+            }
             //MessageBox.Show("Ну удалил и че");
         }
 

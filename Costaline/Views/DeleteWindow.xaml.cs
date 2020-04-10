@@ -19,12 +19,12 @@ namespace Costaline
     /// </summary>
     public partial class DeleteWindow : Window
     {
-        private bool isDelete { get; set; }
+        private bool _isDelete;
         public bool IsDelete
         {
             get
             {
-                return isDelete;
+                return _isDelete;
             }
         }
         public DeleteWindow()
@@ -34,13 +34,13 @@ namespace Costaline
 
         private void buttonNo_Click(object sender, RoutedEventArgs e)
         {
-            isDelete = false;
+            _isDelete = false;
             this.Close();
         }
 
         private void buttonYes_Click(object sender, RoutedEventArgs e)
         {
-            isDelete = true;
+            _isDelete = true;
             this.Close();
         }
     }
