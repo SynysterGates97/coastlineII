@@ -110,8 +110,11 @@ namespace Costaline
         public bool DelFrame(Frame frame)
         {
             return _frames.Remove(frame);
-        }        
-
+        }
+        private bool _isSystemNewName(string name)
+        {
+            return name.Contains("!!!");
+        }
         public List<Domain> GetDomains()
         {
             foreach (var f in _frames)
@@ -120,9 +123,9 @@ namespace Costaline
                 {
                     if (_domains != null)
                     {
-                        foreach (var d in _domains)
+                        foreach (var d in _domains)//ТУТА
                         {
-                            if (d.name == slot.name)
+                            if (d.name == slot.name && !_isSystemNewName(slot.value))
                             {
                                 d.values.Add(slot.value);
                             }

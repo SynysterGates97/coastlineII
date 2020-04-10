@@ -467,7 +467,7 @@ namespace Costaline.ViewModels
                     int slotsCount = parentNode.Nodes.Count - 1;
                     Slot newSlotName_Slot = new Slot()
                     {
-                        name = "newSlotName " + _newSlotNameCounter++.ToString(),
+                        name = "!!!newSlotName " + _newSlotNameCounter++.ToString(),
                         value = null,
                     };
                     parentNode.Frame.slots.Add(newSlotName_Slot);
@@ -492,7 +492,7 @@ namespace Costaline.ViewModels
                         int slotIndex = parentNode.NodeIndex - 1;
                         Frame parentFrame = parentNode.ParentalNode.frame;
 
-                        parentFrame.slots[slotIndex].value = "newSlotValue ";
+                        parentFrame.slots[slotIndex].value = "!!!newSlotValue ";
 
                         MainFrameContainer.ReplaceFrame(parentFrame.name, parentFrame);
 
@@ -513,7 +513,7 @@ namespace Costaline.ViewModels
                 case KBEntity.DOMAIN_NAME:
                     int domainsCount = parentNode.Nodes.Count - 1;
 
-                    string newDomain_ValueName = "newDomainValue " + _newDomainValueCounter++.ToString();
+                    string newDomain_ValueName = "!!!newDomainValue " + _newDomainValueCounter++.ToString();
 
                     if(MainFrameContainer.AddNewValueToDomain(parentNode.Domain.name, newDomain_ValueName))
                     {
@@ -546,7 +546,7 @@ namespace Costaline.ViewModels
         {
             Frame newFrame = new Frame()
             {
-                name = "newFrame" + _newFrameCounter++.ToString(),
+                name = "!!!newFrame" + _newFrameCounter++.ToString(),
             };
             MainFrameContainer.AddFrame(newFrame);
             newFrame.Id = MainFrameContainer.GetAllFrames().Last().Id;
@@ -583,7 +583,7 @@ namespace Costaline.ViewModels
         {
             Domain newDomain = new Domain()
             {
-                name = "newDomain" + _newDomainValueCounter++.ToString(),
+                name = "!!!newDomain" + _newDomainValueCounter++.ToString(),
             };
 
             if (MainFrameContainer.AddNewDomain(newDomain))
