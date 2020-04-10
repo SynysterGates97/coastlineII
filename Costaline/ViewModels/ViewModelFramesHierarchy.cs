@@ -463,6 +463,17 @@ namespace Costaline.ViewModels
         {
             switch(parentNode.kbEntity)
             {
+                case KBEntity.DEFAULT_ENTITY:
+                    if(parentNode.Name == "Фреймы")
+                    {
+                        PrependFrame();
+                    }
+                    else if(parentNode.Name == "Домены")
+                    {
+                        PrependDomain();
+                    }
+
+                    break;
                 case KBEntity.FRAME:
                     int slotsCount = parentNode.Nodes.Count - 1;
                     Slot newSlotName_Slot = new Slot()

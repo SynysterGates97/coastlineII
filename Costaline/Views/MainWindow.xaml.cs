@@ -40,7 +40,6 @@ namespace Costaline
 
             zoomctrl.MouseRightButtonUp += Zoomctrl_MouseRightButtonUp;
             graphArea.VertexClicked += GraphArea_VertexClicked;
-            existingSituationsTreeView.MouseDoubleClick += ExistingSituationsTreeView_MouseDoubleClick;
         }
 
 
@@ -68,70 +67,6 @@ namespace Costaline
 
            
         }
-
-        private void ExistingSituationsTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            try
-            {
-                TreeView treeView = (TreeView)sender;
-                ViewModelFramesHierarchy selectedNode = (ViewModelFramesHierarchy)treeView.SelectedItem;
-
-                FrameContainer frameContainer = selectedNode.GetFrameContainer();
-                InputMessageBox inputMessageBox = new InputMessageBox();
-
-                switch(selectedNode.kbEntity)
-                {
-                    case ViewModelFramesHierarchy.KBEntity.FRAME:
-                        foreach (var frame in frameContainer.GetAllFrames())
-                        {
-                            inputMessageBox.comboBox.Items.Add(frame.name);
-                        }
-                        break;
-                    case ViewModelFramesHierarchy.KBEntity.SLOT_VALUE:
-                        foreach (var domain in frameContainer.GetDomains())
-                        {
-                            if(domain.name == selectedNode.ParentalNode.Name)
-                            {
-                                foreach(var domainValue in domain.values)
-                                {
-                                    inputMessageBox.comboBox.Items.Add(domainValue);
-                                }
-                            }
-                            
-                        }
-                        break;
-                    default: 
-                        break;
-
-                }
-
-                
-
-                inputMessageBox.Owner = this;
-
-                inputMessageBox.Title = "Поменять имя";
-                inputMessageBox.textBlock.Text = "Изменить имя " + selectedNode.Name + " на:";
-                System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
-                objBlur.Radius = 5;
-                this.Effect = objBlur;
-
-                if (inputMessageBox.ShowDialog() == true)
-                {
-
-                }
-                this.Effect = null;
-
-                if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
-                {
-                    selectedNode.SetSelectedNodeName = inputMessageBox.NewFrameOrSlotName;
-                }
-            }
-            catch(Exception E)
-            {
-                MessageBox.Show("Неверныe аргументы");
-            }
-        }
-
 
         private void Zoomctrl_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -173,6 +108,67 @@ namespace Costaline
             //MessageBox.Show("Ну удалил и че");
         }
 
+        private void MenuItem_Change(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewModelFramesHierarchy selectedNode = (ViewModelFramesHierarchy)existingSituationsTreeView.SelectedItem;
+
+                FrameContainer frameContainer = selectedNode.GetFrameContainer();
+                InputMessageBox inputMessageBox = new InputMessageBox();
+
+                switch (selectedNode.kbEntity)
+                {
+                    case ViewModelFramesHierarchy.KBEntity.FRAME:
+                        foreach (var frame in frameContainer.GetAllFrames())
+                        {
+                            inputMessageBox.comboBox.Items.Add(frame.name);
+                        }
+                        break;
+                    case ViewModelFramesHierarchy.KBEntity.SLOT_VALUE:
+                        foreach (var domain in frameContainer.GetDomains())
+                        {
+                            if (domain.name == selectedNode.ParentalNode.Name)
+                            {
+                                foreach (var domainValue in domain.values)
+                                {
+                                    inputMessageBox.comboBox.Items.Add(domainValue);
+                                }
+                            }
+
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+
+
+
+                inputMessageBox.Owner = this;
+
+                inputMessageBox.Title = "Поменять имя";
+                inputMessageBox.textBlock.Text = "Изменить имя " + selectedNode.Name + " на:";
+                System.Windows.Media.Effects.BlurEffect objBlur = new System.Windows.Media.Effects.BlurEffect();
+                objBlur.Radius = 5;
+                this.Effect = objBlur;
+
+                if (inputMessageBox.ShowDialog() == true)
+                {
+
+                }
+                this.Effect = null;
+
+                if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
+                {
+                    selectedNode.SetSelectedNodeName = inputMessageBox.NewFrameOrSlotName;
+                }
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show("Неверныe аргументы");
+            }
+        }
 
         private void existingSituationsTreeView_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -186,12 +182,18 @@ namespace Costaline
                 MenuItem addNode = new MenuItem() { Header = "Добавить" };
                 addNode.Click += MenuItem_Add;
 
+                MenuItem changeNode = new MenuItem() { Header = "Изменить" };
+                changeNode.Click += MenuItem_Change;
+
                 nodeOptionContextMenu.Items.Add(delNode);
                 nodeOptionContextMenu.Items.Add(addNode);
+                nodeOptionContextMenu.Items.Add(changeNode);
 
                 nodeOptionContextMenu.IsOpen = true;
             }
         }
+
+        
 
         private void AddFrameButton_Click(object sender, RoutedEventArgs e)
         {
