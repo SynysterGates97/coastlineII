@@ -195,7 +195,7 @@ namespace Costaline.ViewModels
             OnPropertyChanged();
         }
         //Todo: Переделать под метод
-        public string SetSelectedNodeName
+        public string ChangeSelectedNodeName
         {
             set
             {
@@ -215,6 +215,7 @@ namespace Costaline.ViewModels
                                 {
                                     newFrame.slots.Add(frame.slots[i]);
                                 }
+
                                 if (MainFrameContainer.ReplaceFrame(previousFrameName, newFrame))
                                 {
                                     frame.name = value;
@@ -292,7 +293,86 @@ namespace Costaline.ViewModels
                             }
                         case KBEntity.IS_A:
                             {
-                                ParentalNode.frame.isA = "is_a: " + value;
+                                Frame isaFrame = MainFrameContainer.FrameFinder(value);
+                                if (isaFrame != null)
+                                {
+                                    //////
+                                    Frame inheritedFrame = new Frame()
+                                    {
+                                        name = ParentalNode.Frame.name,
+                                        Id = ParentalNode.Frame.Id,
+                                        isA = isaFrame.name,
+                                    };
+
+                                    for (int i = 0; i < isaFrame.slots.Count; i++)
+                                    {
+                                        inheritedFrame.slots.Add(isaFrame.slots[i]);
+                                    }
+                                    //////
+
+                                    if (MainFrameContainer.ReplaceFrame(ParentalNode.Frame.name, inheritedFrame))
+                                    {
+                                        ParentalNode.Frame = inheritedFrame;
+                                        //Name = inheritedFrame.name;
+
+                                        
+                                        ViewModelFramesHierarchy InheritedFrameNode = new ViewModelFramesHierarchy()
+                                        {
+                                            kbEntity = KBEntity.FRAME,
+
+                                            ParentalNode = _nodeCollection[0],
+
+                                            Id = inheritedFrame.Id,
+                                            Name = inheritedFrame.name,
+                                            Frame = inheritedFrame,
+                                        };
+
+                                        ViewModelFramesHierarchy isA_node = new ViewModelFramesHierarchy()
+                                        {
+                                            kbEntity = KBEntity.IS_A,
+
+                                            ParentalNode = InheritedFrameNode,
+                                            Name = "is_a: " + inheritedFrame.isA,//
+                                            NodeIndex = 0,
+
+                                        };
+
+                                        InheritedFrameNode.Nodes.Add(isA_node);
+
+                                        int slotIndex = 1;
+                                        foreach (var slot in InheritedFrameNode.frame.slots)
+                                        {
+                                            ViewModelFramesHierarchy slotNameNode = new ViewModelFramesHierarchy()
+                                            {
+                                                kbEntity = KBEntity.SLOT_NAME,
+
+                                                ParentalNode = InheritedFrameNode,
+                                                NodeIndex = slotIndex++,
+                                                Name = slot.name,
+                                            };
+
+                                            ViewModelFramesHierarchy slotValueNode = new ViewModelFramesHierarchy()
+                                            {
+                                                kbEntity = KBEntity.SLOT_VALUE,
+
+                                                ParentalNode = slotNameNode,
+                                                Name = slot.value,
+                                            };
+                                            slotNameNode.Nodes.Add(slotValueNode);
+
+                                            InheritedFrameNode.Nodes.Add(slotNameNode);
+                                        }
+                                        ViewModelFramesHierarchy parentalNodeCopy = ParentalNode;
+                                        ParentalNode.Nodes.Clear();
+                                        
+                                        foreach (var node in InheritedFrameNode.Nodes)
+                                        {
+                                            node.ParentalNode = ParentalNode;//TODO: можно переделать чуть чуть код выше, но лень, вставил костыль.
+                                            parentalNodeCopy.Nodes.Add(node);
+                                        }
+
+                                    }
+                                }
                                 break;
                             }
                         case KBEntity.DEFAULT_ENTITY:
@@ -482,8 +562,10 @@ namespace Costaline.ViewModels
                         value = null,
                     };
                     parentNode.Frame.slots.Add(newSlotName_Slot);
+
+                    //TODO: Нужно сделать с нормальной проверкой:
                     MainFrameContainer.ReplaceFrame(parentNode.frame.name, parentNode.frame);
-                    //TODO: если переименование вернуло true то делаем следующее:
+                    
 
                     ViewModelFramesHierarchy newSlotName_Node = new ViewModelFramesHierarchy()
                     {
@@ -528,8 +610,6 @@ namespace Costaline.ViewModels
 
                     if(MainFrameContainer.AddNewValueToDomain(parentNode.Domain.name, newDomain_ValueName))
                     {
-                        //TODO: если переименование вернуло true то делаем следующее:
-
                         parentNode.Domain.values.Add(newDomain_ValueName);
 
                         ViewModelFramesHierarchy newDomainValue_Node = new ViewModelFramesHierarchy()
@@ -552,7 +632,6 @@ namespace Costaline.ViewModels
             return true;
 
         }
-        //TODO: Можно возвращать код ошибки
         public void PrependFrame()
         {
             Frame newFrame = new Frame()
@@ -568,7 +647,7 @@ namespace Costaline.ViewModels
 
                 ParentalNode = _nodeCollection[0],
 
-                Id = frame.Id,
+                Id = newFrame.Id,
                 Name = newFrame.name,
                 Frame = newFrame
             };

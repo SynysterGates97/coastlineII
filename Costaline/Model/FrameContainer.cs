@@ -47,7 +47,7 @@ namespace Costaline
                         }
                     }
 
-                    if (f.slots.Count == frame.slots.Count)
+                    if (f.slots.Count == frame.slots.Count && f.isA == frame.isA)//TODO: Максим, посмотри может это что-то потом сломать?
                     {
                         foreach (var slot in frame.slots)
                         {
@@ -58,7 +58,7 @@ namespace Costaline
                         }
                     }
 
-                    if (equalsSlots.Count == frame.slots.Count)
+                    if (equalsSlots.Count == frame.slots.Count)//тут ломается добавление is_a
                     {
                         return false;
                     }
@@ -237,7 +237,6 @@ namespace Costaline
             }
         }
 
-        //TODO: в дальнейшем полюбому нужно возращать, переименовалось ли
         public bool ReplaceFrame(string oldName, Frame newFrame)//новая функция  для добавления
         {
             var frame = FrameFinder(oldName);

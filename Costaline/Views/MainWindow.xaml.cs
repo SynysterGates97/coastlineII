@@ -182,12 +182,16 @@ namespace Costaline
 
                         }
                         break;
+                    case ViewModelFramesHierarchy.KBEntity.IS_A:
+                        foreach (var frame in frameContainer.GetAllFrames())
+                        {
+                            inputMessageBox.comboBox.Items.Add(frame.name);
+                        }
+                        break;
                     default:
                         break;
 
                 }
-
-
 
                 inputMessageBox.Owner = this;
 
@@ -205,7 +209,7 @@ namespace Costaline
 
                 if (inputMessageBox.NewFrameOrSlotName != null && inputMessageBox.NewFrameOrSlotName != "")
                 {
-                    selectedNode.SetSelectedNodeName = inputMessageBox.NewFrameOrSlotName;
+                    selectedNode.ChangeSelectedNodeName = inputMessageBox.NewFrameOrSlotName;
                 }
             }
             catch (Exception E)
