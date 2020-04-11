@@ -239,6 +239,14 @@ namespace Costaline
 
         public bool ReplaceFrame(string oldName, Frame newFrame)//новая функция  для добавления
         {
+            //ReplaceFrame может менять как целиком фрейм, таки слоты в нем. Поэтому иногда у newFrame.name == oldName.
+            //Но этот метод так же может добавляеть одинаковые фреймы.
+
+            if (oldName != newFrame.name)//В этом случае и возможна замена на фрейм, имя которого уже есть.
+            {         
+                if(FrameFinder(newFrame.name) != null)
+                    return false;
+            }
             var frame = FrameFinder(oldName);
 
             if (frame == null)

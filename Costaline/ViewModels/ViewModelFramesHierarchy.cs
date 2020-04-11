@@ -221,6 +221,10 @@ namespace Costaline.ViewModels
                                     frame.name = value;
                                     Name = value;
                                 }
+                                else
+                                {
+                                    MessageBox.Show("Нельзя использовать это имя");
+                                }
                                 break;
                             }
                         case KBEntity.DOMAIN_NAME:
