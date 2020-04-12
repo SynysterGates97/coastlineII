@@ -292,7 +292,7 @@ namespace Costaline.ViewModels
                                 int slotIndex = ParentalNode.NodeIndex - 1;
                                 ParentalNode.ParentalNode.frame.slots[slotIndex].value = value;
 
-                                MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
+                                MainFrameContainer.ReplaceFrame(ParentalNode.ParentalNode.frame.name, ParentalNode.frame);
                                 break;
                             }
                         case KBEntity.IS_A:
@@ -661,7 +661,7 @@ namespace Costaline.ViewModels
                 kbEntity = KBEntity.IS_A,
 
                 ParentalNode = newFrameNode,
-                Name = "is_a: " + frame.isA,
+                Name = frame.isA,
                 NodeIndex = 0,
 
             };
