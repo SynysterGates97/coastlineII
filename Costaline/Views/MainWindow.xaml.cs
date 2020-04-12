@@ -28,6 +28,7 @@ namespace Costaline
         {
             InitializeComponent();
 
+            viewModel.Events.viewModelFramesHierarchy.SetGraphArea(ref graphArea);
             viewModel.InitGraphArea(ref graphArea, ref zoomctrl, Visibility.Visible);
                      
             LinkEvents();

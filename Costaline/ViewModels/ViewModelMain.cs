@@ -28,10 +28,6 @@ namespace Costaline.ViewModels
         public ViewModelEvents Events = new ViewModelEvents();
         public ViewModelMain()
         {
-            ListOfFrames = new List<Frame>()
-            {
-
-            };
 
 
         }

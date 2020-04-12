@@ -8,17 +8,11 @@ using System;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Windows.Input;
-using QuickGraph;
+
 using System.Linq;
 
 using GraphX.Controls;
-using System;
-using System.Linq;
-using System.Windows;
 
-
-using GraphX.Controls;
 
 
 
@@ -137,7 +131,7 @@ namespace Costaline.ViewModels
                 
             }
         }
-        public void NewDrawGraph(List<Frame> answerFrames)
+        public void DrawAnswerGraph(List<Frame> answerFrames)
         {
             try
             {
@@ -389,7 +383,7 @@ namespace Costaline.ViewModels
                 viewModelFramesHierarchy.FillOutFrameContainer(framesFromFile, domainsFromFile);
             
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
-                DrawAllKB();
+                //DrawAllKB();
                 return true;
             }
             return false;
@@ -406,7 +400,7 @@ namespace Costaline.ViewModels
             {
                 List<Frame> answerFrames  = viewModelFramesHierarchy.GetAnswerByFrame(consultationWindow.AnswerFrame);
                 if(answerFrames != null)
-                    NewDrawGraph(answerFrames);
+                    DrawAnswerGraph(answerFrames);
             }                               
 
             //existingSituationsTreeView.Items.Refresh();
