@@ -336,7 +336,7 @@ namespace Costaline.ViewModels
                                             kbEntity = KBEntity.IS_A,
 
                                             ParentalNode = InheritedFrameNode,
-                                            Name = "is_a: " + inheritedFrame.isA,//
+                                            Name = inheritedFrame.isA,//
                                             NodeIndex = 0,
 
                                         };
