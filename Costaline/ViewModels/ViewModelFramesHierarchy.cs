@@ -95,7 +95,7 @@ namespace Costaline.ViewModels
                         }
                     case KBEntity.IS_A:
                         {
-                            return ParentalNode.frame.isA;
+                            return "is_a: "+ParentalNode.frame.isA;
                         }
                     case KBEntity.DEFAULT_ENTITY:
                         {
@@ -451,7 +451,7 @@ namespace Costaline.ViewModels
                         kbEntity = KBEntity.IS_A,
 
                         ParentalNode = frameToNode,
-                        Name = "is_a: " + frame.isA,
+                        Name = frame.isA,
                         NodeIndex = 0,
                         
                     };
@@ -590,7 +590,7 @@ namespace Costaline.ViewModels
                         Frame parentFrame = parentNode.ParentalNode.frame;
 
                         parentFrame.slots[slotIndex].value = "!!!newSlotValue ";
-
+                        //TODO: Нужно сделать с нормальной проверкой:
                         MainFrameContainer.ReplaceFrame(parentFrame.name, parentFrame);
 
 
