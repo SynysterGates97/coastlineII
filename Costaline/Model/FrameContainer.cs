@@ -34,34 +34,10 @@ namespace Costaline
             {
                 foreach (var f in _frames)
                 {
-                    var equalsSlots = new List<Slot>();
-
-                    foreach (var d in _domains)
-                    {
-                        foreach (var v in d.values)
-                        {
-                            if (frame.name == v && f.name == v)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-
-                    if (f.slots.Count == frame.slots.Count && f.isA == frame.isA)//TODO: Максим, посмотри может это что-то потом сломать?
-                    {
-                        foreach (var slot in frame.slots)
-                        {
-                            if (f.slots.Where(fr => fr.name == slot.name && fr.value == slot.value).Count() > 0)
-                            {
-                                equalsSlots.Add(slot);
-                            }
-                        }
-                    }
-
-                    if (equalsSlots.Count == frame.slots.Count)//тут ломается добавление is_a
+                    if (f.name == frame.name)
                     {
                         return false;
-                    }
+                    }                    
                 }
 
                 foreach (var slot in frame.slots)
