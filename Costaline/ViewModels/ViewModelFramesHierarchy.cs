@@ -522,6 +522,7 @@ namespace Costaline.ViewModels
                                 {
                                     frame.name = value;
                                     Name = value;
+                                    UpdateDomainNodes();
                                     DrawAllKB();
                                 }
                                 else
@@ -587,7 +588,9 @@ namespace Costaline.ViewModels
                                 Name = ParentalNode.frame.slots[indexOfChosenSlot].name;
 
                                 //Rename используется для замены старого фрейма новым, с измененными слотами
+                                //TODO:сделать нормальную проверку
                                 MainFrameContainer.ReplaceFrame(ParentalNode.frame.name, ParentalNode.frame);
+                                UpdateDomainNodes();
                                 break;
                             }
                         case KBEntity.SLOT_VALUE:
@@ -595,7 +598,9 @@ namespace Costaline.ViewModels
                                 int slotIndex = ParentalNode.NodeIndex - 1;
                                 ParentalNode.ParentalNode.frame.slots[slotIndex].value = value;
 
+                                //TODO:сделать нормальную проверку
                                 MainFrameContainer.ReplaceFrame(ParentalNode.ParentalNode.frame.name, ParentalNode.ParentalNode.frame);
+                                UpdateDomainNodes();
                                 break;
                             }
                         case KBEntity.IS_A:
@@ -613,7 +618,12 @@ namespace Costaline.ViewModels
 
                                     for (int i = 0; i < isaFrame.slots.Count; i++)
                                     {
-                                        inheritedFrame.slots.Add(isaFrame.slots[i]);
+                                        Slot slotClone = new Slot()
+                                        {
+                                            name = isaFrame.slots[i].name,
+                                            value = isaFrame.slots[i].value,
+                                        };
+                                        inheritedFrame.slots.Add(slotClone);
                                     }
                                     //////
 
@@ -677,6 +687,8 @@ namespace Costaline.ViewModels
                                             node.ParentalNode = ParentalNode;//TODO: можно переделать чуть чуть код выше, но лень, вставил костыль.
                                             parentalNodeCopy.Nodes.Add(node);
                                         }
+                                        UpdateDomainNodes();
+
 
                                     }
                                 }
@@ -697,6 +709,42 @@ namespace Costaline.ViewModels
                 {
                     MessageBox.Show("Опция редактирования не доступна!");
                 }
+            }
+        }
+
+        void UpdateDomainNodes()
+        {
+            _nodeCollection[1].Nodes.Clear();
+            foreach (Domain newDomain in MainFrameContainer.GetDomains())
+            {
+                ViewModelFramesHierarchy domainToNode = new ViewModelFramesHierarchy()
+                {
+                    kbEntity = KBEntity.DOMAIN_NAME,
+                    Domain = newDomain,
+                    ParentalNode = _nodeCollection[1],
+                    Name = newDomain.name,
+                    Frame = null,
+
+
+                };
+
+                for (int i = 0; i < newDomain.values.Count; i++)
+                {
+                    ViewModelFramesHierarchy domainValueNode = new ViewModelFramesHierarchy()
+                    {
+                        kbEntity = KBEntity.DOMAIN_VALUE,
+                        NodeIndex = i,
+
+                        ParentalNode = domainToNode,
+
+                        Name = newDomain.values[i],
+
+                    };
+                    domainToNode.Nodes.Add(domainValueNode);
+                }
+
+                _nodeCollection[1].Nodes.Add(domainToNode);
+
             }
         }
         
@@ -790,37 +838,7 @@ namespace Costaline.ViewModels
                     _nodeCollection[0].Nodes.Add(frameToNode);
 
                 }
-                foreach (Domain newDomain in listOfDomains)
-                {
-                    ViewModelFramesHierarchy domainToNode = new ViewModelFramesHierarchy()
-                    {
-                        kbEntity = KBEntity.DOMAIN_NAME,
-                        Domain = newDomain,
-                        ParentalNode = _nodeCollection[1],
-                        Name = newDomain.name,
-                        Frame = null,
-                        
-                        
-                    };
-
-                    for (int i=0;i< newDomain.values.Count;i++)
-                    {
-                        ViewModelFramesHierarchy domainValueNode = new ViewModelFramesHierarchy()
-                        {
-                            kbEntity = KBEntity.DOMAIN_VALUE,
-                            NodeIndex = i,
-
-                            ParentalNode = domainToNode,
-
-                            Name = newDomain.values[i],
-
-                        };
-                        domainToNode.Nodes.Add(domainValueNode);
-                    }
-                    
-                    _nodeCollection[1].Nodes.Add(domainToNode);
-                    
-                }
+                UpdateDomainNodes();
                 Nodes = _nodeCollection;
                 OnPropertyChanged();
             }
@@ -883,6 +901,7 @@ namespace Costaline.ViewModels
                         Name = newSlotName_Slot.name,
                     };
                     parentNode.Nodes.Add(newSlotName_Node);
+                    UpdateDomainNodes();
                     ///////////////
                     break;
 
@@ -905,7 +924,7 @@ namespace Costaline.ViewModels
                             Name = parentFrame.slots[slotIndex].value,
                         };
                         parentNode.Nodes.Add(newSlotValue_Node);
-
+                        UpdateDomainNodes();
                         break;
                     }
                     break;
