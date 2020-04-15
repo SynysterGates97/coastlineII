@@ -461,6 +461,7 @@ namespace Costaline.ViewModels
                 if (MainFrameContainer.DelFrame(frame))
                 {
                     ParentalNode.Nodes.Remove(this);
+                    DrawAllKB();
                 }
                 else
                 {
