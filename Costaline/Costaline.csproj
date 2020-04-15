@@ -98,6 +98,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\SerializeData.cs" />
+    <Compile Include="ViewModels\ViewModelGraph.cs" />
     <Compile Include="Views\AddNodeWindow.xaml.cs">
       <DependentUpon>AddNodeWindow.xaml</DependentUpon>
     </Compile>
