@@ -688,6 +688,7 @@ namespace Costaline.ViewModels
                                             parentalNodeCopy.Nodes.Add(node);
                                         }
                                         UpdateDomainNodes();
+                                        DrawAllKB();
 
 
                                     }
@@ -925,6 +926,7 @@ namespace Costaline.ViewModels
                         };
                         parentNode.Nodes.Add(newSlotValue_Node);
                         UpdateDomainNodes();
+                        DrawAllKB();
                         break;
                     }
                     break;
@@ -991,6 +993,8 @@ namespace Costaline.ViewModels
             newFrameNode.Nodes.Add(isA_node);
 
             _moveAllOtherNodesRightAfterNewNode(ref newFrameNode, 0); //0 для фреймов
+
+            DrawAllKB();
 
             OnPropertyChanged("PrepEnd");
         }
