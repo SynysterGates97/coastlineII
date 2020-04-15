@@ -22,7 +22,7 @@ namespace Costaline.ViewModels
         private Domain domain = new Domain();
         private string defaultNodesName;
         public KBEntity kbEntity;
-        ViewModelGraph viewModelGraph = new ViewModelGraph();
+        public ViewModelGraph viewModelGraph = new ViewModelGraph();
 
         public enum KBEntity
         {

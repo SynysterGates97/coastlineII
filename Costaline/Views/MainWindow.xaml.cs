@@ -23,7 +23,6 @@ namespace Costaline
         ViewModelMain viewModel = new ViewModelMain();
         List<Frame> _frames = new List<Frame>();
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -50,11 +49,9 @@ namespace Costaline
             string mouseButton = args.MouseArgs.ChangedButton.ToString();
             int selectedVertexId = (int)args.Control.GetDataVertex<DataVertex>().ID;
             Frame frame = viewModel.Events.viewModelFramesHierarchy.GetFrameFromNodesById(selectedVertexId);
-            string messageBoxString = viewModel.Events._GetGraphVerticeText(frame);
+            string messageBoxString = viewModel.Events.viewModelFramesHierarchy.viewModelGraph._GetGraphVerticeText(frame);
 
             MessageBox.Show(messageBoxString);
-
-
         }
 
         private void GraphArea_MouseDown(object sender, MouseButtonEventArgs e)
