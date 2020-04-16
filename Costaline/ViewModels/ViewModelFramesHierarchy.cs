@@ -196,6 +196,7 @@ namespace Costaline.ViewModels
                     {
                         node.NodeIndex = newNodeIndex++;
                     }
+                    viewModelGraph.DrawAllKB(MainFrameContainer);
                 }
                 else
                 {
@@ -551,6 +552,7 @@ namespace Costaline.ViewModels
                 }
                 UpdateDomainNodes();
                 Nodes = _nodeCollection;
+                viewModelGraph.DrawAllKB(MainFrameContainer);
                 OnPropertyChanged();
             }
             catch(Exception e)

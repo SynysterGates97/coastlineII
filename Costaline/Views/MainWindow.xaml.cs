@@ -166,6 +166,7 @@ namespace Costaline
                         {
                             inputMessageBox.comboBox.Items.Add(frame.name);
                         }
+                        inputMessageBox.comboBox.Items.Remove(selectedNode.Name);
                         break;
                     case ViewModelFramesHierarchy.KBEntity.SLOT_VALUE:
                         foreach (var domain in frameContainer.GetDomains())
@@ -180,11 +181,18 @@ namespace Costaline
 
                         }
                         break;
+                    case ViewModelFramesHierarchy.KBEntity.SLOT_NAME:
+                        foreach (var domain in frameContainer.GetDomains())
+                        {
+                            inputMessageBox.comboBox.Items.Add(domain.name);
+                        }
+                        break;
                     case ViewModelFramesHierarchy.KBEntity.IS_A:
                         foreach (var frame in frameContainer.GetAllFrames())
                         {
                             inputMessageBox.comboBox.Items.Add(frame.name);
                         }
+                        inputMessageBox.comboBox.Items.Remove(selectedNode.ParentalNode.Name);
                         break;
                     default:
                         break;
