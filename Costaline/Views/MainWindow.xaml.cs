@@ -10,6 +10,7 @@ using MahApps.Metro.Controls;
 using Costaline.ViewModels;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using GraphX.Measure;
 
 
 namespace Costaline
@@ -45,11 +46,13 @@ namespace Costaline
 
         private void GraphArea_VertexClicked(object sender, VertexClickedEventArgs args)
         {
-            DataVertex selectedVertex = new DataVertex();
-            string mouseButton = args.MouseArgs.ChangedButton.ToString();
             int selectedVertexId = (int)args.Control.GetDataVertex<DataVertex>().ID;
             Frame frame = viewModel.Events.viewModelFramesHierarchy.GetFrameFromNodesById(selectedVertexId);
-            string messageBoxString = viewModel.Events.viewModelFramesHierarchy.viewModelGraph._GetGraphVerticeText(frame);
+            string messageBoxString;
+            if (frame != null)
+                messageBoxString = viewModel.Events.viewModelFramesHierarchy.viewModelGraph._GetGraphVerticeText(frame);
+            else
+                messageBoxString = "Не удалось получить информацию.";
 
             MessageBox.Show(messageBoxString);
         }
