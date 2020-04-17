@@ -155,6 +155,9 @@ namespace Costaline
 
         public Frame FrameFinder(string frameName)
         {
+            if (frameName == "null")
+                return null;
+
             foreach (var frame in _frames)
             {
                 if (frame.name == frameName)

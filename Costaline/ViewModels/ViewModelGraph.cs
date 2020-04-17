@@ -140,14 +140,14 @@ namespace Costaline.ViewModels
             }
             return null;
         }
-        bool _IsFrameAlreadyInVertices(Frame frame, EasyGraph dataGraph)
+        DataVertex _GetVertexByItsFrame(Frame frame, EasyGraph dataGraph)
         {
             foreach (DataVertex vertex in dataGraph.Vertices.ToList())
             {
                 if (vertex.ID == frame.Id)
-                    return true;
+                    return vertex;
             }
-            return false;
+            return null;
         }
         private void _DrawAllFrameSubframes(EasyGraph dataGraph, FrameContainer frameContainer, Frame isA_nilFrame, DataVertex isA_nilFrameDataVertex)
         {
@@ -157,7 +157,7 @@ namespace Costaline.ViewModels
                 if (nextFrame != null)
                 {
                     DataVertex nextFrameDataVertex = new DataVertex();
-                    if (!_IsFrameAlreadyInVertices(nextFrame, dataGraph))
+                    if (_GetVertexByItsFrame(nextFrame, dataGraph) == null)
                     {
                         nextFrameDataVertex.Text = nextFrame.name;
                         nextFrameDataVertex.ID = nextFrame.Id;
@@ -180,7 +180,7 @@ namespace Costaline.ViewModels
         {
             List<Frame> currentFrames = frameContainer.GetAllFrames();
 
-            foreach (Frame childFrame in currentFrames)//находим Frame, который is_a от корневого
+            foreach (Frame childFrame in currentFrames)//находим Frame, который наследуется is_a от корневого
             {
                 if (childFrame.isA == nilFrame.name)
                 {
@@ -196,17 +196,91 @@ namespace Costaline.ViewModels
             }
         }
 
+        bool DrawAllRelatedVertices(Frame mainFrame, ref EasyGraph dataGraph, FrameContainer mainFrameContainer)
+        {
+            try
+            {
+                //Нижний блок можно извлеч в метод
+                DataVertex mainVertex = AddNewVertexSafety(mainFrame, dataGraph);
+
+                //ПОИСК И ОТРИСОВКА СУБФРЕЙМОВ
+                List<string> allDomainValues = new List<string>();
+
+                foreach (var domain in mainFrameContainer.GetDomains())
+                {
+                    foreach (var domainValue in domain.values)
+                    {
+                        allDomainValues.Add(domainValue);
+                    }
+                }
+
+                foreach (var slot in mainFrame.slots)
+                {
+                    if (allDomainValues.Contains(slot.value))
+                    {
+                        Frame subFrame = mainFrameContainer.FrameFinder(slot.value);
+
+                        if (subFrame != null)
+                        {
+                            DataVertex subFrameVertex = AddNewVertexSafety(subFrame, dataGraph);
+
+                            var dataEdge = new DataEdge(subFrameVertex, mainVertex);
+                            dataGraph.AddEdge(dataEdge);
+
+                            DrawAllRelatedVertices(subFrame, ref dataGraph, mainFrameContainer);
+                        }
+                    }
+
+                }
+
+
+                //ПОИСК И ОТРИСОВКА IS_A
+
+                foreach(var frame in mainFrameContainer.GetAllFrames())
+                {
+                    if(frame.isA == mainFrame.name)
+                    {
+                        Frame inheritedFrame = frame;
+                        if (inheritedFrame != null)
+                        {
+                            DataVertex inheritedFrameVertex = AddNewVertexSafety(inheritedFrame, dataGraph);
+
+                            var dataEdge = new DataEdge(inheritedFrameVertex, mainVertex) { Text = "is_a" };
+                            dataGraph.AddEdge(dataEdge);
+
+                            DrawAllRelatedVertices(inheritedFrame, ref dataGraph, mainFrameContainer);
+                        }
+                    }
+                }                               
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("DrawAllRelatedVertices " + e.ToString());
+                return false;
+            }
+        }
+
+        private DataVertex AddNewVertexSafety(Frame mainFrame, EasyGraph dataGraph)
+        {
+            DataVertex mainVertex = _GetVertexByItsFrame(mainFrame, dataGraph);
+            if (mainVertex == null)
+            {
+                mainVertex = new DataVertex(mainFrame.name) { ID = mainFrame.Id };
+                dataGraph.AddVertex(mainVertex);
+            }
+            return mainVertex;
+        }
+
         public void DrawAllKB(FrameContainer mainFrameContainer)
         {
             try
             {
-
                 List<Frame> currentFrames = mainFrameContainer.GetAllFrames();
-                List<Domain> currentDomain = mainFrameContainer.GetDomains();
-
+                List<Domain> currentDomains = mainFrameContainer.GetDomains();
                 List<string> currentDomainValues = new List<string>();
 
-                foreach (Domain domain in currentDomain)
+                foreach (Domain domain in currentDomains)
                 {
                     foreach (string value in domain.values)
                     {
@@ -231,12 +305,10 @@ namespace Costaline.ViewModels
                         DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = nilFrame.Id };
 
                         dataGraph.AddVertex(nilDataVertex);
-                        //MessageBox.Show(listOfVertices[0].ID.ToString());
-                        _DrawAllRelatedToNilVertices(nilFrame, ref dataGraph, nilDataVertex, mainFrameContainer);
 
+                        DrawAllRelatedVertices(nilFrame, ref dataGraph, mainFrameContainer);
                     }
                 }
-
 
                 _graphArea.SetEdgesDashStyle(EdgeDashStyle.Solid);
 
@@ -253,9 +325,7 @@ namespace Costaline.ViewModels
                 logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.Bundling;
 
 
-
                 logicCore.AsyncAlgorithmCompute = false;
-
 
                 _graphArea.LogicCore = logicCore;
 
