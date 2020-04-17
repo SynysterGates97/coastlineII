@@ -285,7 +285,8 @@ namespace Costaline
             {
                 if (d.name == nameDomain)
                 {
-                    d.values.Add(valueDomain);
+                    if(!_isNewNameInvalid(valueDomain))
+                        d.values.Add(valueDomain);
                     return true;
                 }
             }

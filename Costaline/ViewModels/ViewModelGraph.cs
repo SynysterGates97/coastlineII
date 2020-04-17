@@ -57,78 +57,9 @@ namespace Costaline.ViewModels
         }
 
 
-        private void _DrawAllVerticeHierarchy(ref EasyGraph dataGraph, DataVertex parentalVertice, string firstIsA, FrameContainer frameContainer)
-        {
-            Frame isA_Frame = frameContainer.FrameFinder(firstIsA);
-
-            if (isA_Frame != null)
-            {
-                do
-                {
-                    var isA_frameVertice = new DataVertex(_GetGraphVerticeText(isA_Frame));
-
-                    dataGraph.AddVertex(isA_frameVertice);
-                    var dataEdge = new DataEdge(parentalVertice, isA_frameVertice) { Text = "is_a" };
-                    dataGraph.AddEdge(dataEdge);
-
-                    if (isA_Frame.isA != "null")
-                    {
-                        isA_Frame = frameContainer.FrameFinder(isA_Frame.isA);
-                    }
-                }
-                while (isA_Frame.isA != "null");
-
-            }
-        }
         public void DrawAnswerGraph(List<Frame> answerFrames, FrameContainer mainFrameContainer)
         {
-            try
-            {
-                List<Frame> currentFrames = mainFrameContainer.GetAllFrames();
-
-                var dataGraph = new EasyGraph();//TODO: Нужно определить полем в классе.
-
-                DataVertex mainDataVertex = new DataVertex(_GetGraphVerticeText(answerFrames[0]));
-
-                dataGraph.AddVertex(mainDataVertex);
-
-                _DrawAllVerticeHierarchy(ref dataGraph, mainDataVertex, answerFrames[0].isA, mainFrameContainer);
-                //Берем каждый фрейм из ответа
-                for (int i = 1; i < answerFrames.Count; i++)
-                {
-                    Frame currentFrameToDraw = answerFrames[i];
-                    DataVertex subFrameDataVertex = new DataVertex(_GetGraphVerticeText(currentFrameToDraw));
-
-                    dataGraph.AddVertex(subFrameDataVertex);
-                    var dataEdge = new DataEdge(subFrameDataVertex, mainDataVertex) { };
-                    dataGraph.AddEdge(dataEdge);
-                    if (currentFrameToDraw.isA != "null")
-                    {
-                        _DrawAllVerticeHierarchy(ref dataGraph, subFrameDataVertex, currentFrameToDraw.isA, mainFrameContainer);
-                    }
-                }
-
-                var logicCore = new GXLogicCoreExample() { Graph = dataGraph };
-
-                logicCore.DefaultLayoutAlgorithm = LayoutAlgorithmTypeEnum.BoundedFR;
-
-                logicCore.DefaultLayoutAlgorithmParams = logicCore.AlgorithmFactory.CreateLayoutParameters(LayoutAlgorithmTypeEnum.BoundedFR);
-
-                logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.None;
-
-                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.None;
-
-                logicCore.AsyncAlgorithmCompute = false;
-
-                _graphArea.LogicCore = logicCore;
-                _graphArea.GenerateGraph(dataGraph, true, true);
-
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("При отрисовке что-то пошло не так :( \n" + e.ToString());
-            }
+           
 
         }
         DataVertex _DrawGetVertexById(int id, EasyGraph dataGraph)
@@ -174,25 +105,6 @@ namespace Costaline.ViewModels
                     //TODO: Здесь супер функция по отрисовке всех из-а для этого
                 }
 
-            }
-        }
-        private void _DrawAllRelatedToNilVertices(Frame nilFrame, ref EasyGraph dataGraph, DataVertex nilVertice, FrameContainer frameContainer)
-        {
-            List<Frame> currentFrames = frameContainer.GetAllFrames();
-
-            foreach (Frame childFrame in currentFrames)//находим Frame, который наследуется is_a от корневого
-            {
-                if (childFrame.isA == nilFrame.name)
-                {
-                    Frame isA_nilFrame = childFrame;
-                    DataVertex isA_nillDataVertex = new DataVertex(isA_nilFrame.name) { ID = isA_nilFrame.Id };
-                    dataGraph.AddVertex(isA_nillDataVertex);
-                    var dataEdge = new DataEdge(isA_nillDataVertex, nilVertice) { Text = "is_a" };
-                    dataGraph.AddEdge(dataEdge);//тут какая-то херня
-
-                    //////До сюда ничего "не повторяется".
-                    _DrawAllFrameSubframes(dataGraph, frameContainer, isA_nilFrame, isA_nillDataVertex);
-                }
             }
         }
 
@@ -301,7 +213,6 @@ namespace Costaline.ViewModels
                     {
                         Frame nilFrame = frame;
 
-                        //Супер функция по отрисовке текущей иерархии для nil узла()
                         DataVertex nilDataVertex = new DataVertex(nilFrame.name) { ID = nilFrame.Id };
 
                         dataGraph.AddVertex(nilDataVertex);
@@ -322,14 +233,14 @@ namespace Costaline.ViewModels
 
                 logicCore.DefaultOverlapRemovalAlgorithm = OverlapRemovalAlgorithmTypeEnum.FSA;
 
-                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.Bundling;
+                logicCore.DefaultEdgeRoutingAlgorithm = EdgeRoutingAlgorithmTypeEnum.None;
 
 
-                logicCore.AsyncAlgorithmCompute = false;
+                logicCore.AsyncAlgorithmCompute = true;
 
                 _graphArea.LogicCore = logicCore;
 
-                _graphArea.GenerateGraph(true, true);
+                _graphArea.GenerateGraph(true, false);
 
 
             }

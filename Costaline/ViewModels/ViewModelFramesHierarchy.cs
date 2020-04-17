@@ -286,7 +286,7 @@ namespace Costaline.ViewModels
                                 newDomain.values[indexOfChosenDomain] = value;
                                 ///////
                                 MainFrameContainer.ReplaceDomain(ParentalNode.Domain.name, newDomain, true);//true не проверяем имя домена, т.к. мы закидываем то же имя.
-
+                                viewModelGraph.DrawAllKB(MainFrameContainer);
                                 ParentalNode.domain.values[indexOfChosenDomain] = value;
 
                                 break;
@@ -312,6 +312,7 @@ namespace Costaline.ViewModels
                                 //TODO:сделать нормальную проверку
                                 MainFrameContainer.ReplaceFrame(ParentalNode.ParentalNode.frame.name, ParentalNode.ParentalNode.frame);
                                 UpdateDomainNodes();
+                                viewModelGraph.DrawAllKB(MainFrameContainer);
                                 break;
                             }
                         case KBEntity.IS_A:
