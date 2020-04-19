@@ -133,7 +133,7 @@ namespace Costaline
             {
                 List<string> str = new List<string>();
 
-                str.Add("name:" + domain.name + "\n");
+                str.Add("name:" + domain.name);
 
                 foreach(var v in domain.values)
                 {
