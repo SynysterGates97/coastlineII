@@ -163,7 +163,7 @@ namespace Costaline
 
             SerializeData serialize = new SerializeData { Frames = framesInFile, Domains = domainsInFile };
 
-            string jsonString = JsonConvert.SerializeObject(serialize);
+            string jsonString = JsonConvert.SerializeObject(serialize, Formatting.Indented);
             File.WriteAllText(name, jsonString);
         }
     }

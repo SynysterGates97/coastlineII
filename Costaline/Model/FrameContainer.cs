@@ -235,16 +235,19 @@ namespace Costaline
                 
                 foreach(var s in frame.slots)
                 {
-                    if (!IsUsingValue(s.value) && !_isNewNameInvalid(s.value))
+                    if (!IsUsingValue(s.value, s.name) && !_isNewNameInvalid(s.value))
                     {
                         var listDom = new List<Domain>();
 
                         foreach(var d in _domains)
                         {
-                            d.values.Remove(s.value);
-                            if(d.values.Count < 1)
+                            if (d.name == s.name)
                             {
-                                listDom.Add(d);
+                                d.values.Remove(s.value);
+                                if (d.values.Count < 1)
+                                {
+                                    listDom.Add(d);
+                                }
                             }
                         }
 
@@ -260,13 +263,13 @@ namespace Costaline
             }
         }
 
-        bool IsUsingValue(string value)
+        bool IsUsingValue(string value, string domName)
         {
             foreach(var f in _frames)
             {
                 foreach(var s in f.slots)
                 {
-                    if(s.value == value )
+                    if(s.value == value && s.name == domName )
                     {
                         return true;
                     }

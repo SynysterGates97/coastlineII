@@ -266,6 +266,8 @@ namespace Costaline
 
         private void SaveKb_Click(object sender, RoutedEventArgs e)
         {
+            FrameContainer frameContainerToSave = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
+            kBLoader.SaveInFile("Имя-ями.json", frameContainerToSave);
             MessageBox.Show("Ну Сохранил и сохранил");
         }
     }
