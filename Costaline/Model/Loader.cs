@@ -133,7 +133,7 @@ namespace Costaline
             {
                 List<string> str = new List<string>();
 
-                str.Add("name:" + domain.name + "\n");
+                str.Add("name:" + domain.name);
 
                 foreach(var v in domain.values)
                 {
@@ -163,7 +163,7 @@ namespace Costaline
 
             SerializeData serialize = new SerializeData { Frames = framesInFile, Domains = domainsInFile };
 
-            string jsonString = JsonConvert.SerializeObject(serialize);
+            string jsonString = JsonConvert.SerializeObject(serialize, Formatting.Indented);
             File.WriteAllText(name, jsonString);
         }
     }
