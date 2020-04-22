@@ -157,9 +157,7 @@ namespace Costaline
                 }
 
                 framesInFile.Add(str);
-            }
-
-            name = name + ".json";
+            }            
 
             SerializeData serialize = new SerializeData { Frames = framesInFile, Domains = domainsInFile };
 

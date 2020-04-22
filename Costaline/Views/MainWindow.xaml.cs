@@ -266,9 +266,20 @@ namespace Costaline
 
         private void SaveKb_Click(object sender, RoutedEventArgs e)
         {
-            FrameContainer frameContainerToSave = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
-            kBLoader.SaveInFile("Имя-ями.json", frameContainerToSave);
-            MessageBox.Show("Ну Сохранил и сохранил");
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Json files (*.json)|*.json";
+            sf.FilterIndex = 2;
+            sf.RestoreDirectory = true;
+            sf.ShowDialog();
+
+            if (sf.FileName != "")
+            {
+                string kBasePath = sf.FileName;
+
+                FrameContainer frameContainerToSave = viewModel.Events.viewModelFramesHierarchy.GetFrameContainer();
+                kBLoader.SaveInFile(kBasePath, frameContainerToSave);
+                MessageBox.Show("Ну Сохранил и сохранил");
+            }            
         }
     }
 }
