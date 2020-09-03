@@ -63,12 +63,11 @@ namespace Costaline.ViewModels
                 kBLoader.LoadContent();
                 kBLoader.ParseContent();
 
-
-
                 List<Frame> framesFromFile = kBLoader.GetFrames();
                 List<Domain> domainsFromFile = kBLoader.GetDomains();
+
                 viewModelFramesHierarchy.FillOutFrameContainer(framesFromFile, domainsFromFile);
-            
+
                 existingSituationsTreeView.ItemsSource = viewModelFramesHierarchy.Nodes;
                 //DrawAllKB();
                 return true;

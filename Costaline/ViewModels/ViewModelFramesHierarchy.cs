@@ -491,64 +491,72 @@ namespace Costaline.ViewModels
         }
         public void FillOutFrameContainer(List<Frame> listOfFrames, List<Domain> listOfDomains)
         {
-            MainFrameContainer.SetDomains(listOfDomains);
-            MainFrameContainer.SetFrame(listOfFrames);
+            //PrependFrame(); Запилить через это
+            //DeleteSelectedNode() сделать это
+            //MainFrameContainer.SetDomains(listOfDomains);
+            //MainFrameContainer.SetFrame(listOfFrames);
+
+            
 
             try
             {
                 foreach (var frame in listOfFrames)
                 {
-                    ViewModelFramesHierarchy frameToNode = new ViewModelFramesHierarchy()
+                    if (MainFrameContainer.AddFrame(frame))
                     {
-                        kbEntity = KBEntity.FRAME,
-
-                        ParentalNode = _nodeCollection[0],
-
-                        Id = frame.Id,
-                        Name = frame.name, 
-                        Frame = frame, 
-                        
-                    };
-
-                    ViewModelFramesHierarchy isA_node = new ViewModelFramesHierarchy()
-                    {
-                        kbEntity = KBEntity.IS_A,
-
-                        ParentalNode = frameToNode,
-                        Name = frame.isA,
-                        NodeIndex = 0,
-                        
-                    };
-
-                    frameToNode.Nodes.Add(isA_node);
-
-                    int slotIndex = 1;
-                    List<Slot> newSlots = new List<Slot>();
-                    foreach (var slot in frame.slots)
-                    {
-                        newSlots.Add(slot);
-                        ViewModelFramesHierarchy slotNameNode = new ViewModelFramesHierarchy()
+                        //////////////////////Ниже все старое
+                        ViewModelFramesHierarchy frameToNode = new ViewModelFramesHierarchy()
                         {
-                            kbEntity = KBEntity.SLOT_NAME,
+                            kbEntity = KBEntity.FRAME,
+
+                            ParentalNode = _nodeCollection[0],
+
+                            Id = frame.Id,
+                            Name = frame.name,
+                            Frame = frame,
+
+                        };
+
+                        ViewModelFramesHierarchy isA_node = new ViewModelFramesHierarchy()
+                        {
+                            kbEntity = KBEntity.IS_A,
 
                             ParentalNode = frameToNode,
-                            NodeIndex = slotIndex++,
-                            Name = slot.name,
+                            Name = frame.isA,
+                            NodeIndex = 0,
+
                         };
-                        
-                        ViewModelFramesHierarchy slotValueNode = new ViewModelFramesHierarchy()
+
+                        frameToNode.Nodes.Add(isA_node);
+
+                        int slotIndex = 1;
+                        List<Slot> newSlots = new List<Slot>();
+                        foreach (var slot in frame.slots)
                         {
-                            kbEntity = KBEntity.SLOT_VALUE,
+                            newSlots.Add(slot);
+                            ViewModelFramesHierarchy slotNameNode = new ViewModelFramesHierarchy()
+                            {
+                                kbEntity = KBEntity.SLOT_NAME,
 
-                            ParentalNode = slotNameNode,
-                            Name = slot.value,
-                        };
-                        slotNameNode.Nodes.Add(slotValueNode);
-                        frameToNode.Nodes.Add(slotNameNode);
+                                ParentalNode = frameToNode,
+                                NodeIndex = slotIndex++,
+                                Name = slot.name,
+                            };
+
+                            ViewModelFramesHierarchy slotValueNode = new ViewModelFramesHierarchy()
+                            {
+                                kbEntity = KBEntity.SLOT_VALUE,
+
+                                ParentalNode = slotNameNode,
+                                Name = slot.value,
+                            };
+                            slotNameNode.Nodes.Add(slotValueNode);
+                            frameToNode.Nodes.Add(slotNameNode);
+                        }
+                        frameToNode.frame.slots = newSlots;//todo: проверить
+
+                        _nodeCollection[0].Nodes.Add(frameToNode);
                     }
-                    frameToNode.frame.slots = newSlots;//todo: проверить
-
-                    _nodeCollection[0].Nodes.Add(frameToNode);
 
                 }
                 UpdateDomainNodes();
